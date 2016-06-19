@@ -2,9 +2,9 @@ CREATE DATABASE IF NOT EXISTS OpenChat;
 
 CREATE TABLE IF NOT EXISTS total_message (
 identifier varchar(255) unique not null,
-user1 varchar(100) not null,
-user2 varchar(100) not null,
 total_messages int not null,
+user1 varchar(255) not null,
+user2 varchar(255) not null,
 time TIMESTAMP not null
 ) ENGINE=INNODB;
 

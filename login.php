@@ -12,7 +12,11 @@ if(isset($_POST['submit']))
     $_SESSION['error']="Error in Login";
   }
 }
+else if(isset($_SESSION['start']))
+{
+	header('Location:account.php');
 
+}
 
 ?>
 
