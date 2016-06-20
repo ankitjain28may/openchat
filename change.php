@@ -24,7 +24,9 @@ if(isset($_SESSION['start']) && isset($_REQUEST['q']))
 					{
 						if($result1->num_rows>0)
 						{
-							$array=array_merge($array,[$result1->fetch_assoc()]);
+							$fetch=$result1->fetch_assoc();
+							$fetch=array_merge($fetch,['time'=>$row['time']]);
+							$array=array_merge($array,[$fetch]);
 						}
 					}
 				}
@@ -37,7 +39,9 @@ if(isset($_SESSION['start']) && isset($_REQUEST['q']))
 					{
 						if($result1->num_rows>0)
 						{
-							$array=array_merge($array,[$result1->fetch_assoc()]);
+							$fetch=$result1->fetch_assoc();
+							$fetch=array_merge($fetch,['time'=>$row['time']]);
+							$array=array_merge($array,[$fetch]);
 						}
 					}
 				}

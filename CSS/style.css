@@ -8,6 +8,7 @@ body {
 	height: 100%;
 	width: 100%;
 	position: absolute;
+	background-color: #FFF;
 }
 h1,h2,h3,h4 {
 	color: #3B5998;
@@ -19,6 +20,7 @@ ul {
 a {
 	text-decoration: none;
 	color:white;
+	cursor: pointer;
 }
 
 .header {
@@ -60,66 +62,98 @@ a {
 }
 .header ul li a:hover{
 	background-color:  rgba(0,0,0,0.3);
+
+}
+.search_message {
+	position: fixed;
+	width: 25%;
+	height: 75px;
+	margin-top: 50px;
+	margin-left: 10%;
+	text-align: center;
+	padding: 2%;
+	border: 1px solid #e9ebee;
+	border-bottom: none;	
+	border-right-style: 
+}
+.search_message input {
+	width: 80%;
+	height: 100%;
+	text-indent: 5px;
+
 }
 .sidebar {
 	position: fixed;
-	width: 20%;
-	background-color: grey;
+	width: 25%;
+	background-color: #FFF;
 	height: 100%;
-	margin-top: 50px;
+	margin-top: 125px;
+	margin-left: 10%;
 	float: left;
 	overflow: auto;
-}
-#compose
-{
-	width: 100%;
-	display: block;
-	padding: 5%;
-	font-size: 20px;
-	border: 1px solid black;
+	color: black;
+	border: 1px solid #e9ebee;
+
 }
 .message {
 	width: 100%;
 	display: block;
 	padding: 5%;
 	font-size: 20px;
-	border: 1px solid black;
-	border-top: none;
+	border-bottom: 1px solid #e9ebee;
+	color:black;
+	word-spacing: 5px;
+	letter-spacing: 1px;
 }
 .message:active {
-	background-color: black;
+	background-color: #324263;
+	color:#fff;
+}
+.message:hover {
+	background-color: #365899;
+	color:#fff;
+}
+
+.message_time {
+	font-size: 12px;
+	float: right;
+	/*margin: 0;*/
+	/*padding: 0;*/
+	vertical-align: sub;
 }
 
 .main {
 	position: fixed;
-	width: 70%;
-	margin-left: 20%;
-	margin-top: 100px;
-	background-color: white;
-	height: 60%;
+	width: 50%;
+	margin-left: 35%;
+	margin-top: 125px;
+	background-color: #FFF;
+	height: 300px;
 	padding: 1% 2%;
-	border: 1px solid black;
+	border: 1px solid #e9ebee;
+	border-left: none;	
 }
 .chat-name {
 	position: fixed;
-	width: 70%;
-	margin-left: 20%;
+	width: 50%;
+	margin-left: 35%;
 	margin-top: 50px;
-	height: 50px;
-	background-color: white;
-	color: black;
-	padding: 10px;
-	padding-left: 50px;
-	font-size: 20px;
+	height: 75px;
+	background-color: #FFF;
+	padding: 20px 50px;
+	font-size: 25px;
 	display: block;
-	text-transform: capitalize;
+	border-right: 1px solid #e9ebee;
+}
+#chat_heading {
+	color: black;
 }
 .sender {
 	float: left;
 	padding: 5px 10px;
 	background-color: green;
 	border:1px solid black;
-	border-radius: 10%;
+	border-radius: 4%;
 	margin:0;
 }
 .receiver {
@@ -127,7 +161,28 @@ a {
 	padding: 5px 10px;
 	background-color:pink;
 	border:1px solid black;
-	border-radius: 10%;
+	border-radius: 4%;
 	margin:0;
 
+}
+.conversation_reply {
+	position: fixed;
+	width: 50%;
+	margin-left: 35%;
+	margin-top: 425px;
+	height: 100%;
+	background-color: #F6F7F9;
+	color: black;
+	padding: 10px 70px;
+	display: block;
+	border-right: 1px solid #e9ebee;
+}
+
+.conversation_reply textarea {
+	width: 100%;
+	height: 124px;
+	font-size: 15px;
+	padding: 5px;
+	resize:none;
+	overflow: hidden;
 }

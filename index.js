@@ -17,15 +17,17 @@ function init()
             var para=document.createElement("a");
             var node=document.createTextNode(arr[i]['name']);
             para.appendChild(node);
-            // para.setAttribute('id',arr[i]['username']);
+            para.setAttribute('id',arr[i]['username']);
             para.setAttribute('href','message.php#'+arr[i]['username']);
             para.setAttribute('class','message');
-            para.setAttribute('onclick','chat(\''+arr[i]['username']+'\')');
+            // para.setAttribute('onclick','chat(\''+arr[i]['username']+'\')');
+            para.setAttribute('onclick','chat(this)');
             ele.appendChild(para);
-            // var bre=document.createElement("br");
-            // ele.appendChild(bre);
-            // para.appendChild('<br>');
-            // ele.appendChild('<br>');
+            var bre=document.createElement("span");
+            var inp=document.createTextNode(arr[i]['time']);
+            bre.appendChild(inp);
+            bre.setAttribute('class','message_time');
+            para.appendChild(bre);
 
           };
         };
@@ -36,14 +38,15 @@ function init()
     document.getElementById("conversation").innerHTML="";
 }
 
-function chat(username)
+function chat(element)
 {
-  console.log(username);
+  console.log(element);
     var p='';
     var arr;
-    var q=username;
+    var q=element.id;
     var xmlhttp = new XMLHttpRequest();
     var ele=document.getElementById("conversation");
+    document.getElementById("chat_heading").innerHTML=element.innerHTML;
     ele.innerHTML="";
     xmlhttp.onreadystatechange = function() {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -53,7 +56,6 @@ function chat(username)
           arr=JSON.parse(arr);
           console.log(arr);
           for (var i = arr.length - 1; i >= 0; i--) {
-            // var para='<p id="'+arr[i]['username']+'">'+arr[i]['name']+'</p>';
             var para=document.createElement("p");
             var node=document.createTextNode(arr[i]['message']);
             para.appendChild(node);
@@ -66,9 +68,15 @@ function chat(username)
             // para.setAttribute('onclick','chat("'+arr[i]['username']+'")');
             ele.appendChild(para);
             var bre=document.createElement("br");
+            bre.setAttribute("style","clear:both;");
             ele.appendChild(bre);
-            // para.appendChild('<br>');
-            // ele.appendChild('<br>');
+
+            var tt=document.createElement("sub");
+            var inp=document.createTextNode(arr[i]['time']);
+            tt.appendChild(inp);
+            tt.setAttribute('class','message_time');
+            para.appendChild(tt);
+
 
           };
         }
