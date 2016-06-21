@@ -5,14 +5,14 @@ identifier varchar(255) unique not null,
 total_messages int not null,
 user1 varchar(255) not null,
 user2 varchar(255) not null,
-time TIMESTAMP not null
+time varchar(30) not null
 ) ENGINE=INNODB;
 
 CREATE TABLE IF NOT EXISTS messages (
 identifier_message_number varchar(255) not null,
 message text not null,
 sent_by varchar(255) not null,
-time TIMESTAMP not null,
+time varchar(30) not null,
 id int auto_increment primary key not null
 ) ENGINE=INNODB;
 

@@ -50,7 +50,9 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 		<!-- Reply -->
 
 		<div class="conversation_reply">
-			<textarea type="text" name="conversation_text" placeholder="Write a reply.."></textarea>
+			<textarea type="text" name="" id="text_reply" placeholder="Write a reply.."></textarea>
+			<br>
+			<input type="submit" name="submit" value="Reply" onclick="reply()">
 		</div>
 
 

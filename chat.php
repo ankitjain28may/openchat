@@ -6,7 +6,7 @@ if(isset($_SESSION['start']) && isset($_REQUEST['q']))
 	$id=$_SESSION['start'];
 	$username=$_REQUEST['q'];
 	// $query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'";
-	$query="SELECT login_id FROM login WHERE username='$username'";
+	$query="SELECT login_id,name FROM login WHERE username='$username'";
 	$connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	if($result=$connect->query($query)) 
 	{
@@ -22,13 +22,22 @@ if(isset($_SESSION['start']) && isset($_REQUEST['q']))
 			else
 				$check=$login_id.':'.$id;
 			// var_dump($check);
-			$query="SELECT * FROM messages WHERE identifier_message_number='$check' ORDER BY time DESC";
+			$query="SELECT * FROM messages WHERE identifier_message_number='$check' ORDER BY id DESC limit 10";
 			if($result1=$connect->query($query)) 
 			{
 				if($result1->num_rows>0)
 				{
    					while($row = $result1->fetch_assoc()) 
    					{
+   						if(substr($row['time'],4,11)==date("d M Y", time()+12600))
+							$row['time']=substr($row['time'],16,5);
+   						else if(substr($row['time'],7,8)==date("M Y", time()+12600) && substr($row['time'], 4,2)-date("d")<7)
+							$row['time']=substr($row['time'],0,3);
+						else if(substr($row['time'],10,4)==date("Y", time()+12600))
+							$row['time']=substr($row['time'],4,6);
+						else
+							$row['time']=substr($row['time'],4,11);
+						$row=array_merge($row,['name'=>$fetch['name']]);
 						$row=array_merge($row,['start'=>$id]);
 						$array=array_merge($array,[$row]);
 					}

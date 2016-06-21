@@ -1,4 +1,4 @@
-html,body,div,ul,li,a {
+html,body,div,ul,li,a,p,h1,h2,h3,h4,h5,h6{
 	margin: 0;
 	padding: 0;
 	box-sizing:border-box;
@@ -117,8 +117,8 @@ a {
 .message_time {
 	font-size: 12px;
 	float: right;
-	/*margin: 0;*/
-	/*padding: 0;*/
+	word-spacing: 0;
+	padding: 10px 0 0 4px;
 	vertical-align: sub;
 }
 
@@ -148,13 +148,16 @@ a {
 #chat_heading {
 	color: black;
 }
+#conversation {
+	overflow-y: scroll;
+}
 .sender {
 	float: left;
 	padding: 5px 10px;
 	background-color: green;
 	border:1px solid black;
 	border-radius: 4%;
-	margin:0;
+	margin:2px;
 }
 .receiver {
 	float: right;
@@ -162,7 +165,7 @@ a {
 	background-color:pink;
 	border:1px solid black;
 	border-radius: 4%;
-	margin:0;
+	margin:2px;
 
 }
 .conversation_reply {
@@ -176,6 +179,7 @@ a {
 	padding: 10px 70px;
 	display: block;
 	border-right: 1px solid #e9ebee;
+	overflow: auto;
 }
 
 .conversation_reply textarea {
@@ -185,4 +189,7 @@ a {
 	padding: 5px;
 	resize:none;
 	overflow: hidden;
+}
+#text_reply:focus {
+	outline: none;
 }

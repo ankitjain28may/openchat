@@ -25,6 +25,14 @@ if(isset($_SESSION['start']) && isset($_REQUEST['q']))
 						if($result1->num_rows>0)
 						{
 							$fetch=$result1->fetch_assoc();
+							if(substr($row['time'],4,11)==date("d M Y", time()+12600))
+								$row['time']=substr($row['time'],16,5);
+   							else if(substr($row['time'],7,8)==date("M Y", time()+12600) && substr($row['time'], 4,2)-date("d")<7)
+								$row['time']=substr($row['time'],0,3);
+							else if(substr($row['time'],10,4)==date("Y", time()+12600))
+								$row['time']=substr($row['time'],4,6);
+							else
+								$row['time']=substr($row['time'],4,11);
 							$fetch=array_merge($fetch,['time'=>$row['time']]);
 							$array=array_merge($array,[$fetch]);
 						}
@@ -40,6 +48,14 @@ if(isset($_SESSION['start']) && isset($_REQUEST['q']))
 						if($result1->num_rows>0)
 						{
 							$fetch=$result1->fetch_assoc();
+							if(substr($row['time'],4,11)==date("d M Y", time()+12600))
+								$row['time']=substr($row['time'],16,5);
+   							else if(substr($row['time'],7,8)==date("M Y", time()+12600) && substr($row['time'], 4,2)-date("d")<7)
+								$row['time']=substr($row['time'],0,3);
+							else if(substr($row['time'],10,4)==date("Y", time()+12600))
+								$row['time']=substr($row['time'],4,6);
+							else
+								$row['time']=substr($row['time'],4,11);
 							$fetch=array_merge($fetch,['time'=>$row['time']]);
 							$array=array_merge($array,[$fetch]);
 						}
