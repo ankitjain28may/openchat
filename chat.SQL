@@ -5,6 +5,7 @@ identifier varchar(255) unique not null,
 total_messages int not null,
 user1 varchar(255) not null,
 user2 varchar(255) not null,
+unread int not null,
 time varchar(30) not null
 ) ENGINE=INNODB;
 

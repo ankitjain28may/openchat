@@ -3,7 +3,7 @@ function init()
   //Ajax to send data
   // var recursive =setInterval(repeatt,1000);
     // function repeatt() {
-    console.log("1");
+    // console.log("1");
     var p='';
     var arr;
     var q="total_messages";
@@ -14,7 +14,7 @@ function init()
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
          arr=JSON.parse(xmlhttp.responseText);
         if (arr!=null) {
-          console.log(arr);
+          // console.log(arr);
           for (var i = arr.length - 1; i >= 0; i--) {
             // var para='<p id="'+arr[i]['username']+'">'+arr[i]['name']+'</p>';
             var para=document.createElement("a");
@@ -46,24 +46,27 @@ function init()
 
 function chat(element)
 {
+  var store;
   var recursive =setInterval(repeat,1500);
-  function repeat() {
-  console.log(element);
-    document.getElementById("text_reply").name="";
+  function repeat() 
+  {
+    // console.log(element);
     var p='';
     var arr;
     var q=element.id;
     var xmlhttp = new XMLHttpRequest();
     var ele=document.getElementById("conversation");
-    ele.innerHTML="";
     xmlhttp.onreadystatechange = function() {
       if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
          arr=xmlhttp.responseText;
-        if (arr!='[]') 
-        {
-          // console.log(arr);
           arr=JSON.parse(arr);
-          console.log(arr);
+          // console.log(store);
+          
+        if (arr!='[]' && store!=arr[0].id) 
+        {
+          document.getElementById("text_reply").name="";
+          ele.innerHTML="";
+          // console.log(arr);
           for (var i = arr.length - 1; i >= 0; i--) 
           {
 
@@ -97,9 +100,10 @@ function chat(element)
           };
           document.getElementById("chat_heading").innerHTML=arr[0].name;
           document.getElementById("text_reply").name=arr[0]['identifier_message_number'];
+          store=arr[0].id;
+          ele.scrollTop = ele.scrollHeight;
         }
-        ele.scrollTop = ele.scrollHeight;
-
+        
       }
     };
     xmlhttp.open("GET", "chat.php?q=" + q, true);
@@ -110,18 +114,20 @@ function chat(element)
 
 function reply()
 {
-  var ele=document.getElementById("text_reply").value;
+  var ele=[document.getElementById("text_reply").value];
   var id=document.getElementById("text_reply").name;
 
-  console.log(ele);
+  // console.log(ele);
   var p='';
   var q={"name":id,"reply":ele};
   q=JSON.stringify(q);
-  console.log(q);
+  // console.log(q);
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       arr=xmlhttp.responseText;
+        // console.log(arr);
+      
       if (arr=="Messages is sent") 
       {
           document.getElementById("text_reply").value="";
