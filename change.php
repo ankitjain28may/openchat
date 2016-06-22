@@ -4,7 +4,7 @@ session_start();
 if(isset($_SESSION['start']) && isset($_REQUEST['q']))
 {
 	$id=$_SESSION['start'];
-	$query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'  ORDER BY time DESC";
+	$query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'  ORDER BY id ASC";
 	// $query="SELECT * FROM total_message WHERE identifier like '%:$id' or '$id:%'";
 	$connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	if($result=$connect->query($query)) 
@@ -67,7 +67,7 @@ if(isset($_SESSION['start']) && isset($_REQUEST['q']))
 		}
 		else
 		{
-			echo "No messages";
+			echo json_encode(null);
 		}
 	}
 	else{

@@ -12,7 +12,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 		<link rel="stylesheet" href="CSS/style.css">
 	 	<!-- <link rel="stylesheet" href="css/font-awesome-4.6.2/css/font-awesome.min.css">		 -->
 	</head>
-	<body onload="init()">
+	<body onload="init(0)">
 		<!-- header -->
 
 		<div class="header">
@@ -38,12 +38,20 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 
 		<!-- chat name -->
 
-		<div class="chat-name">
+		<div class="chat_name" id="chat_name">
 			<a id="chat_heading" href="" ></a>
+			<div class="compose_text" id="compose_text">
+				To:&nbsp;<input type="text" name="compose_name" placeholder="Name" id="compose_name" value="" onkeyup="compose_message()">
+			</div>
+			<div class="compose" onclick="compose()"><a href="#">+ New Message</a></div>
 		</div>	
 
-		<!-- conversation -->
+		<div id="compose_selection">
+			<ul id="suggestion">
+			</ul>
+		</div>
 
+		<!-- conversation -->
 		<div class="main" id="conversation">
 		</div>
 

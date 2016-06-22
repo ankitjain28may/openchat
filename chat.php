@@ -41,15 +41,22 @@ if(isset($_SESSION['start']) && isset($_REQUEST['q']))
 						$row=array_merge($row,['start'=>$id]);
 						$array=array_merge($array,[$row]);
 					}
+					$array=array_merge($array,[1]);
+					echo json_encode($array);
 				}
+				else
+				{
+					echo json_encode(['identifier_message_number'=>$check,'name'=>$fetch['name'],'new'=>0]);
+				}	
 			}				
 			else
 			{
 				die("Query Failed");
 			}
-				echo json_encode($array);
+				
 				// var_dump($array);
 		}
+		
 	}
 	else{
 		echo "Query Failed";
