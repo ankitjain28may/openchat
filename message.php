@@ -67,6 +67,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 
 	</body>
 	<script type="text/javascript" src="index.js"></script>
+	<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
 </html>
 
 <?php

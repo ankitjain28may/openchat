@@ -173,8 +173,14 @@ function compose()
 {
   document.getElementById("chat_heading").innerHTML="";
   document.getElementById("conversation").innerHTML="";
-  document.getElementById("compose_text").style="display:block;";
+  // document.getElementById("compose_text").style="display:block;";
+  $('#compose_text').show();
 }
+// $(document).ready(function(){
+//   $('.compose').on("click",function(){
+//     $('#compose_text').show();
+// });
+// });
 
 //compose messages
 
