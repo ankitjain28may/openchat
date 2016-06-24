@@ -11,20 +11,23 @@
 		<li>Step 6:­ ​Logout. </li>
 	</ul>
 </div>
-<code>
-Technologies Used :--
-	1- HTML5
-	2- CSS3
-	3- JavaScript
-	4- jQuery
-	5- JSON
-	6- AJAX
-	7- PHP
-	8- SQL
-</code>
+<div>
+
+<h2>Technologies Used :--</h2>
+	<ul>
+		<li>1- HTML5</li>
+		<li>2- CSS3</li>
+		<li>3- JavaScript</li>
+		<li>4- jQuery</li>
+		<li>5- JSON</li>
+		<li>6- AJAX</li>
+		<li>7- PHP</li>
+		<li>8- SQL</li>
+	</ul>
+</div>
 
 <h1>
 Feel free to Contribute.<br>
-
+<br>
 Fork , Code and Push<br>
 </h1>
