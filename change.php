@@ -1,7 +1,7 @@
 <?php
 require_once 'database.php';
 session_start();
-if(isset($_SESSION['start']) && isset($_REQUEST['q']))
+if(isset($_SESSION['start']) && isset($_POST['q']))
 {
 	$id=$_SESSION['start'];
 	$query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'  ORDER BY id ASC";

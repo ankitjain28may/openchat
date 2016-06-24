@@ -1,10 +1,10 @@
 <?php
 require_once 'database.php';
 session_start();
-if(isset($_SESSION['start']) && isset($_REQUEST['q']))
+if(isset($_SESSION['start']) && isset($_POST['q']))
 {
 	$id=$_SESSION['start'];
-	$username=$_REQUEST['q'];
+	$username=$_POST['q'];
 	// $query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'";
 	$query="SELECT login_id,name FROM login WHERE username='$username'";
 	$connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);

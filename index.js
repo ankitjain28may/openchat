@@ -6,7 +6,7 @@ var sidebar_store;
 function init(index)  
 {
   var arr;
-  var q="total_messages";
+  var q="q=total_messages";
 
   var ele=document.getElementById("message");  // Getting Div
 
@@ -15,8 +15,9 @@ function init(index)
   {
   if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
   {
+    // console.log(xmlhttp.responseText);
+
     arr=JSON.parse(xmlhttp.responseText);  // Response From change.php
-    // console.log(arr);
 
     if (arr!=null) 
     {
@@ -43,20 +44,23 @@ function init(index)
       };
     }
   };
-  xmlhttp.open("GET", "change.php?q=" + q, true);  // ajax request
-  xmlhttp.send(); 
+  xmlhttp.open("POST", "change.php", true);  // ajax request
+  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xmlhttp.send(q); 
 }
 
 // For loading conversation between two persons
 
 function chat(element)   
 {
-  document.getElementById("compose_selection").style="visibility:hidden";  //for hidding the suggestion
+  // document.getElementById("compose_selection").style="visibility:hidden";  //for hidding the suggestion
+  $("#compose_selection").css("visibility","hidden");
   // console.log((location.href).endsWith('.php'));
 
   stop(); // stopping previous setinterval call
   
-  document.getElementById("compose_text").style="display:none;";
+  $('#compose_text').hide();
+  // document.getElementById("compose_text").style="display:none;";
   recursive =setInterval(repeat,1500);  // refresh conversation
   function repeat() 
   {
@@ -65,7 +69,8 @@ function chat(element)
 
     var p='';
     var arr;
-    var q=element.id;
+    var q="q="+element.id;
+    // console.log(q);
     var xmlhttp = new XMLHttpRequest();
     var ele=document.getElementById("conversation");
     xmlhttp.onreadystatechange = function() 
@@ -126,13 +131,14 @@ function chat(element)
         }   
       }
     };
-    xmlhttp.open("GET", "chat.php?q=" + q, true);
-    xmlhttp.send(); 
+    xmlhttp.open("POST", "chat.php", true);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.send(q); 
   }
   function stop()
   {
       clearInterval(recursive);
-      console.log("recursive");
+      // console.log("recursive");
   }
 }
 
@@ -146,7 +152,7 @@ function reply()
   // console.log(ele);
   var p='';
   var q={"name":id,"reply":ele};
-  q=JSON.stringify(q);
+  q="q="+JSON.stringify(q);
   console.log(q);
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
@@ -163,8 +169,9 @@ function reply()
       }
     }    
   };
-  xmlhttp.open("GET", "reply.php?q=" + q, true);
-  xmlhttp.send(); 
+  xmlhttp.open("POST", "reply.php", true);
+  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xmlhttp.send(q); 
 }
 
 // Compose new and direct message to anyone
@@ -222,7 +229,8 @@ function compose_message()
         ele.appendChild(para);
       }
     }
-    document.getElementById("compose_selection").style="visibility:visible"; 
+    // document.getElementById("compose_selection").style="visibility:visible"; 
+    $("#compose_selection").css("visibility","visible");
   };
   if(q!="")
   {
@@ -240,7 +248,7 @@ function suggestion_choose(element)
 {
   document.getElementById("suggestion").innerHTML="";
   var para=element;
-  console.log(para);
+  // console.log(para);
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() 
   {
