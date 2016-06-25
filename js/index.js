@@ -44,7 +44,7 @@ function init(index)
       };
     }
   };
-  xmlhttp.open("POST", "change.php", true);  // ajax request
+  xmlhttp.open("POST", "ajax/change.php", true);  // ajax request
   xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xmlhttp.send(q); 
 }
@@ -131,7 +131,7 @@ function chat(element)
         }   
       }
     };
-    xmlhttp.open("POST", "chat.php", true);
+    xmlhttp.open("POST", "ajax/chat.php", true);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xmlhttp.send(q); 
   }
@@ -169,7 +169,7 @@ function reply()
       }
     }    
   };
-  xmlhttp.open("POST", "reply.php", true);
+  xmlhttp.open("POST", "ajax/reply.php", true);
   xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xmlhttp.send(q); 
 }
@@ -234,7 +234,7 @@ function compose_message()
   };
   if(q!="")
   {
-    xmlhttp.open("GET", "suggestion.php?q=" + q, true);
+    xmlhttp.open("GET", "ajax/suggestion.php?q=" + q, true);
     xmlhttp.send();
   }
   else
@@ -265,6 +265,6 @@ function suggestion_choose(element)
       }
     }  
   };
-  xmlhttp.open("GET", "reply.php?q=" + q, true);
+  xmlhttp.open("GET", "ajax/reply.php?q=" + q, true);
   xmlhttp.send(); 
 }

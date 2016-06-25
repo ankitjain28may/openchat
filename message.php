@@ -9,7 +9,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 	<head>
 		<meta charset="UTF-8">
 		<title>Messages</title>
-		<link rel="stylesheet" href="CSS/style.css">
+		<link rel="stylesheet" href="css/style.css">
 	 	<!-- <link rel="stylesheet" href="css/font-awesome-4.6.2/css/font-awesome.min.css">		 -->
 	</head>
 	<body onload="init(0)">
@@ -66,8 +66,8 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 
 
 	</body>
-	<script type="text/javascript" src="index.js"></script>
-	<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
 </html>
 
 <?php

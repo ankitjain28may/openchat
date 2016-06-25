@@ -1,5 +1,5 @@
 <?php
-require_once 'database.php';
+require_once '../database.php';
 session_start();
 if(isset($_SESSION['start']) && isset($_POST['q']))
 {
@@ -63,6 +63,6 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 	}
 }
 else{
-	header('Location:login.php');
+	header('Location:../login.php');
 }
 ?>
