@@ -44,7 +44,7 @@ function init(index)
       };
     }
   };
-  xmlhttp.open("POST", "ajax/change.php", true);  // ajax request
+  xmlhttp.open("POST", "ajax/change.php", true);  // ajax request post
   xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xmlhttp.send(q); 
 }
@@ -153,7 +153,7 @@ function reply()
   var p='';
   var q={"name":id,"reply":ele};
   q="q="+JSON.stringify(q);
-  console.log(q);
+  // console.log(q);
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200)

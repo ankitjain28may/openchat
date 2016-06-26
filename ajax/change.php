@@ -1,12 +1,12 @@
 <?php
 require_once '../database.php';
 session_start();
+$connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 if(isset($_SESSION['start']) && isset($_POST['q']))
 {
 	$id=$_SESSION['start'];
 	$query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'  ORDER BY id ASC";
 	// $query="SELECT * FROM total_message WHERE identifier like '%:$id' or '$id:%'";
-	$connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	if($result=$connect->query($query)) 
 	{
 		if ($result->num_rows > 0) 

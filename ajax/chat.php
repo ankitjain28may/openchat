@@ -37,6 +37,7 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 							$row['time']=substr($row['time'],4,6);
 						else
 							$row['time']=substr($row['time'],4,11);
+						$row['identifier_message_number']=$login_id;
 						$row=array_merge($row,['name'=>$fetch['name']]);
 						$row=array_merge($row,['start'=>$id]);
 						$array=array_merge($array,[$row]);
@@ -46,7 +47,7 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 				}
 				else
 				{
-					echo json_encode(['identifier_message_number'=>$check,'name'=>$fetch['name'],'new'=>0]);
+					echo json_encode(['identifier_message_number'=>$login_id,'name'=>$fetch['name'],'new'=>0]);
 				}	
 			}				
 			else
