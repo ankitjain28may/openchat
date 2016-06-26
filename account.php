@@ -18,5 +18,5 @@ else
 ?>
 
 <h1>Welcome</h1>
-<a href="registration-module/class.logout.php">Logout</a>
+<a href="registration-module/source/class.logout.php">Logout</a>
 <a href="message.php">Message</a>

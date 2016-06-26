@@ -20,7 +20,7 @@ session_start();
 				?>
 				<li><a href="account.php">Account</a></li>
 				<li><a href="message.php">Message</a></li>
-				<li><a href="registration-module/class.logout.php">Log out</a></li>
+				<li><a href="registration-module/source/class.logout.php">Log out</a></li>
 				<?php 
 				}
 				else

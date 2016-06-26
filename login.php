@@ -1,43 +1,24 @@
 <?php
 session_start();
-if(isset($_POST['submit']))
+if(isset($_SESSION['start']))
 {
-	$login=$_POST['login'];
-	$pass=$_POST['password'];
-	include 'registration-module/class.login.php';
-  $ob=new login();
-  $result=$ob->_login($login,$pass);
-  if($result=='ERROR')
-  {
-    $_SESSION['error']="Error in Login";
-  }
+    header("Location: account.php");
 }
-else if(isset($_SESSION['start']))
-{
-	header('Location:account.php');
-
-}
-
 ?>
-
 <!Doctype html>
 <html>
 	<head>
 		<title>OpenChat</title>
+		<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
 	</head>
 	<body>
-		<?php if(isset($_SESSION['error']))
-            echo $_SESSION['error']; ?>
-		<form method="POST" action="">
-			<input type="text" name="login">
-			<input type="password" name="password">
-			<input type="submit" name="submit">
-		</form>
-	</body>
+		
+            <label id="login_label">Email or Username</label><br><br>
+            <input type="text" name="login" id="login" placeholder="Email or Username" ><br><br>
+            <label id="pass_label">Password</label><br><br>
+            <input type="password" name="password" id="password" placeholder="Password"><br><br><br>
+            <button name="submit" onclick="login_check()" value="Login">Login</button>
+        
+    </body>
+    <script type="text/javascript" src="registration-module/js/login_validate.js"></script>
 </html>
-<?php
-  unset($_SESSION['login']);
- unset($_SESSION['password']);
- unset($_SESSION['error']);
-          
-  ?>
