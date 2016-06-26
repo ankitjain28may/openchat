@@ -1,0 +1,245 @@
+html,body,div,ul,li,a,p,h1,h2,h3,h4,h5,h6{
+	margin: 0;
+	padding: 0;
+	box-sizing:border-box;
+}
+body {
+	font-family: 'Helvetica Neue', sans-serif;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	background-color: #FFF;
+}
+h1,h2,h3,h4 {
+	color: #3B5998;
+}
+ul {
+	text-decoration: none;
+	list-style-type: none;
+}
+a {
+	text-decoration: none;
+	color:white;
+	cursor: pointer;
+}
+
+.header {
+	position: fixed;
+	width: 100%;
+	height: 50px;
+	background-color: #2c3e50;
+	/*padding: 1%;*/
+}
+.header ul li {
+	display: inline-block;
+	letter-spacing: 2px;
+	
+}
+.header ul li a{
+	display: block;
+	padding: 15px 10px;
+}
+.nav-right {
+	float: right;
+	margin: 0;
+	font-size: 18px;
+	text-transform: capitalize;
+	letter-spacing: 1px;
+	word-spacing: 3px;
+}
+#brand {
+	font-size: 18px;
+	color: white;
+	text-decoration: none;
+	padding: 15px 20px;
+	float: left;
+	text-transform: capitalize;
+	letter-spacing: 1px;
+	/*word-spacing: 3px;*/
+}
+#brand:hover {
+	background-color:  rgba(0,0,0,0.3);
+}
+.header ul li a:hover{
+	background-color:  rgba(0,0,0,0.3);
+
+}
+.search_message {
+	position: fixed;
+	width: 25%;
+	height: 75px;
+	margin-top: 50px;
+	margin-left: 10%;
+	text-align: center;
+	padding: 2%;
+	border: 1px solid #e9ebee;
+	border-bottom: none;	
+}
+.search_message input {
+	width: 80%;
+	height: 100%;
+	text-indent: 5px;
+
+}
+.sidebar {
+	position: fixed;
+	width: 25%;
+	background-color: #FFF;
+	height: 100%;
+	margin-top: 125px;
+	margin-left: 10%;
+	float: left;
+	overflow: auto;
+	color: black;
+	border: 1px solid #e9ebee;
+
+}
+.message {
+	width: 100%;
+	display: block;
+	padding: 5%;
+	font-size: 20px;
+	border-bottom: 1px solid #e9ebee;
+	color:black;
+	word-spacing: 5px;
+	letter-spacing: 1px;
+}
+.message:active {
+	background-color: #324263;
+	color:#fff;
+}
+.message:hover {
+	background-color: #365899;
+	color:#fff;
+}
+
+.message_time {
+	font-size: 12px;
+	float: right;
+	word-spacing: 0;
+	padding: 10px 0 0 4px;
+	vertical-align: sub;
+}
+
+.main {
+	position: fixed;
+	width: 50%;
+	margin-left: 35%;
+	margin-top: 125px;
+	background-color: #FFF;
+	height: 300px;
+	padding: 1% 2%;
+	border: 1px solid #e9ebee;
+	border-left: none;	
+}
+.chat_name {
+	position: fixed;
+	width: 50%;
+	margin-left: 35%;
+	margin-top: 50px;
+	height: 75px;
+	background-color: #FFF;
+	padding: 20px 50px;
+	font-size: 25px;
+	display: block;
+	border-right: 1px solid #e9ebee;
+}
+#chat_heading {
+	color: black;
+}
+#conversation {
+	overflow-y: scroll;
+}
+.sender {
+	float: left;
+	padding: 5px 10px;
+	background-color: green;
+	border:1px solid black;
+	border-radius: 4%;
+	margin:2px;
+	max-width: 60%;
+}
+.receiver {
+	float: right;
+	padding: 5px 10px;
+	background-color:pink;
+	border:1px solid black;
+	border-radius: 4%;
+	margin:2px;
+	max-width: 60%;
+
+}
+.conversation_reply {
+	position: fixed;
+	width: 50%;
+	margin-left: 35%;
+	margin-top: 425px;
+	height: 100%;
+	background-color: #F6F7F9;
+	color: black;
+	padding: 10px 70px;
+	display: block;
+	border-right: 1px solid #e9ebee;
+	overflow: auto;
+}
+
+.conversation_reply textarea {
+	width: 100%;
+	height: 124px;
+	font-size: 15px;
+	padding: 5px;
+	resize:none;
+	overflow: hidden;
+}
+#text_reply:focus {
+	outline: none;
+}
+.compose {
+	float: right;
+	font-size: 15px;
+	padding: 4px;
+	border: 1px solid black;
+	background-color: #e9ebee;
+}
+.compose>a{
+	color: black;
+}
+.compose_text {
+	display: none;
+	float: left;
+	font-size: 15px;
+	padding: 10px;
+
+}
+.compose_text input {
+	width: 300px;
+	height: 20px;
+	text-indent: 5px;
+	border: none;
+	border-bottom: 1px solid #e9ebee;
+}
+.compose_text input:focus {
+	border: none;
+	border-bottom: 2px solid green;
+	outline: none;
+}
+#compose_selection {
+	position: absolute;
+	top: 110px;
+	left: 560px;
+	width: 300px;
+	vertical-align: center;
+	text-align: left;
+	text-indent: 5px;
+	/*position: absolute;*/
+	visibility: hidden;
+	z-index: 10;
+	border: 1px solid #e9ebee;
+}
+.suggestion {
+	display: block;
+	color: black;
+	padding: 5px;
+	width: 100%;
+	height: 100%;
+}
