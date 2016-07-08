@@ -8,7 +8,7 @@ session_start();
 		<title>OpenChat</title>
 		<link rel="stylesheet" href="css/index.css">
 	</head>
-	<body onload="login()">
+	<body>
 
 		<!-- header -->
 
@@ -56,51 +56,9 @@ session_start();
 		</div>
 
 		<!-- Main -->
-		<?php if(empty($_SESSION['start']))
-		{
-		?>
-		<div class="index_main">
-            <h2 class="title">Welcome</h2>
-            <hr>                  
-            <ul class="choose">
-                <li id="login" onclick="login()"><a href="#login">Login</a></li>
-                <li id="register" onclick="register()"><a href="#register">Register</a></li>
-            </ul>
-            <hr>
-            <div class="login">
-            	<form method="post" action="login.php">
-                    <label>Email or Username</label><br><br>
-                    <input type="text" name="login" placeholder="Email or Username"><br><br>
-                    <label>Password</label><br><br>
-                    <input type="password" name="password" placeholder="Password"><br><br><br>
-                    <input type="submit" name="submit" value="Login">
-                </form>
-            </div>
-            <div class="register">
-            	<form method="post" action="register.php">
-                    <label>Your Name</label><br><br>
-                    <input type="text" name="name" placeholder="Name"><br><br>
-                    <label>Email</label><br><br>
-                    <input type="email" name="email" placeholder="Email id"><br><br>
-                    <label>Username</label><br><br>
-                    <input type="text" name="username" placeholder="Username"><br><br>
-                    <label>Mobile No.</label><br><br>
-                    <input type="text" name="mob" placeholder="99******00"><br><br>
-                    <label>Password</label><br><br>
-                    <input type="password" name="password" placeholder="Password"><br><br><br>
-                    <input type="submit" name="submit" value="Register">
-                </form>
-            </div>
-		</div>
-		<?php
-		}
-		else
-		{
-		?>
+		
 		<div class="after_login"><h2>Check out your latest messages and keep enjoying and exploring</h2></div>
-		<?php
-		}
-		?>
+		
 
 
 		<!-- Footer -->
@@ -109,12 +67,6 @@ session_start();
 			<h3 class="footer_text">Made with love by <a href="#">Ankit Jain</a></h3>
 		</div>
 
-		
-
-
-
 	</body>
-	<script type="text/javascript" src="js/main.js"></script>
-	<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
 </html>
 

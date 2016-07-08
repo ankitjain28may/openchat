@@ -29,7 +29,7 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 								$row['time']=substr($row['time'],16,5);
    							else if(substr($row['time'],7,8)==date("M Y", time()+12600) && substr($row['time'], 4,2)-date("d")<7)
 								$row['time']=substr($row['time'],0,3);
-							else if(substr($row['time'],10,4)==date("Y", time()+12600))
+							else if(substr($row['time'],11,4)==date("Y", time()+12600))
 								$row['time']=substr($row['time'],4,6);
 							else
 								$row['time']=substr($row['time'],4,11);
@@ -52,7 +52,7 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 								$row['time']=substr($row['time'],16,5);
    							else if(substr($row['time'],7,8)==date("M Y", time()+12600) && substr($row['time'], 4,2)-date("d")<7)
 								$row['time']=substr($row['time'],0,3);
-							else if(substr($row['time'],10,4)==date("Y", time()+12600))
+							else if(substr($row['time'],11,4)==date("Y", time()+12600))
 								$row['time']=substr($row['time'],4,6);
 							else
 								$row['time']=substr($row['time'],4,11);

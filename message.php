@@ -19,8 +19,9 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 			<a id="brand" href="">OpenChat</a>
 			<ul class="nav-right">
 			
-				<li><a href="">Home</a></li>
-				<li><a href="">About</a></li>
+				<li><a href="account.php">Account</a></li>
+				<li><a href="index.php">About</a></li>
+				<li><a href="registration-module/source/class.logout.php">Log Out</a></li>
 			</ul>
 		</div>
 

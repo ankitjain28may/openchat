@@ -5,10 +5,10 @@ html,body,div,ul,li,a,p,h1,h2,h3,h4,h5,h6{
 }
 body {
 	font-family: 'Helvetica Neue', sans-serif;
-	height: 100%;
+	min-height: 100%;
 	width: 100%;
 	position: absolute;
-	background-color: #FFF;
+	background-color: #dcdcd6;
 }
 h1,h2,h3,h4 {
 	color: #3B5998;
@@ -28,7 +28,7 @@ a {
 	width: 100%;
 	height: 50px;
 	background-color: #2c3e50;
-	/*padding: 1%;*/
+	z-index: 1000;
 }
 .header ul li {
 	display: inline-block;
@@ -45,13 +45,11 @@ a {
 	font-size: 18px;
 	text-transform: capitalize;
 	letter-spacing: 1px;
-	word-spacing: 3px;
 }
 #brand {
 	font-size: 18px;
 	color: white;
 	text-decoration: none;
-	margin-left: 50px;
 	padding: 15px 20px;
 	float: left;
 	text-transform: capitalize;
@@ -65,16 +63,26 @@ a {
 	background-color:  rgba(0,0,0,0.3);
 
 }
-.index_sidebar {
-	margin: 50px 0 40px 10%;
-	width:50%;
-	min-height: 130%;
-	background-color: #e9ebee;
-	float: left;
+
+.main {
+	width: 60%;
+	margin: 100px 20% 30px 20%;
 	padding: 5%;
+	text-align: center;
+	/*margin-top: 100px;*/
+	background-color: #fff;
 }
-.index_sidebar a h2 p ul li {
-	color: black;
+
+input {
+	width: 200px;
+	height: 30px;
+	text-indent: 10px;
+}
+
+button {
+	width: 200px;
+	height: 30px;
+	text-align: center;
 }
 
 .footer {
@@ -84,6 +92,7 @@ a {
 	position: fixed;
 	bottom: 0;
 }
+
 .footer_text {
 	text-align: center;
 	font-size: 18px;
@@ -94,39 +103,4 @@ a {
 }
 .footer_text a {
 	color: black;
-}
-p > a {
-	color: blue;
-}
-.choose li{
-	display: inline-block;
-	padding: 5px 15px;
-}
-.choose li a {
-	display: block;
-	padding: 10px;
-}
-.login {
-	width: 100%;
-	height: 100%;
-	float: left;
-	padding: 20px;
-	text-align: center;
-	/*border: 1px solid #e9ebee;*/
-	/*background-color: transparent;*/
-    /*box-shadow: 10px 8px 16px 0px rgba(0, 0, 0, 0.3);*/
-}
- input {
-	width: 200px;
-	height: 30px;
-	text-indent: 10px;
-}
-.after_login {
-	margin: 50px 10% 40px 0;
-	width: 30%;
-	min-height: 130%;
-	float: right;
-	background-color: rgba(0,0,0,0.3);
-	padding: 5%;
-	text-align: center;
 }

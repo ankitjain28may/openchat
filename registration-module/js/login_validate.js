@@ -13,7 +13,7 @@ $("#login").blur(function()
 });
 
 
-$("#password").blur(function()
+$("#pass").blur(function()
 {
 	password();
 });
@@ -28,7 +28,7 @@ function validate_email(val)
 function login_check()
 {
 	var login=$("#login").val();
-	var password=$("#password").val();
+	var password=$("#pass").val();
 	init();
 	// console.log(login);
 	if(val_login==0 && val_pass==0)
@@ -77,7 +77,7 @@ function show_login_error(txt)
 
 function show_pass_error(txt)
 {
-	$("#password").css({"outline":"none","border-color":"red"});
+	$("#pass").css({"outline":"none","border-color":"red"});
 	var txt1=$("<p></p>").text(txt);
 	$("#pass_label").append(txt1);
 }
@@ -114,7 +114,7 @@ function login()
 
 function password()
 {
-	var val=$("#password").val();
+	var val=$("#pass").val();
 	$("#pass_label p").remove("p");
 	if(val=="")
 	{
@@ -122,7 +122,7 @@ function password()
 	}
 	else
 	{
-		$("#password").css({"outline":"none","border-color":"green"});
+		$("#pass").css({"outline":"none","border-color":"green"});
 		val_pass=0;
 	}
 }
