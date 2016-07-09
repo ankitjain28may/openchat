@@ -46,6 +46,17 @@ class register
 		if (!$this->connect->query($query)) {
 			echo "Table is not created || Query failed";
 		}
+
+		$query="CREATE TABLE IF NOT EXISTS profile (
+		login_id int primary key not null unique,
+		status text,
+		education text,
+		gender varchar(10)
+		) ENGINE=INNODB;";
+		
+		if (!$this->connect->query($query)) {
+			echo "Table is not created || Query failed";
+		}
 		
 	}
 
@@ -129,6 +140,12 @@ class register
 					if(!$this->connect->query($query)) {
 						$this->key=1;
 						echo "You are not registered || Error in registration1";
+					}
+					$join="Joined OpenChat";
+					$query="INSERT INTO profile VALUES('$id','$join','$join','')";
+					if(!$this->connect->query($query)) {
+						$this->key=1;
+						echo "You are not updated || Error in profile";
 					}
 				}
 			}	

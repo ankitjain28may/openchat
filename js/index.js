@@ -79,7 +79,7 @@ function chat(element)
       {
         arr=xmlhttp.responseText;
         arr=JSON.parse(arr);
-        // console.log(arr);
+        console.log(arr);
           
         if (arr!='[]' && arr[arr.length-1]==1) 
         {
@@ -117,6 +117,7 @@ function chat(element)
 
             };
             document.getElementById("chat_heading").innerHTML=arr[0].name;
+            $("#chat_heading").attr({"href":"http://localhost/openchat/account.php/"+arr[0].username});
             document.getElementById("text_reply").name=arr[0]['identifier_message_number'];
             store=arr[0].id;
             ele.scrollTop = ele.scrollHeight;

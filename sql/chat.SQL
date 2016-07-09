@@ -34,3 +34,10 @@ username varchar(255) unique not null,
 mobile varchar(255) not null,
 FOREIGN KEY (login_id) REFERENCES register(id)
 ) ENGINE=INNODB;
+
+CREATE TABLE IF NOT EXISTS profile (
+login_id int primary key not null unique,
+status text,
+education text,
+gender varchar(10)
+) ENGINE=INNODB;

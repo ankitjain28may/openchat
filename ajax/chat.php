@@ -40,6 +40,7 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 						$row['identifier_message_number']=$login_id;
 						$row=array_merge($row,['name'=>$fetch['name']]);
 						$row=array_merge($row,['start'=>$id]);
+						$row=array_merge($row,['username'=>$username]);
 						$array=array_merge($array,[$row]);
 					}
 					$array=array_merge($array,[1]);

@@ -1,0 +1,201 @@
+html,body,div,ul,li,a,p,h1,h2,h3,h4,h5,h6{
+	margin: 0;
+	padding: 0;
+	box-sizing:border-box;
+}
+body {
+	position: absolute;
+	font-family: 'Helvetica Neue', sans-serif;
+	min-height: 100%;
+	width: 100%;
+	background-color: rgb(244, 239, 239);
+	overflow: auto;
+}
+h1,h2,h3,h4 {
+	color: #3B5998;
+}
+ul {
+	text-decoration: none;
+	list-style-type: none;
+}
+a {
+	text-decoration: none;
+	color:white;
+	cursor: pointer;
+}
+
+.header {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 50px;
+	background-color: #2c3e50;
+	z-index: 1000;
+}
+.header ul li {
+	display: inline-block;
+	letter-spacing: 2px;
+	
+}
+.header ul li a{
+	display: block;
+	padding: 15px 10px;
+}
+.nav-right {
+	float: right;
+	margin: 0;
+	font-size: 18px;
+	text-transform: capitalize;
+	letter-spacing: 1px;
+}
+#brand {
+	font-size: 18px;
+	color: white;
+	text-decoration: none;
+	padding: 15px 20px;
+	float: left;
+	text-transform: capitalize;
+	letter-spacing: 1px;
+	/*word-spacing: 3px;*/
+}
+#brand:hover {
+	background-color:  rgba(0,0,0,0.3);
+}
+.header ul li a:hover{
+	background-color:  rgba(0,0,0,0.3);
+
+}
+
+
+.boxx
+{
+	background-color: white;
+	margin: 1% 10% 2% 10%;
+	width: 80%;
+	border-radius: 2px;
+	padding: 2%;
+	text-align: center;
+	border-bottom: 5px solid #2c3e50;
+	float: left;
+	z-index: 10;
+	margin-bottom: 2%;
+}
+
+.main>div:first-child {
+	margin-top: 60px;
+}
+
+.main>div:last-child {
+	margin-bottom: 60px;
+}
+
+.pic
+{
+	width: 30%;
+	float: left;
+}
+.pic > img
+{
+	width: 50%;
+	height: auto;
+	border: 2px solid #212121;
+}
+
+.brief {
+	width: 55%;
+	float: left;
+	text-align: left;
+}
+.edit>a {
+	width: 15%;
+	float: right;
+	display: block;
+	border:1px solid #e9ebee;
+	padding: 5px;
+}
+.edit > a{
+	color: black;
+}
+.edit > a:hover{
+	background-color: black;
+	color: white;
+}
+
+#profile {
+	display: none;
+	text-align: left;
+	padding: 5% 15%;
+	line-height: 40px;
+}
+
+#profile textarea {
+	width: 100%;
+	height: 100px;
+	font-size: 15px;
+	padding: 5px;
+	resize:none;
+	overflow: hidden;
+}
+
+#education {
+	width: 100%;
+	height: 30px;
+	text-indent: 10px;
+}
+
+#gender {
+	width: 18px;
+	height: 18px;
+}
+
+#submit {
+	width: 60%;
+	text-align: center;
+	height: 30px;
+	margin-left: 20%;
+}
+
+
+.footer {
+	margin-top: 50px;
+	width: 100%;
+	height: 40px;
+	background-color: #2c3e50;
+	position: fixed;
+	bottom: 0;
+}
+.footer_text {
+	text-align: center;
+	font-size: 18px;
+	color: white;
+	word-spacing: 2px;
+	letter-spacing: 1px;
+	padding: 10px;		
+}
+.footer_text a {
+	color: black;
+}
+p > a {
+	color: blue;
+}
+
+@media (max-width:1024px) {
+	.header
+	{
+		height: 50px;
+	}
+}
+@media (max-width: 700px) {
+	.header {
+		height: 50px;
+	}
+	.cover{
+		top: 35px;
+	}
+	.brand {
+		font-size: 12px;
+	}
+	.left {
+		font-size: 12px;
+	}
+}
