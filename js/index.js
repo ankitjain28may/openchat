@@ -79,7 +79,7 @@ function chat(element)
       {
         arr=xmlhttp.responseText;
         arr=JSON.parse(arr);
-        console.log(arr);
+        // console.log(arr);
           
         if (arr!='[]' && arr[arr.length-1]==1) 
         {

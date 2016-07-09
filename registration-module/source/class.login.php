@@ -29,7 +29,7 @@ class login
 			$this->key=1;
 			$this->array_error=array_merge($this->array_error,["login"=>"Enter the login field"]);
 		}
-		elseif (ereg("^[@]{1}$",$this->login))
+		elseif (preg_match("/^[@]{1}$/",$this->login))
 		{	
 			if(filter_var($this->email,FILTER_VALIDATE_EMAIL)== false) 
 			{

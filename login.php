@@ -32,8 +32,9 @@ if(isset($_SESSION['start']))
         </div>
 
     </body>
-    <script type="text/javascript" src="registration-module/js/login_validate.js"></script>
     <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="registration-module/js/login_validate.js"></script>
+    
     <script type="text/javascript" src="placeholder.js/placeholder.js"></script>
     <script>
         $("input").keypress(function(e) {

@@ -111,7 +111,7 @@ class register
 			$this->key=1;
 			$this->array_error=array_merge($this->array_error,["mob"=>"Enter the Mobile Number"]);
 		}
-		elseif (!ereg("^[0-9]{10}$",$this->mob)) {
+		elseif (!preg_match("/^[0-9]{10}$/",$this->mob)) {
 			$this->key=1;
 			$this->array_error=array_merge($this->array_error,["mob"=>"Enter correct Mobile Number"]);
 		}
