@@ -3,6 +3,7 @@ require_once '../database.php';
 session_start();
 if(isset($_SESSION['start']) && isset($_POST['q']))
 {
+	$add_load=0;
 	$id=$_SESSION['start'];
 	$username=$_POST['q'];
 	// $query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'";
@@ -22,6 +23,20 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 			else
 				$check=$login_id.':'.$id;
 			// var_dump($check);
+			$query="SELECT total_messages from total_message where identifier='$check'";
+			if($mesg=$connect->query($query))
+			{
+				if($mesg->num_rows>0)
+				{
+					$total=$mesg->fetch_assoc();
+					$total=$total['total_messages'];
+					if($total>10)
+					{
+						$add_load=1;
+					}
+				}
+			}
+
 			$query="SELECT * FROM messages WHERE identifier_message_number='$check' ORDER BY id DESC limit 10";
 			if($result1=$connect->query($query)) 
 			{

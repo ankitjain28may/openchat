@@ -57,18 +57,18 @@ function init(index)
 
 function chat(element)   
 {
-  // document.getElementById("compose_selection").style="visibility:hidden";  //for hidding the suggestion
+
   $("#compose_selection").css("visibility","hidden");
-  // console.log((location.href).endsWith('.php'));
   last_time='';
   flag=0;
   $("#compose_name").val('');
   $("#search_item").val('');
-  stop(); // stopping previous setinterval call
-  $("#chat_heading a").remove('a');
-  
   $('#compose_text').hide();
-  // document.getElementById("compose_text").style="display:none;";
+
+ 
+
+  stop(); // stopping previous setinterval call
+  
   recursive =setInterval(repeat,1500);  // refresh conversation
   function repeat() 
   {
@@ -87,7 +87,7 @@ function chat(element)
       {
         arr=xmlhttp.responseText;
         arr=JSON.parse(arr);
-        // console.log(arr);
+        console.log(arr);
           
         if (arr!='[]' && arr[arr.length-1]==1 && flag==0) 
         {
@@ -123,8 +123,9 @@ function chat(element)
               tt.setAttribute('class','message_time');
               info.appendChild(tt);
 
-            };
-            var txt=$("<a></a>").text(arr[0].name)
+            }
+            $("#chat_heading a").remove('a');
+            var txt=$("<a></a>").text(arr[0].name);
             $("#chat_heading").append(txt);
             $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr[0].username});
             document.getElementById("text_reply").name=arr[0]['identifier_message_number'];
@@ -134,9 +135,10 @@ function chat(element)
         }
         else if(arr['new']==0)
         {
-          var txt=$("<a></a>").text(arr[0].name)
+          $("#chat_heading a").remove('a');
+          var txt=$("<a></a>").text(arr.name);
           $("#chat_heading").append(txt);
-          $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr[0].username});
+          $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr.username});
           document.getElementById("text_reply").name=arr['identifier_message_number'];
           ele.innerHTML="";
         }   
@@ -195,11 +197,7 @@ function compose()
   // document.getElementById("compose_text").style="display:block;";
   $('#compose_text').show();
 }
-// $(document).ready(function(){
-//   $('.compose').on("click",function(){
-//     $('#compose_text').show();
-// });
-// });
+
 
 //compose messages
 
@@ -236,10 +234,11 @@ function compose_message()
       }
       else if(arr=="Not Found")
       {
-        var para=document.createElement("li");
-        var node=document.createTextNode(arr);
-        para.appendChild(node);
-        ele.appendChild(para);
+        var txt=$("<a></a>").text('Not Found');
+        var l=$("<li></li>").append(txt);
+        $("#suggestion").append(l);
+        $("#suggestion li a").attr({"onclick":"myFunction()"});
+
       }
     }
     // document.getElementById("compose_selection").style="visibility:visible"; 
@@ -254,34 +253,7 @@ function compose_message()
     document.getElementById("compose_selection").style="visibility:hidden";  //for hidding the suggestion
 
 }
-
-// For search 
-
-// function suggestion_choose(element)
-// {
-//   document.getElementById("suggestion").innerHTML="";
-//   var para=element;
-//   // console.log(para);
-//   var xmlhttp = new XMLHttpRequest();
-//   xmlhttp.onreadystatechange = function() 
-//   {
-//     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-//       arr=xmlhttp.responseText;
-//         // console.log(arr);
-      
-//       if (arr=="Messages is sent") 
-//       {
-//           document.getElementById("text_reply").value="";
-//       }
-//       else{
-
-//       }
-//     }  
-//   };
-//   xmlhttp.open("GET", "ajax/reply.php?q=" + q, true);
-//   xmlhttp.send(); 
-// }
-
+// For Search
 
 function search_choose()
 {
@@ -335,5 +307,21 @@ function search_choose()
   xmlhttp.open("GET", "ajax/search_item.php?q=" + q, true);
   xmlhttp.send(); 
 }
+
+
+window.ondblclick=myFunction;
+
+function myFunction()
+{
+  // console.log(1);
+  $("#compose_selection").css("visibility","hidden");
+  last_time='';
+  flag=0;
+  store='';
+  $("#compose_name").val('');
+  $("#search_item").val('');
+  $('#compose_text').hide();
+}
+
 
 console.log("Hello, Contact me at ankitjain28may77@gmail.com");

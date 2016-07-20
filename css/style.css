@@ -248,13 +248,15 @@ a {
 	top: 7px;
 	left:44px;
 	width: 220px;
-	vertical-align: center;
+	/*vertical-align: center;*/
 	text-align: left;
 	text-indent: 5px;
 	visibility: hidden;
 	z-index: 10;
 	background-color: #F6F7F9;
 	border: 1px solid #e9ebee;
+	max-height: 150px;
+	overflow: auto;
 }
 #suggestion li a{
 	display: block;
