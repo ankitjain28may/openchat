@@ -11,6 +11,8 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 		<title>Messages</title>
 		<link rel="stylesheet" href="css/style.css">
 	 	<!-- <link rel="stylesheet" href="css/font-awesome-4.6.2/css/font-awesome.min.css">		 -->
+	 	<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
 	</head>
 	<body onload="init(0)">
 		<!-- header -->
@@ -28,7 +30,8 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 		<!-- search -->
 
 		<div class="search_message">
-			<input type="text" name="search_item" placeholder="Search">
+			<input type="text" name="search_item" id="search_item" value="" onkeyup="search_choose();" placeholder="Search">
+			<!-- <select name='search_item' id='search_item' onkeyup='search_choose()'></select> -->
 		</div>
 
 		
@@ -40,17 +43,21 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 		<!-- chat name -->
 
 		<div class="chat_name" id="chat_name">
-			<a id="chat_heading" href="" ></a>
-			<div class="compose_text" id="compose_text">
-				To:&nbsp;<input type="text" name="compose_name" placeholder="Name" id="compose_name" value="" onkeyup="compose_message()">
+			<div id="chat_heading">
+				<!-- <a  href="" ></a> -->
 			</div>
+			<div class="compose_text" id="compose_text">
+				<b id="to">To:</b> &nbsp;<input type="text" name="compose_name" placeholder="Name" id="compose_name" value="" onkeyup="compose_message()">
+				<div id="compose_selection">
+					<ul id="suggestion">
+					</ul>
+				</div>
+			</div>
+
 			<div class="compose" onclick="compose()"><a href="#">+ New Message</a></div>
 		</div>	
 
-		<div id="compose_selection">
-			<ul id="suggestion">
-			</ul>
-		</div>
+		
 
 		<!-- conversation -->
 		<div class="main" id="conversation">
@@ -67,8 +74,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 
 
 	</body>
-	<script type="text/javascript" src="js/index.js"></script>
-	<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+	
 </html>
 
 <?php

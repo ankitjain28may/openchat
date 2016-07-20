@@ -1,6 +1,9 @@
 var store;
 var recursive;
 var sidebar_store;
+var last_time;
+var flag=0;
+
 // For updating sidebar and load conversation for first time
 
 function init(index)  
@@ -19,8 +22,9 @@ function init(index)
 
     arr=JSON.parse(xmlhttp.responseText);  // Response From change.php
 
-    if (arr!=null) 
+    if (arr!=null && last_time!=arr[arr.length-1].time) 
     {
+      last_time=arr[arr.length-1].time;
       ele.innerHTML="";
       for (var i = arr.length - 1; i >= 0; i--) // organising content according to time
       {
@@ -41,7 +45,7 @@ function init(index)
       };
       if(index==0)
         chat(document.getElementById(arr[arr.length-1].username));  // Load messgage for the first conversation
-      };
+      }
     }
   };
   xmlhttp.open("POST", "ajax/change.php", true);  // ajax request post
@@ -56,8 +60,12 @@ function chat(element)
   // document.getElementById("compose_selection").style="visibility:hidden";  //for hidding the suggestion
   $("#compose_selection").css("visibility","hidden");
   // console.log((location.href).endsWith('.php'));
-
+  last_time='';
+  flag=0;
+  $("#compose_name").val('');
+  $("#search_item").val('');
   stop(); // stopping previous setinterval call
+  $("#chat_heading a").remove('a');
   
   $('#compose_text').hide();
   // document.getElementById("compose_text").style="display:none;";
@@ -81,7 +89,7 @@ function chat(element)
         arr=JSON.parse(arr);
         // console.log(arr);
           
-        if (arr!='[]' && arr[arr.length-1]==1) 
+        if (arr!='[]' && arr[arr.length-1]==1 && flag==0) 
         {
           if(store!=arr[0].id)
           {
@@ -116,8 +124,9 @@ function chat(element)
               info.appendChild(tt);
 
             };
-            document.getElementById("chat_heading").innerHTML=arr[0].name;
-            $("#chat_heading").attr({"href":"http://localhost/openchat/account.php/"+arr[0].username});
+            var txt=$("<a></a>").text(arr[0].name)
+            $("#chat_heading").append(txt);
+            $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr[0].username});
             document.getElementById("text_reply").name=arr[0]['identifier_message_number'];
             store=arr[0].id;
             ele.scrollTop = ele.scrollHeight;
@@ -125,10 +134,11 @@ function chat(element)
         }
         else if(arr['new']==0)
         {
-          document.getElementById("chat_heading").innerHTML=arr.name;
+          var txt=$("<a></a>").text(arr[0].name)
+          $("#chat_heading").append(txt);
+          $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr[0].username});
           document.getElementById("text_reply").name=arr['identifier_message_number'];
           ele.innerHTML="";
-          flag="compose";
         }   
       }
     };
@@ -179,7 +189,8 @@ function reply()
 
 function compose() 
 {
-  document.getElementById("chat_heading").innerHTML="";
+  flag=1;
+  $("#chat_heading a").remove('a');
   document.getElementById("conversation").innerHTML="";
   // document.getElementById("compose_text").style="display:block;";
   $('#compose_text').show();
@@ -206,6 +217,7 @@ function compose_message()
       arr=xmlhttp.responseText;
       arr=JSON.parse(arr);
       // console.log(arr);
+
       if (arr!=[] && arr!="Not Found") 
       {
         for (var i = arr.length - 1; i >= 0; i--) 
@@ -245,27 +257,83 @@ function compose_message()
 
 // For search 
 
-function suggestion_choose(element)
+// function suggestion_choose(element)
+// {
+//   document.getElementById("suggestion").innerHTML="";
+//   var para=element;
+//   // console.log(para);
+//   var xmlhttp = new XMLHttpRequest();
+//   xmlhttp.onreadystatechange = function() 
+//   {
+//     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+//       arr=xmlhttp.responseText;
+//         // console.log(arr);
+      
+//       if (arr=="Messages is sent") 
+//       {
+//           document.getElementById("text_reply").value="";
+//       }
+//       else{
+
+//       }
+//     }  
+//   };
+//   xmlhttp.open("GET", "ajax/reply.php?q=" + q, true);
+//   xmlhttp.send(); 
+// }
+
+
+function search_choose()
 {
-  document.getElementById("suggestion").innerHTML="";
-  var para=element;
-  // console.log(para);
+  // console.log(1);
+  var val=$("#search_item").val();
+
+  var q=val;
+  var ele=document.getElementById("message");
+
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() 
   {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      arr=xmlhttp.responseText;
-        // console.log(arr);
-      
-      if (arr=="Messages is sent") 
+      arr=JSON.parse(xmlhttp.responseText);  // Response From change.php
+      console.log(arr);
+      if($("#search_item").val()=='')
+          last_time='';
+      if (arr!=null) 
       {
-          document.getElementById("text_reply").value="";
-      }
-      else{
+        ele.innerHTML="";
+        for (var i = arr.length - 1; i >= 0; i--) // organising content according to time
+        {
+          var para=document.createElement("a");                 //creating element a
+          var node=document.createTextNode(arr[i]['name']);
+          para.appendChild(node);
+          para.setAttribute('id',arr[i]['username']);
+          para.setAttribute('href','message.php#'+arr[i]['username']);
+          para.setAttribute('class','message');
+          para.setAttribute('onclick','chat(this)');
+          ele.appendChild(para);
 
+          var bre=document.createElement("span");               // creating element span for showing time
+          var inp=document.createTextNode(arr[i]['time']);
+          bre.appendChild(inp);
+          bre.setAttribute('class','message_time');
+          para.appendChild(bre);
+        }
       }
-    }  
-  };
-  xmlhttp.open("GET", "ajax/reply.php?q=" + q, true);
+      else
+      {
+        $("#message").text('');
+        console.log("None");
+        var txt=$("<a></a>").text("Not Found");
+        $("#message").append(txt);
+        $("#message a").addClass('message');
+        // ele.innerHTML="Not Found";
+      }
+
+    } 
+  };  
+  xmlhttp.open("GET", "ajax/search_item.php?q=" + q, true);
   xmlhttp.send(); 
 }
+
+console.log("Hello, Contact me at ankitjain28may77@gmail.com");
