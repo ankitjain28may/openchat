@@ -11,6 +11,7 @@ var flag=0;
 function init(index)  
 {
   var q="q=total_messages";
+  var ele=document.getElementById("message");  // Getting Div
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function()                                     // Ajax Call
   {
@@ -30,12 +31,27 @@ function init(index)
 
           for (var i = arr.length - 1; i >= 0; i--)                              // organising content according to time
           {
-            var sp=$("<span></span>").text(arr[i]['time']);                      // creating element span
-            sp.addClass('message_time');
-            var para=$("<a></a>").text(arr[i]['name']);                          //creating element a
-             para.append(sp);
-            $("#message").append(para);                             
-            para.attr({'id':arr[i]['username'],'href':'message.php#'+arr[i]['username'],'class':'message','onclick':'chat(this,10)'});
+            // var sp=$("<span></span>").text(arr[i]['time']);                      // creating element span
+            // sp.addClass('message_time');
+            // var para=$("<a></a>").text(arr[i]['name']);                          //creating element a
+            //  para.append(sp);
+            // $("#message").append(para);                             
+            // para.attr({'id':arr[i]['username'],'href':'message.php#'+arr[i]['username'],'class':'message','onclick':'chat(this,10)'});
+
+          var para=document.createElement("a");                 //creating element a    
+          var node=document.createTextNode(arr[i]['name']);   
+          para.appendChild(node);   
+          para.setAttribute('id',arr[i]['username']);   
+          para.setAttribute('href','message.php#'+arr[i]['username']);    
+          para.setAttribute('class','message');   
+          para.setAttribute('onclick','chat(this,10)');    
+          ele.appendChild(para);    
+      
+          var bre=document.createElement("span");               // creating element span for showing time   
+          var inp=document.createTextNode(arr[i]['time']);    
+          bre.appendChild(inp);   
+          bre.setAttribute('class','message_time');   
+          para.appendChild(bre);
           }
 
           if(index==0)
