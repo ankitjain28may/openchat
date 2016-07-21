@@ -277,3 +277,11 @@ a {
 	height: 100%;
 	/*overflow: auto;*/
 }
+
+.previous a {
+	display: block;
+	color: blue;
+	padding: 2px;
+	text-align: center;
+	width: 100%;
+}

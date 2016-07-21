@@ -5,7 +5,11 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 {
 	$add_load=0;
 	$id=$_SESSION['start'];
-	$username=$_POST['q'];
+	$receive=json_decode($_POST['q']);
+	$username=$receive->username;
+	$load=$receive->load;
+
+
 	// $query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'";
 	$query="SELECT login_id,name FROM login WHERE username='$username'";
 	$connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
@@ -30,14 +34,16 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 				{
 					$total=$mesg->fetch_assoc();
 					$total=$total['total_messages'];
-					if($total>10)
-					{
-						$add_load=1;
-					}
+					if($total-$load>0)
+						if($total-$load>10)
+							$add_load=$load+10;
+						else
+							$add_load=$total;
+					
 				}
 			}
 
-			$query="SELECT * FROM messages WHERE identifier_message_number='$check' ORDER BY id DESC limit 10";
+			$query="SELECT * FROM messages WHERE identifier_message_number='$check' ORDER BY id DESC limit ".$load;
 			if($result1=$connect->query($query)) 
 			{
 				if($result1->num_rows>0)
@@ -58,6 +64,7 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 						$row=array_merge($row,['username'=>$username]);
 						$array=array_merge($array,[$row]);
 					}
+					$array=array_merge($array,[['load'=>$add_load]]);
 					$array=array_merge($array,[1]);
 					echo json_encode($array);
 				}
