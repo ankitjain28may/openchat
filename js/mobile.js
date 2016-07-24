@@ -10,9 +10,8 @@ var flag=0;
 
 function init(index)  
 {
-  mobile("sidebar");
   var q="q=total_messages";
-  var ele=document.getElementById("message");  // Getting Div
+  var ele=document.getElementById("message-mob");  // Getting Div
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function()                                     // Ajax Call
   {
@@ -28,16 +27,16 @@ function init(index)
         if (last_time!=c) 
         {
           last_time=c;
-          $("#message a").remove();
+          $("#message-mob a").remove();
 
           for (var i = arr.length - 1; i >= 0; i--)                              // organising content according to time
           {
             // var sp=$("<span></span>").text(arr[i]['time']);                      // creating element span
-            // sp.addClass('message_time');
+            // sp.addClass('message-mob_time');
             // var para=$("<a></a>").text(arr[i]['name']);                          //creating element a
             //  para.append(sp);
-            // $("#message").append(para);                             
-            // para.attr({'id':arr[i]['username'],'href':'message.php#'+arr[i]['username'],'class':'message','onclick':'chat(this,10)'});
+            // $("#message-mob").append(para);                             
+            // para.attr({'id':arr[i]['username'],'href':'message-mob.php#'+arr[i]['username'],'class':'message-mob','onclick':'chat(this,10)'});
 
           var para=document.createElement("a");                 //creating element a    
           var node=document.createTextNode(arr[i]['name']);   
@@ -55,7 +54,7 @@ function init(index)
           para.appendChild(bre);
           }
 
-          if(index==0 && window.innerWidth>500)
+          if(index==0)
             chat(document.getElementById(arr[arr.length-1].username),10);         // Load messgage for the first conversation
         }
       }
@@ -73,7 +72,6 @@ function init(index)
 
 function chat(element,num)   
 {
-  mobile("main")
   // console.log(num);
   $("#compose_selection").css("visibility","hidden");
   last_time='';
@@ -88,8 +86,7 @@ function chat(element,num)
   function repeat() 
   {
     // console.log(element);
-    if(window.innerWidth>500)
-      init(1);
+    init(1);
 
     var q={"username":element.id,"load":num};
     q="q="+JSON.stringify(q);
@@ -158,10 +155,7 @@ function chat(element,num)
               var txt=$("<a></a>").text(arr[0].name);
               $("#chat_heading").append(txt);
               $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr[0].username});
-              if(window.innerWidth<500)
-                $(".text_icon #text_reply").attr({'name':arr[0]['identifier_message_number']});
-              else
-                $("#text_reply").attr({'name':arr[0]['identifier_message_number']});
+              $("#text_reply").attr({'name':arr[0]['identifier_message_number']});
               ele.scrollTop = ele.scrollHeight;
             }
           }
@@ -172,10 +166,7 @@ function chat(element,num)
             var txt=$("<a></a>").text(arr.name);
             $("#chat_heading").append(txt);
             $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr.username});
-            if(window.innerWidth<500)
-              $(".text_icon #text_reply").attr({'name':arr['identifier_message_number']});
-            else
-              $("#text_reply").attr({'name':arr['identifier_message_number']});
+            $("#text_reply").attr({'name':arr['identifier_message_number']});
           } 
         }  
       }
@@ -198,15 +189,10 @@ function chat(element,num)
 
 function reply()
 {
-  if(window.innerWidth<500)
-    var re=".text_icon #text_reply";
-  else
-    var re="#text_reply";
+  var ele=[document.getElementById("text_reply").value];
+  var id=document.getElementById("text_reply").name;
 
-  var ele=[$(re).val()];
-  var id=$(re).attr("name");
-
-  console.log(id);
+  // console.log(ele);
   var p='';
   var q={"name":id,"reply":ele};
   q="q="+JSON.stringify(q);
@@ -219,7 +205,7 @@ function reply()
         // console.log(arr);
       if (arr=="Messages is sent")                                        // Message is sent
       {
-        $(re).val('');
+        document.getElementById("text_reply").value="";
       }
       else{
 
@@ -374,20 +360,6 @@ function previous(element)                                                // Loa
   var lo=element.name;
   chat(element,lo);
   store='';
-}
-
-function mobile(ele)
-{
-  console.log(window.innerWidth);
-  if(window.innerWidth<500)
-  {
-  if(ele=="main")
-    $(".sidebar").hide();
-
-  
-    console.log("."+ele)
-    $("."+ele).show();
-  }
 }
 
 console.log("Hello, Contact me at ankitjain28may77@gmail.com");
