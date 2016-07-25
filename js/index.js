@@ -2,8 +2,7 @@ var store='';
 var recursive;
 var last_time=''  ;
 var flag=0;
-
-
+var pre='';
 
 
 // For updating sidebar and load conversation for first time
@@ -56,7 +55,9 @@ function init(index)
           }
 
           if(index==0 && window.innerWidth>500)
-            chat(document.getElementById(arr[arr.length-1].username),10);         // Load messgage for the first conversation
+            chat(document.getElementById(arr[arr.length-1].username),10);        // Load messgage for the first conversation
+          if(window.innerWidth<500)
+            init(1);
         }
       }
     }
@@ -375,10 +376,11 @@ function myFunction()                                                     // Hid
 
 function previous(element)                                                // Load previous messages
 {
+  mobile("previous");
   var user=element.id;
   var lo=element.name;
-  chat(element,lo);
   store='';
+  chat(element,lo);
 }
 
 function mobile(ele)
@@ -392,8 +394,11 @@ function mobile(ele)
       $(".mob-reply").show();
       $('.chat_name').show();
       $(".chat_name #chat_heading").show();
-      $(".main div").remove('div');
-      $(".chat_name #chat_heading a").remove('a');
+      if(pre=='')
+      {
+        $(".main div").remove('div');
+        $(".chat_name #chat_heading a").remove('a');
+      }
       $(".main").show();
     }
     if(ele=="compose")
@@ -407,11 +412,15 @@ function mobile(ele)
     {
       $(".sidebar").show();
     }
+    if(ele=="previous")
+      pre='1';
+    else
+      pre='';
   }
 }
 function show_search()
 {
-  console.log("HE0");
+  // console.log("HE0");
   mob_hide();
   // $(".sidebar a").remove('a');
   $(".search_message").show();
@@ -425,7 +434,7 @@ function mob_hide()
   $(".sidebar").hide();
   $(".main").hide();
   $(".chat_name").hide();
-  $("mob-reply").hide();
+  $(".mob-reply").hide();
 }
 
 console.log("Hello, Contact me at ankitjain28may77@gmail.com");

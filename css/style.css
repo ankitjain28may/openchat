@@ -115,11 +115,11 @@ a {
 	position: absolute;
 	width: 25%;
 	background-color: #FFF;
-	min-height: 83%;
+	height: 480px;
+	max-height: 83%;
 	margin-top: 125px;
 	margin-left: 10%;
 	/*float: left;*/
-	overflow: auto;
 	color: black;
 	border: 1px solid #e9ebee;
 

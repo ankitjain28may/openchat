@@ -60,6 +60,7 @@ if(isset($_SESSION['start']) && isset($_POST['q']))  //checks for session login 
 				else
 				{
 					$user2=$id;
+					$ln=strlen($identifier)-$ln-1;
 					$user1=substr($identifier,0,$ln);
 				}
 				$query="INSERT into total_message values('$identifier',1,'$user1','$user2',1,'$time','$time_id')"; //insert messages in db
