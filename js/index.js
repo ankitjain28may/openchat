@@ -237,6 +237,7 @@ function reply()
 
 function compose() 
 {
+  mobile('compose');
   flag=1;
   $("#chat_heading a").remove('a');
   document.getElementById("conversation").innerHTML="";
@@ -316,7 +317,10 @@ function search_choose()
       arr=JSON.parse(xmlhttp.responseText);                                 // Response From change.php
       // console.log(arr);
       if($("#search_item").val()=='')
-          last_time='';
+      {
+        init(1);
+        last_time='';
+      }
       if (arr!=null) 
       {
         ele.innerHTML="";
@@ -328,7 +332,7 @@ function search_choose()
           para.setAttribute('id',arr[i]['username']);
           para.setAttribute('href','message.php#'+arr[i]['username']);
           para.setAttribute('class','message');
-          para.setAttribute('onclick','chat(this)');
+          para.setAttribute('onclick','chat(this,10)');
           ele.appendChild(para);
 
           var bre=document.createElement("span");                                 // creating element span for showing time
@@ -359,6 +363,7 @@ window.ondblclick=myFunction;
 function myFunction()                                                     // Hidden compose message input
 {
   $("#compose_selection").css("visibility","hidden");
+  init(1);
   last_time='';
   flag=0;
   store='';
@@ -378,16 +383,49 @@ function previous(element)                                                // Loa
 
 function mobile(ele)
 {
-  console.log(window.innerWidth);
   if(window.innerWidth<500)
   {
-  if(ele=="main")
-    $(".sidebar").hide();
-
-  
-    console.log("."+ele)
-    $("."+ele).show();
+    mob_hide();
+    if(ele=="main")
+    {
+      $(".sidebar").hide();
+      $(".mob-reply").show();
+      $('.chat_name').show();
+      $(".chat_name #chat_heading").show();
+      $(".main div").remove('div');
+      $(".chat_name #chat_heading a").remove('a');
+      $(".main").show();
+    }
+    if(ele=="compose")
+    {
+      $(".chat_name").show();
+      $(".chat_name .compose_text").show();
+      $(".sidebar").hide();
+      $("#compose_selection").show();
+    }
+    if(ele=="sidebar")
+    {
+      $(".sidebar").show();
+    }
   }
+}
+function show_search()
+{
+  console.log("HE0");
+  mob_hide();
+  // $(".sidebar a").remove('a');
+  $(".search_message").show();
+  $(".sidebar").show();
+  // $('.sidebar').hide();
+}
+
+function mob_hide()
+{
+  $(".search_message").hide();
+  $(".sidebar").hide();
+  $(".main").hide();
+  $(".chat_name").hide();
+  $("mob-reply").hide();
 }
 
 console.log("Hello, Contact me at ankitjain28may77@gmail.com");

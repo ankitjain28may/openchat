@@ -64,7 +64,6 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 
 		<div class="chat_name" id="chat_name">
 			<div id="chat_heading">
-				<!-- <a  href="" ></a> -->
 			</div>
 			<div class="compose_text" id="compose_text">
 				<b id="to">To:</b> &nbsp;<input type="text" name="compose_name" placeholder="Name" id="compose_name" value="" onkeyup="compose_message()">
@@ -103,9 +102,9 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 
 		<div class="mob-footer">
 			<span>
-				<i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
-				<i class="fa fa-search fa-lg" aria-hidden="true"></i>
-				<i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+				<a href="#" onclick="init(1)"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
+				<a href="#" onclick="show_search()"><i class="fa fa-search fa-lg" aria-hidden="true"></i></a>
+				<a href="#" onclick="compose()"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
 			</span>
 		</div>
 
@@ -119,6 +118,13 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 		$("span .fa").click(function() {
 			$(".search_item").show();
 		});
+		// var w='';
+		// if(window.innerWidth<500 && window.outerHeight!=w)
+		// {
+		// 	console.log(1);
+		// 	w=window.outerHeight-135;
+		// 	$(".main").css('min-height',w);
+		// }
 	</script>
 	
 </html>
