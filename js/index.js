@@ -56,7 +56,7 @@ function init(index)
 
           if(index==0 && window.innerWidth>500)
             chat(document.getElementById(arr[arr.length-1].username),10);        // Load messgage for the first conversation
-          if(window.innerWidth<500)
+          else if(window.innerWidth<500)
             init(1);
         }
       }
@@ -113,10 +113,12 @@ function chat(element,num)
           if (arr[arr.length-1]==1)                                                  // Old User
           {
             var a=arr[0].id;
+              console.log(store);
+
             if(store!=a)
             {
               store=a;
-              // console.log(1);
+              console.log(store);
               ele.innerHTML="";
 
               if(arr[arr.length-2].load>10)                                     // For showing previous message
@@ -164,6 +166,7 @@ function chat(element,num)
               else
                 $("#text_reply").attr({'name':arr[0]['identifier_message_number']});
               ele.scrollTop = ele.scrollHeight;
+              console.log(2);
             }
           }
           else if(arr['new']==0)                              // New User
@@ -390,6 +393,7 @@ function mobile(ele)
     mob_hide();
     if(ele=="main")
     {
+      store='';
       $(".sidebar").hide();
       $(".mob-reply").show();
       $('.chat_name').show();
@@ -397,6 +401,7 @@ function mobile(ele)
       if(pre=='')
       {
         $(".main div").remove('div');
+        $(".main br").remove('br');
         $(".chat_name #chat_heading a").remove('a');
       }
       $(".main").show();

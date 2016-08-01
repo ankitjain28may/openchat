@@ -483,6 +483,7 @@ span a{
 	#chat_heading a{
 		color: white;
 		width: 100%;
+		font-size: 18px;
 	}
 	.chat_name > .compose_text {
 		max-width: 100%;
@@ -493,6 +494,13 @@ span a{
 	}
 	.compose_text input {
 		max-width: 100%;
+	}
+
+	.message_time {
+		font-size: 10px;
+	}
+	.message {
+		font-size: 18px;
 	}
 
 }
