@@ -2,10 +2,13 @@
 require_once '../database.php';
 session_start();
 $connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$flag=1;
 if(isset($_SESSION['start']) && isset($_POST['q']))
 {
+	$last_time=json_decode($_POST['q']);
+	$last_time=$last_time->last_time;
 	$id=$_SESSION['start'];
-	$query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'  ORDER BY id ASC";
+	$query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'  ORDER BY id DESC";
 	// $query="SELECT * FROM total_message WHERE identifier like '%:$id' or '$id:%'";
 	if($result=$connect->query($query)) 
 	{
@@ -15,6 +18,16 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 			$ln=strlen($id);
     		while($row = $result->fetch_assoc()) 
     		{
+    			if($row['id']==$last_time && $flag!=0)
+    			{
+    				break;
+    			}
+    			else if($flag!=0)
+    			{
+    				$last_time=$row['id'];
+    				$flag=0;
+    			}
+
 				$value=$row['identifier'];
 				$st=substr($value, 0,$ln);
 				if($st!=$id)
@@ -62,7 +75,8 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 					}
 				}
 			}
-				echo json_encode($array);
+			$array=array_merge($array,[['last_time'=>$last_time]]);
+			echo json_encode($array);
 				// var_dump($array);
 		}
 		else

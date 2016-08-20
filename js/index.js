@@ -3,105 +3,97 @@ var recursive;
 var last_time=''  ;
 var flag=0;
 var pre='';
+var ch;
 
 
 // For updating sidebar and load conversation for first time
-
-function init(index)  
+function init(index)
 {
+  stop_it();
   mobile("sidebar");
-  var q="q=total_messages";
-  var ele=document.getElementById("message");  // Getting Div
+  var q={"last_time":last_time};
+  q="q="+JSON.stringify(q);
+  // Getting Div
+  var ele=document.getElementById("message");
   var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function()                                     // Ajax Call
+  xmlhttp.onreadystatechange = function()
   {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
     {
-      var arr=JSON.parse(xmlhttp.responseText);                                // Response From change.php
-      // console.log(arr); 
-      if(arr!=null)         
-      {                 
-        var a=arr[arr.length-1].time;
-        var b=arr[arr.length-1].username;
-        var c=a+b;
-        if (last_time!=c) 
+      // Response From change.php
+      var arr=JSON.parse(xmlhttp.responseText);
+      // console.log(arr);
+      if(arr!=null)
+      {
+        if (last_time!=arr[arr.length-1]['last_time'])
         {
-          last_time=c;
+          last_time=arr[arr.length-1]['last_time'];
           $("#message a").remove();
-
-          for (var i = arr.length - 1; i >= 0; i--)                              // organising content according to time
+          // organising content according to time
+          for (var i = 0; i < arr.length-1; i++)
           {
-            // var sp=$("<span></span>").text(arr[i]['time']);                      // creating element span
-            // sp.addClass('message_time');
-            // var para=$("<a></a>").text(arr[i]['name']);                          //creating element a
-            //  para.append(sp);
-            // $("#message").append(para);                             
-            // para.attr({'id':arr[i]['username'],'href':'message.php#'+arr[i]['username'],'class':'message','onclick':'chat(this,10)'});
+            var para=document.createElement("a");
+            var node=document.createTextNode(arr[i]['name']);
+            para.appendChild(node);
+            para.setAttribute('id',arr[i]['username']);
+            para.setAttribute('href','message.php#'+arr[i]['username']);
+            para.setAttribute('class','message');
+            para.setAttribute('onclick','chat(this,10)');
+            ele.appendChild(para);
 
-          var para=document.createElement("a");                 //creating element a    
-          var node=document.createTextNode(arr[i]['name']);   
-          para.appendChild(node);   
-          para.setAttribute('id',arr[i]['username']);   
-          para.setAttribute('href','message.php#'+arr[i]['username']);    
-          para.setAttribute('class','message');   
-          para.setAttribute('onclick','chat(this,10)');    
-          ele.appendChild(para);    
-      
-          var bre=document.createElement("span");               // creating element span for showing time   
-          var inp=document.createTextNode(arr[i]['time']);    
-          bre.appendChild(inp);   
-          bre.setAttribute('class','message_time');   
-          para.appendChild(bre);
+            var bre=document.createElement("span");
+            var inp=document.createTextNode(arr[i]['time']);
+            bre.appendChild(inp);
+            bre.setAttribute('class','message_time');
+            para.appendChild(bre);
           }
 
-          if(index==0 && window.innerWidth>500)
-            chat(document.getElementById(arr[arr.length-1].username),10);        // Load messgage for the first conversation
-          else if(window.innerWidth<500)
-            init(1);
+          // Load messgage for the first conversation
+          if(index==0 && !width())
+            chat(document.getElementById(arr[0].username),10);
         }
       }
+  start();
+
     }
   };
-  xmlhttp.open("POST", "ajax/change.php", true);                                // ajax request post
+  xmlhttp.open("POST", "ajax/change.php", true);
   xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xmlhttp.send(q); 
+  xmlhttp.send(q);
 }
 
 
 
 
 // For loading conversation between two persons
-
-function chat(element,num)   
+function chat(element,num)
 {
-  mobile("main")
-  // console.log(num);
+  mobile("main");
   $("#compose_selection").css("visibility","hidden");
-  last_time='';
   flag=0;
   $("#compose_name").val('');
   $("#search_item").val('');
   $('#compose_text').hide();
 
-  stop();                                                                  // stopping previous setinterval call
-  
-  recursive =setInterval(repeat,1500);                                     // refresh conversation
-  function repeat() 
+  // stopping previous setinterval call
+  stop();
+  stop_it();
+
+  // refresh conversation
+  recursive =setInterval(repeat,1500);
+  function repeat()
   {
-    // console.log(element);
-    if(window.innerWidth>500)
+    if(!width())
       init(1);
 
-    var q={"username":element.id,"load":num};
+    var q={"username":element.id,"load":num,"store":store};
     q="q="+JSON.stringify(q);
 
-    // console.log(q);
-
     var xmlhttp = new XMLHttpRequest();
-    var ele=document.getElementById("conversation");                                  // ajax call
-    xmlhttp.onreadystatechange = function() 
+    var ele=document.getElementById("conversation");
+    xmlhttp.onreadystatechange = function()
     {
-      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
       {
         var arr=xmlhttp.responseText;
         arr=JSON.parse(arr);
@@ -109,100 +101,86 @@ function chat(element,num)
 
         if(arr!=null && flag==0)
         {
-          // console.log(1);
-          if (arr[arr.length-1]==1)                                                  // Old User
+          // Old User
+          if (arr[arr.length-2]==1 && store!=arr[arr.length-1]['store'])
           {
-            var a=arr[0].id;
-              console.log(store);
+            store=arr[arr.length-1]['store'];
+            ele.innerHTML="";
 
-            if(store!=a)
+            // For showing previous message
+            if(arr[arr.length-3].load>10)
             {
-              store=a;
-              console.log(store);
-              ele.innerHTML="";
-
-              if(arr[arr.length-2].load>10)                                     // For showing previous message
-              {
-                var txt=$("<a></a>").text("Show Previous Message!");
-                var te=$("<div></div>").append(txt);
-                $("#conversation").append(te);
-                $("#conversation div").addClass("previous");
-                $("#conversation div a").attr({"onclick":"previous(this)","id":arr[0].username,"name":arr[arr.length-2].load});
-              }
-
-              for (var i = arr.length -3; i >= 0; i--) 
-              {
-                // create element
-                var para=document.createElement("div");
-
-                if(arr[i]['sent_by']!=arr[i]['start'])
-                 para.setAttribute('class','sender');
-                else
-                  para.setAttribute('class','receiver');
-
-                ele.appendChild(para);
-                var bre=document.createElement("br");
-                bre.setAttribute("style","clear:both;");
-                ele.appendChild(bre);
-
-                var info=document.createElement("p");
-                var node=document.createTextNode(arr[i]['message']);
-                info.appendChild(node);
-                para.appendChild(info);
-
-                var tt=document.createElement("h6");
-                var inp=document.createTextNode(arr[i]['time']);
-                tt.appendChild(inp);
-                tt.setAttribute('class','message_time');
-                info.appendChild(tt);
-              }
-
-              $("#chat_heading a").remove('a');
-              var txt=$("<a></a>").text(arr[0].name);
-              $("#chat_heading").append(txt);
-              $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr[0].username});
-              if(window.innerWidth<500)
-                $(".text_icon #text_reply").attr({'name':arr[0]['identifier_message_number']});
-              else
-                $("#text_reply").attr({'name':arr[0]['identifier_message_number']});
-              ele.scrollTop = ele.scrollHeight;
-              console.log(2);
+              var txt=$("<a></a>").text("Show Previous Message!");
+              var te=$("<div></div>").append(txt);
+              $("#conversation").append(te);
+              $("#conversation div").addClass("previous");
+              $("#conversation div a").attr({"onclick":"previous(this)","id":arr[0].username,"name":arr[arr.length-3].load});
             }
+
+            for (var i = arr.length -4; i >= 0; i--)
+            {
+              // create element
+              var para=document.createElement("div");
+              if(arr[i]['sent_by']!=arr[i]['start'])
+                para.setAttribute('class','sender');
+              else
+                para.setAttribute('class','receiver');
+
+              ele.appendChild(para);
+              var bre=document.createElement("br");
+              bre.setAttribute("style","clear:both;");
+              ele.appendChild(bre);
+
+              var info=document.createElement("p");
+              var node=document.createTextNode(arr[i]['message']);
+              info.appendChild(node);
+              para.appendChild(info);
+
+              var tt=document.createElement("h6");
+              var inp=document.createTextNode(arr[i]['time']);
+              tt.appendChild(inp);
+              tt.setAttribute('class','message_time');
+              info.appendChild(tt);
+            }
+
+            $("#chat_heading a").remove('a');
+            var txt=$("<a></a>").text(arr[0].name);
+            $("#chat_heading").append(txt);
+            $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr[0].username});
+            if(width())
+              $(".text_icon #text_reply").attr({'name':arr[0]['identifier_message_number']});
+            else
+              $("#text_reply").attr({'name':arr[0]['identifier_message_number']});
+            ele.scrollTop = ele.scrollHeight;
           }
-          else if(arr['new']==0)                              // New User
+
+          // New User
+          else if(arr['new']==0)
           {
             ele.innerHTML="";
             $("#chat_heading a").remove('a');
             var txt=$("<a></a>").text(arr.name);
             $("#chat_heading").append(txt);
             $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr.username});
-            if(window.innerWidth<500)
+            if(width())
               $(".text_icon #text_reply").attr({'name':arr['identifier_message_number']});
             else
               $("#text_reply").attr({'name':arr['identifier_message_number']});
-          } 
-        }  
+          }
+        }
       }
     };
     xmlhttp.open("POST", "ajax/chat.php", true);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.send(q); 
-  }
-  function stop()
-  {
-      clearInterval(recursive);
-      // console.log("recursive");
+    xmlhttp.send(q);
   }
 }
-
-
-
 
 // For reply to other messages
 
 function reply()
 {
-  if(window.innerWidth<500)
+  if(width())
     var re=".text_icon #text_reply";
   else
     var re="#text_reply";
@@ -210,7 +188,7 @@ function reply()
   var ele=[$(re).val()];
   var id=$(re).attr("name");
 
-  console.log(id);
+  // console.log(ele);
   var p='';
   var q={"name":id,"reply":ele};
   q="q="+JSON.stringify(q);
@@ -228,18 +206,18 @@ function reply()
       else{
 
       }
-    }    
+    }
   };
   xmlhttp.open("POST", "ajax/reply.php", true);
   xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xmlhttp.send(q); 
+  xmlhttp.send(q);
 }
 
 
 
 // Compose new and direct message to anyone
 
-function compose() 
+function compose()
 {
   mobile('compose');
   flag=1;
@@ -252,24 +230,24 @@ function compose()
 
 //compose messages
 
-function compose_message() 
+function compose_message()
 {
   var q=document.getElementById("compose_name").value;
   // console.log(q);
   var ele=document.getElementById("suggestion");
   ele.innerHTML="";
   var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() 
+  xmlhttp.onreadystatechange = function()
   {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
     {
       arr=xmlhttp.responseText;
       arr=JSON.parse(arr);
       // console.log(arr);
 
-      if (arr!=[] && arr!="Not Found") 
+      if (arr!=[] && arr!="Not Found")
       {
-        for (var i = arr.length - 1; i >= 0; i--) 
+        for (var i = arr.length - 1; i >= 0; i--)
         {
           var para=document.createElement("li");
           var active=document.createElement("a");
@@ -315,17 +293,17 @@ function search_choose()
   var ele=document.getElementById("message");
 
   var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() 
+  xmlhttp.onreadystatechange = function()
   {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       arr=JSON.parse(xmlhttp.responseText);                                 // Response From change.php
       // console.log(arr);
       if($("#search_item").val()=='')
       {
-        init(1);
         last_time='';
+        init(1);
       }
-      if (arr!=null) 
+      if (arr!=null)
       {
         ele.innerHTML="";
         for (var i = arr.length - 1; i >= 0; i--)                         // organising content according to time
@@ -355,10 +333,10 @@ function search_choose()
         $("#message a").addClass('message');
       }
 
-    } 
-  };  
+    }
+  };
   xmlhttp.open("GET", "ajax/search_item.php?q=" + q, true);
-  xmlhttp.send(); 
+  xmlhttp.send();
 }
 
 
@@ -367,8 +345,8 @@ window.ondblclick=myFunction;
 function myFunction()                                                     // Hidden compose message input
 {
   $("#compose_selection").css("visibility","hidden");
-  init(1);
   last_time='';
+  init(1);
   flag=0;
   store='';
   $("#compose_name").val('');
@@ -388,7 +366,7 @@ function previous(element)                                                // Loa
 
 function mobile(ele)
 {
-  if(window.innerWidth<500)
+  if(width())
   {
     mob_hide();
     if(ele=="main")
@@ -440,6 +418,44 @@ function mob_hide()
   $(".main").hide();
   $(".chat_name").hide();
   $(".mob-reply").hide();
+  stop();
+  stop_it();
+}
+
+function stop()
+{
+  clearInterval(recursive);
+  // console.log("recursive");
+}
+
+function start()
+{
+  if(width())
+  {
+    // console.log("Hello");
+    ch=setInterval(update,1500);
+    stop();
+  }
+}
+
+function stop_it()
+{
+  if(width())
+  {
+    clearInterval(ch);
+  }
+}
+
+function width()
+{
+  if(window.innerWidth<500)
+    return true;
+}
+
+function update()
+{
+  // console.log("H");
+  init(1);
 }
 
 console.log("Hello, Contact me at ankitjain28may77@gmail.com");
