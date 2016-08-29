@@ -31,3 +31,5 @@ Feel free to Contribute.<br>
 <br>
 Fork , Code and Push<br>
 </h1>
+
+[![Join the chat at https://gitter.im/ankitjain28may/openchat](https://badges.gitter.im/ankitjain28may/openchat.svg)](https://gitter.im/ankitjain28may/openchat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
