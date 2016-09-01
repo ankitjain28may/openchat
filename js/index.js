@@ -122,9 +122,9 @@ function chat(element,num)
               // create element
               var para=document.createElement("div");
               if(arr[i]['sent_by']!=arr[i]['start'])
-                para.setAttribute('class','sender');
-              else
                 para.setAttribute('class','receiver');
+              else
+                para.setAttribute('class','sender');
 
               ele.appendChild(para);
               var bre=document.createElement("br");
