@@ -147,7 +147,7 @@ a {
 }
 
 .message_time {
-	font-size: 12px;
+	font-size: 11px;
 	float: right;
 	word-spacing: 0;
 	padding: 10px 0 0 4px;
@@ -193,24 +193,40 @@ a {
 #conversation {
 	overflow-y: scroll;
 }
+
 .receiver {
-	float: left;
-	padding: 10px 15px;
-	background-color: #c2c7cc;
-	border:1px solid black;
-	border-radius: 30px;
-	margin:2px;
-	max-width: 60%;
-}
-.sender {
-	float: right;
-	padding: 10px 15px;
-	background-color:#486e94;
-	border:1px solid black;
-	border-radius: 30px;
-	margin:2px;
-	max-width: 60%;
+
+    float: left;
+    padding: 4px 10px 7px;
+    border-radius: 10px 10px 10px 0;
+    background: rgba(0, 0, 0, .3);
+    margin: 8px 0;
+    font-size: 12px;
+    line-height: 1.4;
+    margin-right: 35px;
+    position: relative;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
 	word-wrap:break-word;
+	max-width: 60%;
+
+}
+
+
+.sender {
+    float: right;
+    color: #fff;
+    text-align: right;
+    background: #2b4f73;
+    border-radius: 10px 10px 0 10px;
+    margin: 8px 0;
+    padding: 4px 10px 7px;
+    font-size: 12px;
+    line-height: 1.4;
+    margin-left: 35px;
+    position: relative;
+	word-wrap:break-word;
+	max-width: 60%;
+
 }
 .sender p {
 	width: 100%;
