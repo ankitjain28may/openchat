@@ -2,16 +2,16 @@
 session_start();
 if(isset($_SESSION['start']) and empty($_GET['user']))
 {
-	
+
 ?>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">	
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Messages</title>
 		<link rel="stylesheet" href="css/style.css">
-	 	<link rel="stylesheet" href="css/font-awesome-4.6.3/css/font-awesome.min.css">		
+	 	<link rel="stylesheet" href="css/font-awesome-4.6.3/css/font-awesome.min.css">
 	 	<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
 	<!-- // <script type="text/javascript" src="js/mobile.js"></script> -->
@@ -22,14 +22,14 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 
 		<div class="header">
 			<a id="brand" href="">OpenChat</a>
-			<ul class="nav-right">	
+			<ul class="nav-right">
 				<li><a href="account.php">Account</a></li>
 				<li><a href="index.php">About</a></li>
 				<li><a href="registration-module/source/class.logout.php">Log Out</a></li>
 			</ul>
 
 			<div class="mob-right">
-				
+
 
 				<div class="dropdown">
 					<div class="line"></div>
@@ -45,7 +45,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 				<li><a href="index.php">About</a></li>
 				<li><a href="registration-module/source/class.logout.php">Log Out</a></li>
 			</ul>
-		</div>	
+		</div>
 
 		<!-- search -->
 
@@ -54,7 +54,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 			<!-- <select name='search_item' id='search_item' onkeyup='search_choose()'></select> -->
 		</div>
 
-		
+
 		<!-- sidebar -->
 
 		<div class="sidebar" id="message">
@@ -74,9 +74,9 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 			</div>
 
 			<div class="compose" onclick="compose()"><a href="#">+ New Message</a></div>
-		</div>	
+		</div>
 
-		
+
 
 		<!-- conversation -->
 		<div class="main" id="conversation">
@@ -87,7 +87,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 		<div class="conversation_reply">
 			<textarea type="text" name="" id="text_reply" placeholder="Write a reply.."></textarea>
 			<br>
-			<input type="submit" name="submit" value="Reply" onclick="reply()">
+			<span><input type="submit" name="submit" value="Reply" onclick="reply()"> &nbsp;<i onclick="startDictation()" class="fa fa-microphone" aria-hidden="true"></i></span>
 		</div>
 
 		<div class="mob-reply">
@@ -95,7 +95,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 				<input type="text" name="" id="text_reply" placeholder="OpenChat..">
 				<span class="send" ><i class="fa fa-paper-plane" aria-hidden="true" onclick="reply()"></i></span>
 			</div>
-			
+
 			<br>
 		</div>
 
@@ -126,7 +126,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 		// 	$(".main").css('min-height',w);
 		// }
 	</script>
-	
+
 </html>
 
 <?php
