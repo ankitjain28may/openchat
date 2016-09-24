@@ -10,13 +10,13 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 	$id=$_SESSION['start'];
 	$query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'  ORDER BY id DESC";
 	// $query="SELECT * FROM total_message WHERE identifier like '%:$id' or '$id:%'";
-	if($result=$connect->query($query)) 
+	if($result=$connect->query($query))
 	{
-		if ($result->num_rows > 0) 
+		if ($result->num_rows > 0)
 		{
 			$array = array();
 			$ln=strlen($id);
-    		while($row = $result->fetch_assoc()) 
+    		while($row = $result->fetch_assoc())
     		{
     			if($row['id']==$last_time && $flag!=0)
     			{
@@ -32,8 +32,8 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 				$st=substr($value, 0,$ln);
 				if($st!=$id)
 				{
-					$query="SELECT username,name from login where login_id='$st'";
-					if($result1=$connect->query($query)) 
+					$query="SELECT username,name,login_status from login where login_id='$st'";
+					if($result1=$connect->query($query))
 					{
 						if($result1->num_rows>0)
 						{
@@ -51,12 +51,12 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 						}
 					}
 				}
-				
+
 				else
 				{
 					$st=substr($value,$ln+1);
-					$query="SELECT username,name from login where login_id='$st'";
-					if($result1=$connect->query($query)) 
+					$query="SELECT username,name,login_status from login where login_id='$st'";
+					if($result1=$connect->query($query))
 					{
 						if($result1->num_rows>0)
 						{

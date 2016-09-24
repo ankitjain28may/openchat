@@ -24,19 +24,19 @@ class login
 		$this->login=trim($login);
 		$this->password=trim($password);
 
-		if(empty($this->login)) 
+		if(empty($this->login))
 		{
 			$this->key=1;
 			$this->array_error=array_merge($this->array_error,["login"=>"Enter the login field"]);
 		}
 		elseif (preg_match("/^[@]{1}$/",$this->login))
-		{	
-			if(filter_var($this->email,FILTER_VALIDATE_EMAIL)== false) 
+		{
+			if(filter_var($this->email,FILTER_VALIDATE_EMAIL)== false)
 			{
 			$this->key=1;
 			$this->array_error=array_merge($this->array_error,["login"=>"Enter correct Email address"]);
 			}
-		}	
+		}
 		if(empty($this->password)) {
 			$this->key=1;
 			$this->array_error=array_merge($this->array_error,["password"=>"Enter the password"]);
@@ -49,9 +49,9 @@ class login
 		if($this->key==0)
 		{
 			$query="SELECT * FROM login WHERE email='$this->login' or username='$this->login'";
-			if ($result=$connect->query($query)) 
+			if ($result=$connect->query($query))
 			{
-				if ($result->num_rows>0) 
+				if ($result->num_rows>0)
 				{
 					$row=$result->fetch_assoc();
 					$login_id=$row['login_id'];
@@ -60,8 +60,16 @@ class login
 					{
 						if ($result->num_rows>0)
 						{
-							$_SESSION['start']=$login_id;
-							return json_encode(["location"=>"http://localhost/openchat/account.php"]);
+							$query = "Update login set login_status = '1' where login_id = '$login_id'";
+							if($result = $connect->query($query))
+							{
+								$time=date("D d M Y H:i:s", time()+12600);	// current time
+								$time_id=date("YmdHis",time()+12600);
+								// $query = "Update "
+								$_SESSION['start']=$login_id;
+								return json_encode(["location"=>"http://localhost/openchat/account.php"]);
+							}
+
 						}
 						else
 						{
@@ -75,8 +83,8 @@ class login
 					$this->array_error=array_merge($this->array_error,["login"=>"Invalid username or email"]);
 					return json_encode($this->array_error);
 				}
-			}	
-			
+			}
+
 		}
 		else
 		{

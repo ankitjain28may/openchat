@@ -21,7 +21,7 @@ class register
 		$this->key=0;
 		$this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 		$this->ob=new validate();
-	
+
 
 		$query="CREATE TABLE IF NOT EXISTS register (
 			id int primary key auto_increment unique not null,
@@ -40,9 +40,10 @@ class register
 			email varchar(255) unique not null,
 			username varchar(255) unique not null,
 			mobile varchar(255) not null,
+			login_status varchar(255),
 			FOREIGN KEY (login_id) REFERENCES register(id)
 			) ENGINE=INNODB;";
-		
+
 		if (!$this->connect->query($query)) {
 			echo "Table is not created || Query failed";
 		}
@@ -53,11 +54,11 @@ class register
 		education text,
 		gender varchar(10)
 		) ENGINE=INNODB;";
-		
+
 		if (!$this->connect->query($query)) {
 			echo "Table is not created || Query failed";
 		}
-		
+
 	}
 
 	function _register($name,$email,$username,$password,$mob)
@@ -135,8 +136,8 @@ class register
 				if($result=$this->connect->query($query)) {
 					$row=$result->fetch_assoc();
 					$id=$row['id'];
-				
-					$query="INSERT INTO login VALUES('$id','$this->name','$this->email','$this->username','$this->mob')";
+
+					$query="INSERT INTO login VALUES('$id','$this->name','$this->email','$this->username','$this->mob','1')";
 					if(!$this->connect->query($query)) {
 						$this->key=1;
 						echo "You are not registered || Error in registration1";
@@ -148,7 +149,7 @@ class register
 						echo "You are not updated || Error in profile";
 					}
 				}
-			}	
+			}
 		}
 		if ($this->key==0) {
 			$_SESSION['start']=$id;
@@ -158,6 +159,6 @@ class register
 		{
 			return json_encode($this->array_error);
 		}
-	}	
+	}
 }
 ?>

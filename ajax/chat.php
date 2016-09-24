@@ -13,7 +13,7 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 
 
 	// $query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'";
-	$query="SELECT login_id,name FROM login WHERE username='$username'";
+	$query="SELECT login_id,name,login_status FROM login WHERE username='$username'";
 	$connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 	if($result=$connect->query($query))
 	{
@@ -71,6 +71,7 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 							$row['time']=substr($row['time'],4,11);
 						$row['identifier_message_number']=$login_id;
 						$row=array_merge($row,['name'=>$fetch['name']]);
+						$row=array_merge($row,['login_status'=>$fetch['login_status']]);
 						$row=array_merge($row,['start'=>$id]);
 						$row=array_merge($row,['username'=>$username]);
 						$array=array_merge($array,[$row]);
@@ -82,7 +83,7 @@ if(isset($_SESSION['start']) && isset($_POST['q']))
 				}
 				else
 				{
-					echo json_encode(['identifier_message_number'=>$login_id,'name'=>$fetch['name'],'new'=>0]);
+					echo json_encode(['identifier_message_number'=>$login_id,'name'=>$fetch['name'],'login_status'=>$fetch['login_status'],'new'=>0]);
 				}
 			}
 			else

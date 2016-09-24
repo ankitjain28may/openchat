@@ -124,6 +124,15 @@ a {
 	border: 1px solid #e9ebee;
 
 }
+.online {
+	display: inline-block;
+	margin-left: 5px;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background-color:#42b72a;
+	margin-top:10px;
+}
 #message {
 	overflow-y: scroll;
 }
@@ -210,7 +219,6 @@ a {
 	max-width: 60%;
 
 }
-
 
 .sender {
     float: right;

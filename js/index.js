@@ -46,6 +46,15 @@ function init(index)
             bre.appendChild(inp);
             bre.setAttribute('class','message_time');
             para.appendChild(bre);
+
+            if(arr[i]['login_status']=='1')
+            {
+              var online = document.createElement("div");
+              online.setAttribute('class','online');
+              para.appendChild(online);
+            }
+
+
           }
 
           // Load messgage for the first conversation
@@ -147,6 +156,15 @@ function chat(element,num)
             var txt=$("<a></a>").text(arr[0].name);
             $("#chat_heading").append(txt);
             $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr[0].username});
+            // Online
+            if(arr[0]['login_status']=='1')
+            {
+              var online = document.createElement("p");
+              online.setAttribute('class','online');
+              $("#chat_heading a").append(online);
+              $("#chat_heading a p").css({"float":'right'});
+            }
+
             if(width())
               $(".text_icon #text_reply").attr({'name':arr[0]['identifier_message_number']});
             else
@@ -159,14 +177,26 @@ function chat(element,num)
           {
             ele.innerHTML="";
             $("#chat_heading a").remove('a');
+
             var txt=$("<a></a>").text(arr.name);
             $("#chat_heading").append(txt);
             $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr.username});
+
+            if(arr['login_status']=='1')
+            {
+              var online = document.createElement("p");
+              online.setAttribute('class','online');
+              $("#chat_heading a").append(online);
+              $("#chat_heading a p").css({"float":'right'});
+            }
+
             if(width())
               $(".text_icon #text_reply").attr({'name':arr['identifier_message_number']});
             else
               $("#text_reply").attr({'name':arr['identifier_message_number']});
           }
+
+
         }
       }
     };
