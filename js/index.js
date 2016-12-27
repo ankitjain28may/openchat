@@ -5,6 +5,17 @@ var flag=0;
 var pre='';
 var ch;
 
+var conn = new WebSocket('ws://localhost:8080');
+    conn.onopen = function(e) {
+        console.log("Connection established!");
+    };
+    // console.log(conn);
+
+    conn.onmessage = function(e) {
+        var msg = JSON.parse(e.data);
+        console.log(msg);
+        // updateMessages(msg);
+    };
 
 // For updating sidebar and load conversation for first time
 function init(index)
@@ -221,26 +232,10 @@ function reply()
   // console.log(ele);
   var p='';
   var q={"name":id,"reply":ele};
-  q="q="+JSON.stringify(q);
+  q=JSON.stringify(q);
   // console.log(q);
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-    {
-      arr=xmlhttp.responseText;
-        // console.log(arr);
-      if (arr=="Messages is sent")                                        // Message is sent
-      {
-        $(re).val('');
-      }
-      else{
+  conn.send(q);
 
-      }
-    }
-  };
-  xmlhttp.open("POST", "ajax/reply.php", true);
-  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xmlhttp.send(q);
 }
 
 

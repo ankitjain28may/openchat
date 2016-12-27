@@ -2,7 +2,7 @@
 session_start();
 if(isset($_SESSION['start']) and empty($_GET['user']))
 {
-
+var_dump(session_id());
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,6 +14,8 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 	 	<link rel="stylesheet" href="css/font-awesome-4.6.3/css/font-awesome.min.css">
 	 	<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
 	<script type="text/javascript" src="js/index.js"></script>
+	<script src="js/handlebars.min.js"></script>
+    <script src="js/moment.min.js"></script>
 	<!-- // <script type="text/javascript" src="js/mobile.js"></script> -->
 
 	</head>
