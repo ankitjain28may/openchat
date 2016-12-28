@@ -22,19 +22,16 @@ class SideBar
     protected $array;
     protected $value;
 
-    function __construct($sessionId)
+    function __construct()
     {
-        session_id($sessionId);
-        @session_start();
         $this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-        session_write_close();
     }
 
-    function LoadSideBar()
+    function LoadSideBar($userId)
     {
-        if(isset($_SESSION['start']))
+        if(isset($userId))
         {
-            $this->id=$_SESSION['start'];
+            $this->id=$userId;
             $this->query="SELECT * FROM total_message WHERE user1='$this->id' or user2='$this->id'  ORDER BY id DESC";
             // $query="SELECT * FROM total_message WHERE identifier like '%:$id' or '$id:%'";
             if($this->result=$this->connect->query($this->query))

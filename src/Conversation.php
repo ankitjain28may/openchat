@@ -1,105 +1,131 @@
 <?php
-require_once '../database.php';
-session_start();
-$flag=1;
-if(isset($_SESSION['start']) && isset($_POST['q']))
+
+namespace ChatApp;
+require_once (dirname(__DIR__) . '/database.php');
+
+/**
+*
+*/
+class Conversation
 {
-    $add_load=0;
-    $id=$_SESSION['start'];
-    $receive=json_decode($_POST['q']);
-    $username=$receive->username;
-    $load=$receive->load;
-    $store=$receive->store;
+    protected $flag;
+    protected $connect;
+    protected $query;
+    protected $result;
+    protected $add_load;
+    protected $result1;
+    protected $row;
+    protected $id;
+    protected $load;
+    protected $receive;
+    protected $username;
+    protected $array;
+    protected $check;
+    protected $fetch;
+    protected $login_id;
+    protected $mesg;
 
-
-    // $query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'";
-    $query="SELECT login_id,name,login_status FROM login WHERE username='$username'";
-    $connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-    if($result=$connect->query($query))
+    function __construct($sessionId)
     {
-        $check="";
-        $array = array();
-        if ($result->num_rows > 0)
+        session_id($sessionId);
+        @session_start();
+        $this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        session_write_close();
+    }
+
+    function ConversationLoad($msg)
+    {
+        $this->flag=1;
+        if(isset($_SESSION['start']) && isset($msg))
         {
-            // echo $result->fetch_assoc();
-            $fetch=$result->fetch_assoc();
-            $login_id=(int)$fetch['login_id'];
-            if($login_id>$id)
-                $check=$id.':'.$login_id;
-            else
-                $check=$login_id.':'.$id;
-            // var_dump($check);
-            $query="SELECT total_messages from total_message where identifier='$check'";
-            if($mesg=$connect->query($query))
-            {
-                if($mesg->num_rows>0)
-                {
-                    $total=$mesg->fetch_assoc();
-                    $total=$total['total_messages'];
-                    if($total-$load>0)
-                        if($total-$load>10)
-                            $add_load=$load+10;
-                        else
-                            $add_load=$total;
+            $this->add_load=0;
+            $this->id=$_SESSION['start'];
+            $this->receive=json_decode($msg);
+            $this->username=$this->receive->username;
+            $this->load=$this->receive->load;
 
-                }
-            }
 
-            $query="SELECT * FROM messages WHERE identifier_message_number='$check' ORDER BY id DESC limit ".$load;
-            if($result1=$connect->query($query))
+            // $query="SELECT * FROM total_message WHERE user1='$id' or user2='$id'";
+            $this->query="SELECT login_id,name,login_status FROM login WHERE username='$this->username'";
+            $this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+            if($this->result=$this->connect->query($this->query))
             {
-                if($result1->num_rows>0)
+                $this->check="";
+                $this->array = array();
+                if ($this->result->num_rows > 0)
                 {
-                    while($row = $result1->fetch_assoc())
+                    // echo $result->fetch_assoc();
+                    $this->fetch=$this->result->fetch_assoc();
+                    $this->login_id=(int)$this->fetch['login_id'];
+                    if($this->login_id>$this->id)
+                        $this->check=$this->id.':'.$this->login_id;
+                    else
+                        $this->check=$this->login_id.':'.$this->id;
+                    // var_dump($check);
+                    $this->query="SELECT total_messages from total_message where identifier='$this->check'";
+                    if($this->mesg=$this->connect->query($this->query))
                     {
-                        if($row['id']==$store && $flag!=0)
+                        if($this->mesg->num_rows>0)
                         {
-                            break;
+                            $this->total=$this->mesg->fetch_assoc();
+                            $this->total=$this->total['total_messages'];
+                            if($this->total-$this->load>0)
+                                if($this->total-$this->load>10)
+                                    $this->add_load=$this->load+10;
+                                else
+                                    $this->add_load=$this->total;
+
                         }
-                        else if($flag!=0)
-                        {
-                            $store=$row['id'];
-                            $flag=0;
-                        }
-                        if(substr($row['time'],4,11)==date("d M Y", time()+12600))
-                            $row['time']=substr($row['time'],16,5);
-                        else if(substr($row['time'],7,8)==date("M Y", time()+12600) && substr($row['time'], 4,2)-date("d")<7)
-                            $row['time']=substr($row['time'],0,3);
-                        else if(substr($row['time'],11,4)==date("Y", time()+12600))
-                            $row['time']=substr($row['time'],4,6);
-                        else
-                            $row['time']=substr($row['time'],4,11);
-                        $row['identifier_message_number']=$login_id;
-                        $row=array_merge($row,['name'=>$fetch['name']]);
-                        $row=array_merge($row,['login_status'=>$fetch['login_status']]);
-                        $row=array_merge($row,['start'=>$id]);
-                        $row=array_merge($row,['username'=>$username]);
-                        $array=array_merge($array,[$row]);
                     }
-                    $array=array_merge($array,[['load'=>$add_load]]);
-                    $array=array_merge($array,[1]);
-                    $array=array_merge($array,[['store'=>$store]]);
-                    echo json_encode($array);
-                }
-                else
-                {
-                    echo json_encode(['identifier_message_number'=>$login_id,'name'=>$fetch['name'],'login_status'=>$fetch['login_status'],'new'=>0]);
-                }
-            }
-            else
-            {
-                die("Query Failed");
-            }
 
-                // var_dump($array);
+                    $this->query="SELECT * FROM messages WHERE identifier_message_number='$this->check' ORDER BY id DESC limit ".$this->load;
+                    if($this->result1=$this->connect->query($this->query))
+                    {
+                        if($this->result1->num_rows>0)
+                        {
+                            while($this->row = $this->result1->fetch_assoc())
+                            {
+                                if(substr($this->row['time'],4,11)==date("d M Y", time()+12600))
+                                    $this->row['time']=substr($this->row['time'],16,5);
+                                else if(substr($this->row['time'],7,8)==date("M Y", time()+12600) && substr($this->row['time'], 4,2)-date("d")<7)
+                                    $this->row['time']=substr($this->row['time'],0,3);
+                                else if(substr($this->row['time'],11,4)==date("Y", time()+12600))
+                                    $this->row['time']=substr($this->row['time'],4,6);
+                                else
+                                    $this->row['time']=substr($this->row['time'],4,11);
+                                $this->row['identifier_message_number']=$this->login_id;
+                                $this->row=array_merge($this->row,['name'=>$this->fetch['name']]);
+                                $this->row=array_merge($this->row,['login_status'=>$this->fetch['login_status']]);
+                                $this->row=array_merge($this->row,['start'=>$this->id]);
+                                $this->row=array_merge($this->row,['username'=>$this->username]);
+                                $this->array=array_merge($this->array,[$this->row]);
+                            }
+                            $this->array=array_merge($this->array,[['load'=>$this->add_load]]);
+                            $this->array=array_merge($this->array,[1]);
+                            return json_encode($this->array);
+                        }
+                        else
+                        {
+                            return json_encode(['identifier_message_number'=>$this->login_id,'name'=>$this->fetch['name'],'login_status'=>$this->fetch['login_status'],'new'=>0]);
+                        }
+                    }
+                    else
+                    {
+                        die("Query Failed");
+                    }
+
+                        // var_dump($array);
+                }
+
+            }
+            else{
+                echo "Query Failed";
+            }
         }
-
+        else{
+            header('Location:../login.php');
+        }
+        $this->connect->close();
     }
-    else{
-        echo "Query Failed";
-    }
-}
-else{
-    header('Location:../login.php');
 }
 ?>
