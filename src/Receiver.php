@@ -6,7 +6,7 @@ use ChatApp\Username;
 /**
 *
 */
-class Conversation
+class Receiver
 {
     protected $flag;
     protected $connect;
@@ -16,6 +16,9 @@ class Conversation
     protected $result1;
     protected $row;
     protected $id;
+    protected $user2ID;
+    protected $user2name;
+    protected $user2;
     protected $load;
     protected $receive;
     protected $username;
@@ -33,7 +36,7 @@ class Conversation
         session_write_close();
     }
 
-    function ConversationLoad($msg)
+    function ReceiverLoad($msg)
     {
 
         $this->flag=1;
@@ -42,9 +45,12 @@ class Conversation
             $this->add_load=0;
             $this->id=$_SESSION['start'];
             $this->receive=json_decode($msg);
-            $this->username=$this->receive->username;
+            $this->user2ID=$this->receive->username;
             $ob = new Username;
-            $this->username = $ob->UserName($this->username)['username'];
+            $this->username = $ob->UserName($this->id);
+            $this->user2 = $this->username['name'];
+            $this->user2name = $this->username['username'];
+            $this->username = $ob->UserName($this->user2ID)['username'];
             $this->load=$this->receive->load;
 
 
@@ -96,11 +102,11 @@ class Conversation
                                     $this->row['time']=substr($this->row['time'],4,6);
                                 else
                                     $this->row['time']=substr($this->row['time'],4,11);
-                                $this->row['identifier_message_number']=$this->login_id;
-                                $this->row=array_merge($this->row,['name'=>$this->fetch['name']]);
+                                $this->row['identifier_message_number']=$this->id;
+                                $this->row=array_merge($this->row,['name'=>$this->user2]);
                                 $this->row=array_merge($this->row,['login_status'=>$this->fetch['login_status']]);
-                                $this->row=array_merge($this->row,['start'=>$this->id]);
-                                $this->row=array_merge($this->row,['username'=>$this->username]);
+                                $this->row=array_merge($this->row,['start'=>$this->user2ID]);
+                                $this->row=array_merge($this->row,['username'=>$this->user2name]);
                                 $this->array=array_merge($this->array,[$this->row]);
                             }
                             $this->array=array_merge($this->array,[['load'=>$this->add_load]]);
@@ -109,7 +115,7 @@ class Conversation
                         }
                         else
                         {
-                            return json_encode(['identifier_message_number'=>$this->login_id,'name'=>$this->fetch['name'],'login_status'=>$this->fetch['login_status'],'new'=>0]);
+                            return json_encode(['identifier_message_number'=>$this->id,'name'=>$this->user2,'login_status'=>$this->fetch['login_status'],'new'=>0]);
                         }
                     }
                     else

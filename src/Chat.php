@@ -5,16 +5,18 @@ use Ratchet\ConnectionInterface;
 use ChatApp\Models\Message;
 use ChatApp\Reply;
 use ChatApp\Conversation;
+use ChatApp\Receiver;
 use ChatApp\SideBar;
 
 class Chat implements MessageComponentInterface {
     protected $clients;
-    protected $username;
     protected $conversation;
     protected $sidebar;
+    protected $result;
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
+        $this->result = '';
     }
     public function onOpen(ConnectionInterface $conn) {
         $conn = $this->setID($conn);
@@ -35,26 +37,33 @@ class Chat implements MessageComponentInterface {
         $sessionId = $from->WebSocket->request->getCookies()['PHPSESSID'];
 
         $rep = new Reply($sessionId);
-        $this->username = $rep->replyTo($msg);
+        $rep->replyTo($msg);
 
         $msg = json_decode($msg);
         $msg->from = $from->userId;
         $msg->type = 'Chat';
 
-        $conv = new Conversation($sessionId);
-        $this->conversation = $conv->ConversationLoad(json_encode(["username" => $this->username, "load" => 10]));
 
         foreach ($this->clients as $client) {
             if ($client->userId == $msg->name) {
-                $client->send($this->conversation);
                 $sidebar = new SideBar();
-                $client->send($sidebar->LoadSideBar($client->userId));
+                @$this->result->sidebar = json_decode($sidebar->LoadSideBar($client->userId));
+
+                $conv = new Receiver($sessionId);
+                $this->conversation = $conv->ReceiverLoad(json_encode(["username" => $client->userId, "load" => 10]));
+                $this->result->conversation = json_decode($this->conversation);
+                $client->send(json_encode($this->result));
+
             }
             elseif($client == $from)
             {
                 $sidebar = new SideBar();
-                $client->send($sidebar->LoadSideBar($client->userId));
-                $client->send($this->conversation);
+                @$this->result->sidebar = json_decode($sidebar->LoadSideBar($client->userId));
+
+                $conv = new Conversation($sessionId);
+                $this->conversation = $conv->ConversationLoad(json_encode(["username" => $msg->name, "load" => 10]));
+                $this->result->conversation = json_decode($this->conversation);
+                $client->send(json_encode($this->result));
             }
         }
     }

@@ -14,14 +14,9 @@ var conn = new WebSocket('ws://localhost:8080');
     conn.onmessage = function(e) {
         var msg = JSON.parse(e.data);
         console.log(msg);
-        if(msg['type']==='SideBar')
-        {
-          SideBar(msg[0]);
-        }
-        else
-        {
-          updateConversation(msg);
-        }
+        if(!width())
+          SideBar(msg['sidebar'][0]);
+        updateConversation(msg['conversation']);
     };
 
     conn.onerror = function(evt){
@@ -105,7 +100,6 @@ function SideBar(msg)
   if(msg!=null)
   {
     $("#message a").remove();
-    console.log(msg.length-1);
     // organising content according to time
     for (var i = 0; i < msg.length; i++)
     {
@@ -134,36 +128,69 @@ function SideBar(msg)
   }
 }
 
-function updateConversation(msg)
+function updateConversation(arr)
 {
-  if(width())
-    var re=".text_icon #text_reply";
-  else
-    var re="#text_reply";
-
-  var ele=[$(re).val()];
-  var id=$(re).attr("name");
-  if(id == msg['from'])
-  {
     var ele=document.getElementById("conversation");
-    var para=document.createElement("div");
-    para.setAttribute('class','receiver');
-    ele.appendChild(para);
-    var bre=document.createElement("br");
-    bre.setAttribute("style","clear:both;");
-    ele.appendChild(bre);
 
-    var info=document.createElement("p");
-    var node=document.createTextNode(msg['reply'][0]);
-    info.appendChild(node);
-    para.appendChild(info);
+            if (arr[arr.length-1]==1)
+          {
+            ele.innerHTML="";
 
-    // var tt=document.createElement("h6");
-    // var inp=document.createTextNode(arr[i]['time']);
-    // tt.appendChild(inp);
-    // tt.setAttribute('class','message_time');
-    // info.appendChild(tt);
-  }
+            // For showing previous message
+            if(arr[arr.length-2].load>10)
+            {
+              var txt=$("<a></a>").text("Show Previous Message!");
+              var te=$("<div></div>").append(txt);
+              $("#conversation").append(te);
+              $("#conversation div").addClass("previous");
+              $("#conversation div a").attr({"onclick":"previous(this)","id":arr[0].username,"name":arr[arr.length-2].load});
+            }
+
+            for (var i = arr.length -3; i >= 0; i--)
+            {
+              // create element
+              var para=document.createElement("div");
+              if(arr[i]['sent_by']!=arr[i]['start'])
+                para.setAttribute('class','receiver');
+              else
+                para.setAttribute('class','sender');
+
+              ele.appendChild(para);
+              var bre=document.createElement("br");
+              bre.setAttribute("style","clear:both;");
+              ele.appendChild(bre);
+
+              var info=document.createElement("p");
+              var node=document.createTextNode(arr[i]['message']);
+              info.appendChild(node);
+              para.appendChild(info);
+
+              var tt=document.createElement("h6");
+              var inp=document.createTextNode(arr[i]['time']);
+              tt.appendChild(inp);
+              tt.setAttribute('class','message_time');
+              info.appendChild(tt);
+            }
+
+            $("#chat_heading a").remove('a');
+            var txt=$("<a></a>").text(arr[0].name);
+            $("#chat_heading").append(txt);
+            $("#chat_heading a").attr({"href":"http://localhost/openchat/account.php/"+arr[0].username});
+            // Online
+            if(arr[0]['login_status']=='1')
+            {
+              var online = document.createElement("p");
+              online.setAttribute('class','online');
+              $("#chat_heading a").append(online);
+              $("#chat_heading a p").css({"float":'right'});
+            }
+
+            if(width())
+              $(".text_icon #text_reply").attr({'name':arr[0]['identifier_message_number']});
+            else
+              $("#text_reply").attr({'name':arr[0]['identifier_message_number']});
+            ele.scrollTop = ele.scrollHeight;
+          }
 
 }
 
@@ -307,7 +334,7 @@ function reply()
 
   var ele=[$(re).val()];
   var id=$(re).attr("name");
-
+  $(re).val('');
   // console.log(ele);
   var p='';
   var q={"name":id,"reply":ele};

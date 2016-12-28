@@ -21,7 +21,6 @@ class Reply
 	protected $ln;
 	protected $query;
 	protected $result;
-	protected $username;
 
 	function __construct($sessionId)
 	{
@@ -61,7 +60,6 @@ class Reply
 				$this->result=$this->connect->query($this->query);
 				if($this->result->num_rows>0)   				// if true
 				{
-					$this->username = $this->result->fetch_assoc()['username'];
 					$this->query="SELECT * from total_message where identifier='$this->identifier'";	//check whether he is sending message for thr first time or he has sent messages before
 					$this->result=$this->connect->query($this->query);
 					if($this->result->num_rows>0)				// if he has sent messages before
@@ -74,7 +72,6 @@ class Reply
 							if($this->result=$this->connect->query($this->query))
 							{
 								echo "Messages is sent";		// if query is executed return true
-								return $this->username;
 							}
 							else
 							{
@@ -103,7 +100,6 @@ class Reply
 							if($this->result=$this->connect->query($this->query))
 							{
 								echo "Messages is sent";	// if query is executed return true
-								return $this->username;
 							}
 							else
 							{
