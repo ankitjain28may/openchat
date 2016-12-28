@@ -24,18 +24,14 @@ class Reply
 
 	function __construct($sessionId)
 	{
-		var_dump($sessionId);
 		session_id($sessionId);
-		session_start();
-		print_r($_SESSION);
+		@session_start();
 		$this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
+        session_write_close();
 	}
 
 	function replyTo($msg)
 	{
-		var_dump(isset($msg));
-		var_dump($_SESSION['start']);
 
 		if(isset($_SESSION['start']) && isset($msg))  //checks for session login and the value send through ajax
 		{
@@ -75,11 +71,11 @@ class Reply
 							$this->query="INSERT into messages values('$this->identifier','$this->reply','$this->id','$this->time',null)"; 	//insert message in db
 							if($this->result=$this->connect->query($this->query))
 							{
-								var_dump("Messages is sent");		// if query is executed return true
+								echo "Messages is sent";		// if query is executed return true
 							}
 							else
 							{
-								var_dump("Message is failed");		// else false
+								echo "Message is failed";		// else false
 							}
 						}
 					}
@@ -103,25 +99,26 @@ class Reply
 							$this->query="INSERT into messages values('$this->identifier','$this->reply','$this->id','$this->time',null)";	// insert in db
 							if($this->result=$this->connect->query($this->query))
 							{
-								var_dump("Messages is sent");	// if query is executed return true
+								echo "Messages is sent";	// if query is executed return true
 							}
 							else
 							{
-								var_dump("Message is failed");	//else false
+								echo "Message is failed";	//else false
 							}
 						}
 					}
 				}
 				else 		// if he is unauthorized echi message is failed
 				{
-					var_dump("Message is failed");
+					echo "Message is failed";
 				}
 			}
 		}
 		else
 		{
-			var_dump("failed");
+			echo "failed";
 		}
+		$this->connect->close();
 
 	}
 }

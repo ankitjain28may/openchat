@@ -8,19 +8,29 @@ var ch;
 var conn = new WebSocket('ws://localhost:8080');
     conn.onopen = function(e) {
         console.log("Connection established!");
+        init(0);
     };
-    // console.log(conn);
 
     conn.onmessage = function(e) {
         var msg = JSON.parse(e.data);
         console.log(msg);
-        // updateMessages(msg);
+        if(msg['type']==='SideBar')
+        {
+          SideBar(msg[0]);
+        }
+        else
+        {
+          updateConversation(msg);
+        }
     };
+
+    conn.onerror = function(evt){
+     console.log(evt.data);
+   };
 
 // For updating sidebar and load conversation for first time
 function init(index)
 {
-  stop_it();
   mobile("sidebar");
   var q={"last_time":last_time};
   q="q="+JSON.stringify(q);
@@ -70,7 +80,10 @@ function init(index)
 
           // Load messgage for the first conversation
           if(index==0 && !width())
+          {
+            // console.log(1);
             chat(document.getElementById(arr[0].username),10);
+          }
         }
       }
   start();
@@ -83,6 +96,76 @@ function init(index)
 }
 
 
+function SideBar(msg)
+{
+  mobile("sidebar");
+
+  // Getting Div
+  var ele=document.getElementById("message");
+  if(msg!=null)
+  {
+    $("#message a").remove();
+    console.log(msg.length-1);
+    // organising content according to time
+    for (var i = 0; i < msg.length; i++)
+    {
+      var para=document.createElement("a");
+      var node=document.createTextNode(msg[i]['name']);
+      para.appendChild(node);
+      para.setAttribute('id',msg[i]['username']);
+      para.setAttribute('href','message.php#'+msg[i]['username']);
+      para.setAttribute('class','message');
+      para.setAttribute('onclick','chat(this,10)');
+      ele.appendChild(para);
+
+      var bre=document.createElement("span");
+      var inp=document.createTextNode(msg[i]['time']);
+      bre.appendChild(inp);
+      bre.setAttribute('class','message_time');
+      para.appendChild(bre);
+
+      if(msg[i]['login_status']=='1')
+      {
+        var online = document.createElement("div");
+        online.setAttribute('class','online');
+        para.appendChild(online);
+      }
+    }
+  }
+}
+
+function updateConversation(msg)
+{
+  if(width())
+    var re=".text_icon #text_reply";
+  else
+    var re="#text_reply";
+
+  var ele=[$(re).val()];
+  var id=$(re).attr("name");
+  if(id == msg['from'])
+  {
+    var ele=document.getElementById("conversation");
+    var para=document.createElement("div");
+    para.setAttribute('class','receiver');
+    ele.appendChild(para);
+    var bre=document.createElement("br");
+    bre.setAttribute("style","clear:both;");
+    ele.appendChild(bre);
+
+    var info=document.createElement("p");
+    var node=document.createTextNode(msg['reply'][0]);
+    info.appendChild(node);
+    para.appendChild(info);
+
+    // var tt=document.createElement("h6");
+    // var inp=document.createTextNode(arr[i]['time']);
+    // tt.appendChild(inp);
+    // tt.setAttribute('class','message_time');
+    // info.appendChild(tt);
+  }
+
+}
 
 
 // For loading conversation between two persons
@@ -95,16 +178,11 @@ function chat(element,num)
   $("#search_item").val('');
   $('#compose_text').hide();
 
-  // stopping previous setinterval call
-  stop();
-  stop_it();
 
-  // refresh conversation
-  recursive =setInterval(repeat,1500);
+  repeat();
   function repeat()
   {
-    if(!width())
-      init(1);
+
 
     var q={"username":element.id,"load":num,"store":store};
     q="q="+JSON.stringify(q);
@@ -216,6 +294,7 @@ function chat(element,num)
     xmlhttp.send(q);
   }
 }
+
 
 // For reply to other messages
 

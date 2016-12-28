@@ -4,7 +4,7 @@ use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use ChatApp\Models\Message;
 use ChatApp\Reply;
-// @session_start();
+use ChatApp\SideBar;
 
 class Chat implements MessageComponentInterface {
     protected $clients;
@@ -12,33 +12,44 @@ class Chat implements MessageComponentInterface {
         $this->clients = new \SplObjectStorage;
     }
     public function onOpen(ConnectionInterface $conn) {
+        $conn = $this->setID($conn);
         $this->clients->attach($conn);
         echo "New connection! ({$conn->resourceId})\n";
     }
+
+    public function setID($conn)
+    {
+        session_id($conn->WebSocket->request->getCookies()['PHPSESSID']);
+        @session_start();
+        $conn->userId = $_SESSION['start'];
+        session_write_close();
+        return $conn;
+    }
+
     public function onMessage(ConnectionInterface $from, $msg) {
         $sessionId = $from->WebSocket->request->getCookies()['PHPSESSID'];
-        var_dump($sessionId);
-        var_dump($from->resourceId);
-        foreach ($this->clients as $client) {
-            echo $client->resourceId;
-            if ($from !== $client) {
-                $client->send($msg);
-            }
-        }
-        // foreach($this->cli as $client) {
-        //     echo $client->resourceId;
-        //     if($client->resourceId == 66)
-        //     {
-        //         $client->send($msg);
-        //     }
-        // }
-        print_r($_SESSION);
+
         $rep = new Reply($sessionId);
         $rep->replyTo($msg);
-        // print_r($rep);
-        // Message::create([
-        //     'text' => $msg['text']
-        // ]);
+
+        $msg = json_decode($msg);
+        $msg->from = $from->userId;
+        $msg->type = 'Chat';
+        foreach ($this->clients as $client) {
+            if ($client->userId == $msg->name) {
+                $client->send(json_encode($msg));
+            }
+            elseif($client == $from)
+            {
+                $sidebar = new SideBar($sessionId);
+                $client->send($sidebar->LoadSideBar());
+            }
+        }
+
+
+
+
+
     }
     public function onClose(ConnectionInterface $conn) {
 

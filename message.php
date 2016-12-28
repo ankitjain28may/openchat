@@ -2,7 +2,6 @@
 session_start();
 if(isset($_SESSION['start']) and empty($_GET['user']))
 {
-var_dump(session_id());
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,7 +18,7 @@ var_dump(session_id());
 	<!-- // <script type="text/javascript" src="js/mobile.js"></script> -->
 
 	</head>
-	<body onload="init(0)">
+	<body>
 		<!-- header -->
 
 		<div class="header">
