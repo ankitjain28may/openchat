@@ -19,9 +19,12 @@ class User
         $this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     }
 
-    function UserDetails($id)
+    function UserDetails($id, $para)
     {
-        $this->query = "SELECT * from login where login_id = '$id'";
+        if($para == True)
+            $this->query = "SELECT * from login where login_id = '$id'";
+        else
+            $this->query = "SELECT * from login where username = '$id'";
         $this->result = $this->connect->query($this->query);
         if($this->result->num_rows > 0)                   // if true
         {

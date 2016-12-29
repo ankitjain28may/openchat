@@ -26,7 +26,7 @@ class Conversation
         $this->array = array();
     }
 
-    function ConversationLoad($msg)
+    function ConversationLoad($msg, $para)
     {
 
         $flag = 1;
@@ -38,7 +38,8 @@ class Conversation
             $username = $msg->username;
             $load = $msg->load;
 
-            $fetch = $this->obUser->UserDetails($username);
+            $fetch = $this->obUser->UserDetails($username, $para);
+
             if($fetch != NULL)
             {
                 $login_id = (int)$fetch['login_id'];

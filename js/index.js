@@ -8,7 +8,7 @@ var ch;
 var conn = new WebSocket('ws://localhost:8080');
 conn.onopen = function(e) {
   console.log("Connection established!");
-  init(0);
+  init();
 };
 
 conn.onmessage = function(e) {
@@ -16,73 +16,24 @@ conn.onmessage = function(e) {
   console.log(msg);
   if (!width())
     SideBar(msg['sidebar']);
-  updateConversation(msg['conversation']);
+
+  if(msg['initial'] !== undefined)
+    SideBar(msg['initial']);
+
+  if(msg['conversation'] !== undefined)
+    updateConversation(msg['conversation']);
 };
 
 conn.onerror = function(evt) {
   console.log(evt.data);
 };
 
-// For updating sidebar and load conversation for first time
-function init(index) {
-  mobile("sidebar");
-  var q = {
-    "last_time": last_time
-  };
-  q = "q=" + JSON.stringify(q);
-  // Getting Div
-  var ele = document.getElementById("message");
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      // Response From change.php
-      var arr = JSON.parse(xmlhttp.responseText);
-      // console.log(arr);
-      if (arr != null) {
-        if (last_time != arr[arr.length - 1]['last_time']) {
-          last_time = arr[arr.length - 1]['last_time'];
-          $("#message a").remove();
-          // organising content according to time
-          for (var i = 0; i < arr.length - 1; i++) {
-            var para = document.createElement("a");
-            var node = document.createTextNode(arr[i]['name']);
-            para.appendChild(node);
-            para.setAttribute('id', arr[i]['username']);
-            para.setAttribute('href', 'message.php#' + arr[i]['username']);
-            para.setAttribute('class', 'message');
-            para.setAttribute('onclick', 'chat(this,10)');
-            ele.appendChild(para);
-
-            var bre = document.createElement("span");
-            var inp = document.createTextNode(arr[i]['time']);
-            bre.appendChild(inp);
-            bre.setAttribute('class', 'message_time');
-            para.appendChild(bre);
-
-            if (arr[i]['login_status'] == '1') {
-              var online = document.createElement("div");
-              online.setAttribute('class', 'online');
-              para.appendChild(online);
-            }
-
-          }
-
-          // Load messgage for the first conversation
-          if (index == 0 && !width()) {
-            // console.log(1);
-            chat(document.getElementById(arr[0].username), 10);
-          }
-        }
-      }
-      start();
-
-    }
-  };
-  xmlhttp.open("POST", "ajax/change.php", true);
-  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xmlhttp.send(q);
+function init()
+{
+  conn.send("OpenChat initiated..!");
 }
 
+// For updating Sidebar
 function SideBar(msg) {
   mobile("sidebar");
   // Getting Div
@@ -97,7 +48,7 @@ function SideBar(msg) {
       para.setAttribute('id', msg[i]['username']);
       para.setAttribute('href', 'message.php#' + msg[i]['username']);
       para.setAttribute('class', 'message');
-      para.setAttribute('onclick', 'chat(this,10)');
+      para.setAttribute('onclick', 'newConversation(this,10)');
       ele.appendChild(para);
 
       var bre = document.createElement("span");
@@ -115,10 +66,12 @@ function SideBar(msg) {
   }
 }
 
+// Update Current Conversation
 function updateConversation(arr) {
   var ele = document.getElementById("conversation");
 
-  if (arr[0].type == 1) {
+  if (arr[0].type == 1)
+  {
     ele.innerHTML = "";
 
     // For showing previous message
@@ -185,11 +138,41 @@ function updateConversation(arr) {
       });
     ele.scrollTop = ele.scrollHeight;
   }
+  else
+  {
+    ele.innerHTML = "";
+    $("#chat_heading a").remove('a');
+
+    var txt = $("<a></a>").text(arr[0].name);
+    $("#chat_heading").append(txt);
+    $("#chat_heading a").attr({
+      "href": "http://localhost/openchat/account.php/" + arr[0].username
+    });
+
+    if (arr[0]['login_status'] == '1') {
+      var online = document.createElement("p");
+      online.setAttribute('class', 'online');
+      $("#chat_heading a").append(online);
+      $("#chat_heading a p").css({
+        "float": 'right'
+      });
+    }
+
+    if (width())
+      $(".text_icon #text_reply").attr({
+        'name': arr[0]['id']
+      });
+    else
+      $("#text_reply").attr({
+      'name': arr[0]['id']
+    });
+  }
 
 }
 
-// For loading conversation between two persons
-function chat(element, num) {
+// Creating new Conversation or Loading Conversation
+function newConversation(element, load)
+{
   mobile("main");
   $("#compose_selection").css("visibility", "hidden");
   flag = 0;
@@ -197,137 +180,16 @@ function chat(element, num) {
   $("#search_item").val('');
   $('#compose_text').hide();
 
-  repeat();
+  var msg = {
+    "username" : element.id,
+    "load" : load,
+    "newConversation" : "Initiated"
+  };
+  conn.send(JSON.stringify(msg));
 
-  function repeat() {
-
-    var q = {
-      "username": element.id,
-      "load": num,
-      "store": store
-    };
-    q = "q=" + JSON.stringify(q);
-
-    var xmlhttp = new XMLHttpRequest();
-    var ele = document.getElementById("conversation");
-    xmlhttp.onreadystatechange = function() {
-      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        var arr = xmlhttp.responseText;
-        arr = JSON.parse(arr);
-        // console.log(arr);
-
-        if (arr != null && flag == 0) {
-          // Old User
-          if (arr[arr.length - 2] == 1 && store != arr[arr.length - 1]['store']) {
-            store = arr[arr.length - 1]['store'];
-            ele.innerHTML = "";
-
-            // For showing previous message
-            if (arr[arr.length - 3].load > 10) {
-              var txt = $("<a></a>").text("Show Previous Message!");
-              var te = $("<div></div>").append(txt);
-              $("#conversation").append(te);
-              $("#conversation div").addClass("previous");
-              $("#conversation div a").attr({
-                "onclick": "previous(this)",
-                "id": arr[0].username,
-                "name": arr[arr.length - 3].load
-              });
-            }
-
-            for (var i = arr.length - 4; i >= 0; i--) {
-              // create element
-              var para = document.createElement("div");
-              if (arr[i]['sent_by'] != arr[i]['start'])
-                para.setAttribute('class', 'receiver');
-              else
-                para.setAttribute('class', 'sender');
-
-              ele.appendChild(para);
-              var bre = document.createElement("br");
-              bre.setAttribute("style", "clear:both;");
-              ele.appendChild(bre);
-
-              var info = document.createElement("p");
-              var node = document.createTextNode(arr[i]['message']);
-              info.appendChild(node);
-              para.appendChild(info);
-
-              var tt = document.createElement("h6");
-              var inp = document.createTextNode(arr[i]['time']);
-              tt.appendChild(inp);
-              tt.setAttribute('class', 'message_time');
-              info.appendChild(tt);
-            }
-
-            $("#chat_heading a").remove('a');
-            var txt = $("<a></a>").text(arr[0].name);
-            $("#chat_heading").append(txt);
-            $("#chat_heading a").attr({
-              "href": "http://localhost/openchat/account.php/" + arr[0].username
-            });
-            // Online
-            if (arr[0]['login_status'] == '1') {
-              var online = document.createElement("p");
-              online.setAttribute('class', 'online');
-              $("#chat_heading a").append(online);
-              $("#chat_heading a p").css({
-                "float": 'right'
-              });
-            }
-
-            if (width())
-              $(".text_icon #text_reply").attr({
-                'name': arr[0]['identifier_message_number']
-              });
-            else
-              $("#text_reply").attr({
-                'name': arr[0]['identifier_message_number']
-              });
-            ele.scrollTop = ele.scrollHeight;
-          }
-
-          // New User
-          else if (arr['new'] == 0) {
-            ele.innerHTML = "";
-            $("#chat_heading a").remove('a');
-
-            var txt = $("<a></a>").text(arr.name);
-            $("#chat_heading").append(txt);
-            $("#chat_heading a").attr({
-              "href": "http://localhost/openchat/account.php/" + arr.username
-            });
-
-            if (arr['login_status'] == '1') {
-              var online = document.createElement("p");
-              online.setAttribute('class', 'online');
-              $("#chat_heading a").append(online);
-              $("#chat_heading a p").css({
-                "float": 'right'
-              });
-            }
-
-            if (width())
-              $(".text_icon #text_reply").attr({
-                'name': arr['identifier_message_number']
-              });
-            else
-              $("#text_reply").attr({
-                'name': arr['identifier_message_number']
-              });
-          }
-
-        }
-      }
-    };
-    xmlhttp.open("POST", "ajax/chat.php", true);
-    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.send(q);
-  }
 }
 
 // For reply to other messages
-
 function reply() {
   if (width())
     var re = ".text_icon #text_reply";
@@ -380,7 +242,7 @@ function compose_message() {
           var node = document.createTextNode(arr[i].name);
           active.appendChild(node);
           active.setAttribute("href", "#");
-          active.setAttribute("onclick", "chat(this,10)");
+          active.setAttribute("onclick", "newConversation(this,10)");
           active.setAttribute("class", "suggestion");
           active.setAttribute("id", arr[i].username);
           para.appendChild(active);
@@ -432,7 +294,7 @@ function search_choose() {
           para.setAttribute('id', arr[i]['username']);
           para.setAttribute('href', 'message.php#' + arr[i]['username']);
           para.setAttribute('class', 'message');
-          para.setAttribute('onclick', 'chat(this,10)');
+          para.setAttribute('onclick', 'newConversation(this,10)');
           ele.appendChild(para);
 
           var bre = document.createElement("span"); // creating element span for showing time
@@ -474,8 +336,7 @@ function previous(element) // Load previous messages
   mobile("previous");
   var user = element.id;
   var lo = element.name;
-  store = '';
-  chat(element, lo);
+  newConversation(element, lo);
 }
 
 function mobile(ele) {

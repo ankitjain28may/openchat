@@ -26,10 +26,10 @@ class Receiver
     function ReceiverLoad($msg)
     {
         $id2 = $_SESSION['start'];
-        $this->messages = $this->ob->UserDetails($id2);
+        $this->messages = $this->ob->UserDetails($id2, True);
         $username = $this->messages['username'];
         $name = $this->messages['name'];
-        $this->messages = json_decode($this->conversation->ConversationLoad($msg));
+        $this->messages = json_decode($this->conversation->ConversationLoad($msg, True));
         $id = json_decode($msg)->username;
         for ($i=1 ; $i < count($this->messages); $i++) {
             $this->messages[$i]->start = $id;

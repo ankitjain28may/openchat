@@ -10,9 +10,6 @@ use ChatApp\SideBar;
 
 class Chat implements MessageComponentInterface {
     protected $clients;
-    protected $conversation;
-    protected $sidebar;
-    protected $result;
     protected $online;
 
     public function __construct() {
@@ -37,38 +34,59 @@ class Chat implements MessageComponentInterface {
 
     public function onMessage(ConnectionInterface $from, $msg) {
         $sessionId = $from->WebSocket->request->getCookies()['PHPSESSID'];
+        if($msg == 'OpenChat initiated..!')
+        {
+            $sidebar = new SideBar();
+            @$initial->initial = json_decode($sidebar->LoadSideBar($from->userId));
 
-        $rep = new Reply($sessionId);
-        $rep->replyTo($msg);
+            $conv = new Conversation($sessionId);
+            $conversation = $conv->ConversationLoad(json_encode(["username" => $initial->initial[0]->login_id, "load" => 10]), True);
+            $initial->conversation = json_decode($conversation);
+            $initial->conversation[0]->login_status = $this->online;
+            $from->send(json_encode($initial));
+        }
+        elseif (@json_decode($msg)->newConversation == 'Initiated') {
+            $conv = new Conversation($sessionId);
+            $conversation = $conv->ConversationLoad($msg, False);
+            @$result->conversation = json_decode($conversation);
+            $from->send(json_encode($result));
 
-        $msg = json_decode($msg);
-        $msg->from = $from->userId;
-        $msg->type = 'Chat';
+        }
+        else
+        {
 
+            $rep = new Reply($sessionId);
+            $rep->replyTo($msg);
 
-        foreach ($this->clients as $client) {
-            if ($client->userId == $msg->name) {
-                $sidebar = new SideBar();
-                @$this->result->sidebar = json_decode($sidebar->LoadSideBar($client->userId));
+            $msg = json_decode($msg);
+            $msg->from = $from->userId;
 
-                $conv = new Receiver($sessionId);
-                $this->conversation = $conv->ReceiverLoad(json_encode(["username" => $client->userId, "load" => 10]));
-                $this->result->conversation = json_decode($this->conversation);
-                $client->send(json_encode($this->result));
-                $this->online = 1;
-            }
-            elseif($client == $from)
+            foreach ($this->clients as $client)
             {
-                $sidebar = new SideBar();
-                @$this->result->sidebar = json_decode($sidebar->LoadSideBar($client->userId));
+                if ($client->userId == $msg->name)
+                {
+                    $sidebar = new SideBar();
+                    @$result->sidebar = json_decode($sidebar->LoadSideBar($client->userId));
 
-                $conv = new Conversation($sessionId);
-                $this->conversation = $conv->ConversationLoad(json_encode(["username" => $msg->name, "load" => 10]));
-                $this->result->conversation = json_decode($this->conversation);
-                $this->result->conversation[0]->login_status = $this->online;
-                $client->send(json_encode($this->result));
-                $this->online = 0;
+                    $conv = new Receiver($sessionId);
+                    $conversation = $conv->ReceiverLoad(json_encode(["username" => $client->userId, "load" => 10]), True);
+                    $result->conversation = json_decode($conversation);
+                    $client->send(json_encode($result));
+                    $this->online = 1;
+                }
+                elseif($client == $from)
+                {
+                    $sidebar = new SideBar();
+                    @$this->result->sidebar = json_decode($sidebar->LoadSideBar($client->userId));
+                    $conv = new Conversation($sessionId);
+                    $this->conversation = $conv->ConversationLoad(json_encode(["username" => $msg->name, "load" => 10]), True);
+                    $this->result->conversation = json_decode($this->conversation);
+                    $this->result->conversation[0]->login_status = $this->online;
+                    $client->send(json_encode($this->result));
+                    $this->online = 0;
+                }
             }
+
         }
     }
 

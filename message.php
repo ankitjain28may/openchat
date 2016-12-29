@@ -103,7 +103,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 
 		<div class="mob-footer">
 			<span>
-				<a href="#" onclick="init(1)"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
+				<a href="#" onclick="init()"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
 				<a href="#" onclick="show_search()"><i class="fa fa-search fa-lg" aria-hidden="true"></i></a>
 				<a href="#" onclick="compose()"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i></a>
 			</span>

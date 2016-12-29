@@ -46,7 +46,6 @@ class SideBar
                             $this->Data($substring, $row);
                         }
                     }
-                    // $this->array = array_merge([], [$this->array]);
                     return json_encode($this->array);
                 }
                 else
@@ -68,7 +67,7 @@ class SideBar
 
     function Data($id, $row)
     {
-        $query = "SELECT username,name,login_status from login where login_id = '$id'";
+        $query = "SELECT username,name,login_status,login_id from login where login_id = '$id'";
         if($result = $this->connect->query($query))
         {
             if($result->num_rows > 0)
