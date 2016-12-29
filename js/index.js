@@ -323,7 +323,7 @@ function myFunction() // Hidden compose message input
 {
   $("#compose_selection").css("visibility", "hidden");
   last_time = '';
-  init(1);
+  init();
   flag = 0;
   store = '';
   $("#compose_name").val('');
@@ -343,7 +343,6 @@ function mobile(ele) {
   if (width()) {
     mob_hide();
     if (ele == "main") {
-      store = '';
       $(".sidebar").hide();
       $(".mob-reply").show();
       $('.chat_name').show();
@@ -374,10 +373,8 @@ function mobile(ele) {
 function show_search() {
   // console.log("HE0");
   mob_hide();
-  // $(".sidebar a").remove('a');
   $(".search_message").show();
   $(".sidebar").show();
-  // $('.sidebar').hide();
 }
 
 function mob_hide() {
@@ -386,38 +383,15 @@ function mob_hide() {
   $(".main").hide();
   $(".chat_name").hide();
   $(".mob-reply").hide();
-  stop();
-  stop_it();
 }
 
-function stop() {
-  clearInterval(recursive);
-  // console.log("recursive");
-}
 
-function start() {
-  if (width()) {
-    // console.log("Hello");
-    ch = setInterval(update, 1500);
-    stop();
-  }
-}
-
-function stop_it() {
-  if (width()) {
-    clearInterval(ch);
-  }
-}
 
 function width() {
   if (window.innerWidth < 500)
     return true;
 }
 
-function update() {
-  // console.log("H");
-  init(1);
-}
 
 // Audio Recognization
 
