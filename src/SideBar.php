@@ -46,7 +46,7 @@ class SideBar
                             $this->Data($substring, $row);
                         }
                     }
-                    $this->array = array_merge([], [$this->array]);
+                    // $this->array = array_merge([], [$this->array]);
                     return json_encode($this->array);
                 }
                 else

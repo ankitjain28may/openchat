@@ -67,6 +67,7 @@ class Chat implements MessageComponentInterface {
                 $this->result->conversation = json_decode($this->conversation);
                 $this->result->conversation[0]->login_status = $this->online;
                 $client->send(json_encode($this->result));
+                $this->online = 0;
             }
         }
     }

@@ -31,12 +31,12 @@ class Receiver
         $name = $this->messages['name'];
         $this->messages = json_decode($this->conversation->ConversationLoad($msg));
         $id = json_decode($msg)->username;
-        for ($i=0 ; $i < count($this->messages)-2; $i++) {
+        for ($i=1 ; $i < count($this->messages); $i++) {
             $this->messages[$i]->start = $id;
-            $this->messages[$i]->username = $username;
-            $this->messages[$i]->name = $name;
-            $this->messages[$i]->identifier_message_number = $id2;
         }
+        $this->messages[0]->username = $username;
+        $this->messages[0]->name = $name;
+        $this->messages[0]->id = $id2;
         return json_encode($this->messages);
     }
 }

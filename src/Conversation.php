@@ -64,7 +64,7 @@ class Conversation
                     }
                 }
 
-                $query = "SELECT * FROM messages WHERE identifier_message_number = '$identifier' ORDER BY id DESC limit ".$load;
+                $query = "SELECT message, time, sent_by FROM messages WHERE identifier_message_number = '$identifier' ORDER BY id DESC limit ".$load;
                 if($result = $this->connect->query($query))
                 {
                     if($result->num_rows > 0)
@@ -72,21 +72,16 @@ class Conversation
                         while($row = $result->fetch_assoc())
                         {
                             $row['time'] = $this->obTime->TimeConversion($row['time']);
-
-                            $row['identifier_message_number'] = $login_id;
-                            $row = array_merge($row,['name' => $fetch['name']]);
-                            $row = array_merge($row,['login_status' => $fetch['login_status']]);
                             $row = array_merge($row,['start' => $id]);
-                            $row = array_merge($row,['username' => $username]);
                             $this->array = array_merge($this->array, [$row]);
                         }
-                        $this->array = array_merge($this->array, [['load' => $add_load]]);
-                        $this->array = array_merge($this->array, [1]);
+
+                        $this->array = array_merge([['name' => $fetch['name'], 'username' => $fetch['username'], 'id' => $fetch['login_id'], 'load' => $add_load, 'type' => 1]], $this->array);
                         return json_encode($this->array);
                     }
                     else
                     {
-                        return json_encode(['identifier_message_number' => $login_id, 'name' => $fetch['name'], 'login_status' => $fetch['login_status'], 'new' => 0]);
+                        return json_encode([['name' => $fetch['name'], 'username' => $fetch['username'], 'id' => $fetch['login_id'], 'type' => 0]]);
                     }
                 }
                 else
