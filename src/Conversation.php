@@ -3,6 +3,7 @@
 namespace ChatApp;
 require_once (dirname(__DIR__) . '/database.php');
 use ChatApp\Username;
+use ChatApp\Time;
 /**
 *
 */
@@ -24,6 +25,7 @@ class Conversation
     protected $fetch;
     protected $login_id;
     protected $mesg;
+    protected $obTime;
 
     function __construct($sessionId)
     {
@@ -31,6 +33,7 @@ class Conversation
         @session_start();
         $this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         session_write_close();
+        $this->obTime = new Time();
     }
 
     function ConversationLoad($msg)
@@ -88,14 +91,8 @@ class Conversation
                         {
                             while($this->row = $this->result1->fetch_assoc())
                             {
-                                if(substr($this->row['time'],4,11)==date("d M Y", time()+12600))
-                                    $this->row['time']=substr($this->row['time'],16,5);
-                                else if(substr($this->row['time'],7,8)==date("M Y", time()+12600) && substr($this->row['time'], 4,2)-date("d")<7)
-                                    $this->row['time']=substr($this->row['time'],0,3);
-                                else if(substr($this->row['time'],11,4)==date("Y", time()+12600))
-                                    $this->row['time']=substr($this->row['time'],4,6);
-                                else
-                                    $this->row['time']=substr($this->row['time'],4,11);
+                                $this->row['time'] = $this->obTime->TimeConversion($this->row['time']);
+
                                 $this->row['identifier_message_number']=$this->login_id;
                                 $this->row=array_merge($this->row,['name'=>$this->fetch['name']]);
                                 $this->row=array_merge($this->row,['login_status'=>$this->fetch['login_status']]);

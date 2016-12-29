@@ -13,10 +13,12 @@ class Chat implements MessageComponentInterface {
     protected $conversation;
     protected $sidebar;
     protected $result;
+    protected $online;
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
         $this->result = '';
+        $this->online = 0;
     }
     public function onOpen(ConnectionInterface $conn) {
         $conn = $this->setID($conn);
@@ -53,7 +55,7 @@ class Chat implements MessageComponentInterface {
                 $this->conversation = $conv->ReceiverLoad(json_encode(["username" => $client->userId, "load" => 10]));
                 $this->result->conversation = json_decode($this->conversation);
                 $client->send(json_encode($this->result));
-
+                $this->online = 1;
             }
             elseif($client == $from)
             {
@@ -63,6 +65,7 @@ class Chat implements MessageComponentInterface {
                 $conv = new Conversation($sessionId);
                 $this->conversation = $conv->ConversationLoad(json_encode(["username" => $msg->name, "load" => 10]));
                 $this->result->conversation = json_decode($this->conversation);
+                $this->result->conversation[0]->login_status = $this->online;
                 $client->send(json_encode($this->result));
             }
         }
