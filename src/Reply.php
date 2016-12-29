@@ -8,18 +8,7 @@ require_once (dirname(__DIR__) . '/database.php');
 */
 class Reply
 {
-    protected $id;
-    protected $identifier;
-    protected $receiverID;
-    protected $reply;
     protected $connect;
-    protected $time_id;
-    protected $time;
-    protected $user2;
-    protected $user1;
-    protected $length;
-    protected $query;
-    protected $result;
 
     function __construct($sessionId)
     {
@@ -34,60 +23,58 @@ class Reply
 
         if(isset($_SESSION['start']) && isset($msg))  //checks for session login and the value send
         {
-            $this->id = $_SESSION['start'];
+            $id = $_SESSION['start'];
             $msg = json_decode($msg);   //decode json value
-            $this->identifier = $msg->name;
+            $identifier = $msg->name;
 
-            $this->receiverID = $this->identifier;  //stores id of the person whom message is to be sent
+            $receiverID = $identifier;  //stores id of the person whom message is to be sent
 
-            if($this->identifier > $this->id)    // geneate specific unique code to store messages
-                $this->identifier = $this->id.":".$this->identifier;
+            if($identifier > $id)    // geneate specific unique code to store messages
+                $identifier = $id.":".$identifier;
             else
-                $this->identifier = $this->identifier.":".$this->id;
+                $identifier = $identifier.":".$id;
 
-            $this->reply = addslashes(trim($msg->reply[0])); // stores the message sent by the user.
+            $reply = addslashes(trim($msg->reply[0])); // stores the message sent by the user.
 
-            $this->time = date("D d M Y H:i:s", time()+12600);  // current time
-            $this->time_id = date("YmdHis",time()+12600); //to sort the array on the basis of time
+            $time = date("D d M Y H:i:s", time() + 16200);  // current time
+            $time_id = date("YmdHis", time() + 16200); //to sort the array on the basis of time
 
             //the sender id must not be equal to current session id
-            if($this->reply != "" && $this->receiverID != $this->id)
+            if($reply != "" && $receiverID != $id)
             {
                 // check whether the receiver is authorized or registered
-                $this->query = "SELECT * from login where login_id = '$this->receiverID'";
+                $query = "SELECT * from login where login_id = '$receiverID'";
 
-                $this->result = $this->connect->query($this->query);
-                if($this->result->num_rows > 0)     // if true
+                $result = $this->connect->query($query);
+                if($result->num_rows > 0)     // if true
                 {
                     //check whether he is sending message for thr first time or he has sent messages before
-                    $this->query = "SELECT * from total_message where identifier = '$this->identifier'";
-                    $this->result = $this->connect->query($this->query);
-                    if($this->result->num_rows>0)               // if he has sent messages before
+                    $query = "SELECT * from total_message where identifier = '$identifier'";
+                    $result = $this->connect->query($query);
+                    if($result->num_rows>0)               // if he has sent messages before
                     {
                         // Update Total_Message Table
-                        $this->query = "UPDATE total_message SET total_messages = total_messages+1, time = '$this->time', unread = 1, id = '$this->time_id' WHERE identifier = '$this->identifier'";
-                        $this->UpdateMessages();
+                        $query = "UPDATE total_message SET total_messages = total_messages+1, time = '$time', unread = 1, id = '$time_id' WHERE identifier = '$identifier'";
+                        $this->UpdateMessages($query, $identifier, $reply, $id, $time);
 
                     }
                     else    // if he sends message for the first time
                     {
-                        $this->length = strlen($this->id);
-                        if(substr($this->identifier, 0, $this->length) == $this->id) // generate specific unique code
+                        $length = strlen($id);
+                        if(substr($identifier, 0, $length) == $id) // generate specific unique code
                         {
-                            $this->user2 = substr($this->identifier,$this->length+1);
-                            $this->user1 = $this->id;
+                            $user2 = substr($identifier, $length+1);
+                            $user1 = $id;
                         }
                         else
                         {
-                            $this->user2 = $this->id;
-                            $this->length = strlen($this->identifier)-$this->length-1;
-                            $this->user1 = substr($this->identifier,0,$this->length);
+                            $user2 = $id;
+                            $length = strlen($identifier) - $length-1;
+                            $user1 = substr($identifier, 0, $length);
                         }
                         // insert Details in Total_Message Table
-                        $this->query = "INSERT into total_message values('$this->identifier', 1, '$this->user1', '$this->user2', 1, '$this->time', '$this->time_id')";
-                        $this->UpdateMessages();
-
-
+                        $query = "INSERT into total_message values('$identifier', 1, '$user1', '$user2', 1, '$time', '$time_id')";
+                        $this->UpdateMessages($query, $identifier, $reply, $id, $time);
                     }
                 }
                 else // if he is unauthorized echo message is failed
@@ -103,12 +90,13 @@ class Reply
         $this->connect->close();
     }
 
-    function UpdateMessages()
+    function UpdateMessages($query, $identifier, $reply, $id, $time)
     {
-        if($this->result = $this->connect->query($this->query))
+        if($result = $this->connect->query($query))
         {
-            $this->query = "INSERT into messages values('$this->identifier', '$this->reply', '$this->id', '$this->time', null)";    //insert message in db
-            if($this->result = $this->connect->query($this->query))
+            //insert message in db
+            $query = "INSERT into messages values('$identifier', '$reply', '$id', '$time', null)";
+            if($result = $this->connect->query($query))
             {
                 echo "Messages is sent \n";    // if query is executed return true
             }

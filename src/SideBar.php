@@ -12,15 +12,7 @@ class SideBar
 
     protected $obTime;
     protected $array;
-    protected $query;
     protected $connect;
-    protected $result;
-    protected $result1;
-    protected $fetch;
-    protected $row;
-    protected $length;
-    protected $substring;
-    protected $identifier;
 
     function __construct()
     {
@@ -33,25 +25,25 @@ class SideBar
     {
         if(isset($userId))
         {
-            $this->query = "SELECT * FROM total_message WHERE user1='$userId' or user2='$userId'  ORDER BY id DESC";
-            if($this->result = $this->connect->query($this->query))
+            $query = "SELECT * FROM total_message WHERE user1='$userId' or user2='$userId'  ORDER BY id DESC";
+            if($result = $this->connect->query($query))
             {
-                if ($this->result->num_rows > 0)
+                if ($result->num_rows > 0)
                 {
-                    $this->length = strlen($userId);
-                    while($this->row = $this->result->fetch_assoc())
+                    $length = strlen($userId);
+                    while($row = $result->fetch_assoc())
                     {
-                        $this->identifier = $this->row['identifier'];
-                        $this->substring = substr($this->identifier, 0, $this->length);
-                        if($this->substring != $userId)
+                        $identifier = $row['identifier'];
+                        $substring = substr($identifier, 0, $length);
+                        if($substring != $userId)
                         {
-                            $this->array = array_merge($this->array, [$this->Data($this->substring, $this->row)]);
+                            $this->Data($substring, $row);
                         }
 
                         else
                         {
-                            $this->substring = substr($this->identifier, $this->length+1);
-                            $this->array = array_merge($this->array, [$this->Data($this->substring, $this->row)]);
+                            $substring = substr($identifier, $length+1);
+                            $this->Data($substring, $row);
                         }
                     }
                     $this->array = array_merge([], [$this->array]);
@@ -76,15 +68,15 @@ class SideBar
 
     function Data($id, $row)
     {
-        $this->query = "SELECT username,name,login_status from login where login_id = '$id'";
-        if($this->result1 = $this->connect->query($this->query))
+        $query = "SELECT username,name,login_status from login where login_id = '$id'";
+        if($result = $this->connect->query($query))
         {
-            if($this->result1->num_rows > 0)
+            if($result->num_rows > 0)
             {
-                $this->fetch = $this->result1->fetch_assoc();
+                $fetch = $result->fetch_assoc();
                 $row['time'] = $this->obTime->TimeConversion($row['time']);
-                $this->fetch = array_merge($this->fetch, ['time' => $row['time']]);
-                return $this->fetch;
+                $fetch = array_merge($fetch, ['time' => $row['time']]);
+                $this->array = array_merge($this->array, [$fetch]);
             }
         }
     }
