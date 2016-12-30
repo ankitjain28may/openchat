@@ -1,9 +1,9 @@
 var flag = 0;
-var pre = '';
+var pre = "";
 
 // Websocket Connection Open
-var conn = new WebSocket('ws://192.168.43.138:8080');
-conn.onopen = function(e) {
+var conn = new WebSocket("ws://192.168.43.138:8080");
+conn.onopen = function (e) {
   console.log("Connection established!");
   init();
 };
@@ -11,21 +11,31 @@ conn.onopen = function(e) {
 // On Message
 conn.onmessage = function(e) {
   var msg = JSON.parse(e.data);
-  console.log(msg);
+  // console.log(msg);
   if (!width())
-    SideBar(msg['sidebar']);
+  {
+    SideBar(msg.sidebar);
+  }
 
-  if (msg['initial'] !== undefined)
-    SideBar(msg['initial']);
+  if (msg.initial !== undefined)
+  {
+    SideBar(msg.initial);
+  }
 
-  if (msg['conversation'] !== undefined)
-    updateConversation(msg['conversation']);
+  if (msg.conversation !== undefined)
+  {
+    updateConversation(msg.conversation);
+  }
 
-  if (msg['Search'] !== undefined)
-    searchResult(msg['Search']);
+  if (msg.Search !== undefined)
+  {
+    searchResult(msg.Search);
+  }
 
-  if (msg['Compose'] !== undefined)
-    composeResult(msg['Compose']);
+  if (msg.Compose !== undefined)
+  {
+    composeResult(msg.Compose);
+  }
 };
 
 conn.onerror = function(evt) {
@@ -45,25 +55,25 @@ function SideBar(msg) {
   if (msg != null) {
     $("#message a").remove();
     // organising content according to time
-    for (var i = 0; i < msg.length; i++) {
+    for(var i = 0; i < msg.length; i++) {
       var para = document.createElement("a");
-      var node = document.createTextNode(msg[i]['name']);
+      var node = document.createTextNode(msg[i]["name"]);
       para.appendChild(node);
-      para.setAttribute('id', msg[i]['username']);
-      para.setAttribute('href', 'message.php#' + msg[i]['username']);
-      para.setAttribute('class', 'message');
-      para.setAttribute('onclick', 'newConversation(this,10)');
+      para.setAttribute("id", msg[i]["username"]);
+      para.setAttribute("href", "message.php#" + msg[i]["username"]);
+      para.setAttribute("class", "message");
+      para.setAttribute("onclick", "newConversation(this,10)");
       ele.appendChild(para);
 
       var bre = document.createElement("span");
-      var inp = document.createTextNode(msg[i]['time']);
+      var inp = document.createTextNode(msg[i]["time"]);
       bre.appendChild(inp);
-      bre.setAttribute('class', 'message_time');
+      bre.setAttribute("class", "message_time");
       para.appendChild(bre);
 
-      if (msg[i]['login_status'] == '1') {
+      if (msg[i]["login_status"] == "1") {
         var online = document.createElement("div");
-        online.setAttribute('class', 'online');
+        online.setAttribute("class", "online");
         para.appendChild(online);
       }
     }
@@ -99,10 +109,10 @@ function updateConversation(arr) {
     for (var i = arr.length - 1; i >= 1; i--) {
       // create element
       var para = document.createElement("div");
-      if (arr[i]['sent_by'] != arr[i]['start'])
-        para.setAttribute('class', 'receiver');
+      if (arr[i]["sent_by"] != arr[i]["start"])
+        para.setAttribute("class", "receiver");
       else
-        para.setAttribute('class', 'sender');
+        para.setAttribute("class", "sender");
 
       ele.appendChild(para);
       var bre = document.createElement("br");
@@ -110,45 +120,45 @@ function updateConversation(arr) {
       ele.appendChild(bre);
 
       var info = document.createElement("p");
-      var node = document.createTextNode(arr[i]['message']);
+      var node = document.createTextNode(arr[i]["message"]);
       info.appendChild(node);
       para.appendChild(info);
 
       var tt = document.createElement("h6");
-      var inp = document.createTextNode(arr[i]['time']);
+      var inp = document.createTextNode(arr[i]["time"]);
       tt.appendChild(inp);
-      tt.setAttribute('class', 'message_time');
+      tt.setAttribute("class", "message_time");
       info.appendChild(tt);
     }
 
-    $("#chat_heading a").remove('a');
+    $("#chat_heading a").remove("a");
     var txt = $("<a></a>").text(arr[0].name);
     $("#chat_heading").append(txt);
     $("#chat_heading a").attr({
       "href": "http://localhost/openchat/account.php/" + arr[0].username
     });
     // Online
-    if (arr[0]['login_status'] == '1') {
+    if (arr[0]["login_status"] == "1") {
       var online = document.createElement("p");
-      online.setAttribute('class', 'online');
+      online.setAttribute("class", "online");
       $("#chat_heading a").append(online);
       $("#chat_heading a p").css({
-        "float": 'right'
+        "float": "right"
       });
     }
 
     if (width())
       $(".text_icon #text_reply").attr({
-        'name': arr[0]['id']
+        "name": arr[0]["id"]
       });
     else
       $("#text_reply").attr({
-        'name': arr[0]['id']
+        "name": arr[0]["id"]
       });
     ele.scrollTop = ele.scrollHeight;
   } else {
     ele.innerHTML = "";
-    $("#chat_heading a").remove('a');
+    $("#chat_heading a").remove("a");
 
     var txt = $("<a></a>").text(arr[0].name);
     $("#chat_heading").append(txt);
@@ -156,22 +166,22 @@ function updateConversation(arr) {
       "href": "http://localhost/openchat/account.php/" + arr[0].username
     });
 
-    if (arr[0]['login_status'] == '1') {
+    if (arr[0]["login_status"] == "1") {
       var online = document.createElement("p");
-      online.setAttribute('class', 'online');
+      online.setAttribute("class", "online");
       $("#chat_heading a").append(online);
       $("#chat_heading a p").css({
-        "float": 'right'
+        "float": "right"
       });
     }
 
     if (width()) {
       $(".text_icon #text_reply").attr({
-        'name': arr[0]['id']
+        "name": arr[0]["id"]
       });
     } else {
       $("#text_reply").attr({
-        'name': arr[0]['id']
+        "name": arr[0]["id"]
       });
     }
   }
@@ -183,9 +193,9 @@ function newConversation(element, load) {
   mobile("main");
   $("#compose_selection").css("visibility", "hidden");
   flag = 0;
-  $("#compose_name").val('');
-  $("#search_item").val('');
-  $('#compose_text').hide();
+  $("#compose_name").val("");
+  $("#search_item").val("");
+  $("#compose_text").hide();
 
   var msg = {
     "username": element.id,
@@ -205,9 +215,9 @@ function reply() {
 
   var ele = [$(re).val()];
   var id = $(re).attr("name");
-  $(re).val('');
+  $(re).val("");
   // console.log(ele);
-  var p = '';
+  var p = "";
   var q = {
     "name": id,
     "reply": ele
@@ -220,11 +230,11 @@ function reply() {
 
 // Compose new and direct message to anyone
 function compose() {
-  mobile('compose');
+  mobile("compose");
   flag = 1;
-  $("#chat_heading a").remove('a');
+  $("#chat_heading a").remove("a");
   document.getElementById("conversation").innerHTML = "";
-  $('#compose_text').show();
+  $("#compose_text").show();
 }
 
 function ComposeChoose() {
@@ -259,7 +269,7 @@ function composeResult(arr) {
       ele.appendChild(para);
     }
   } else {
-    var txt = $("<a></a>").text('Not Found');
+    var txt = $("<a></a>").text("Not Found");
     var l = $("<li></li>").append(txt);
     $("#suggestion").append(l);
     $("#suggestion li a").attr({
@@ -290,25 +300,25 @@ function searchResult(arr) {
     for (var i = arr.length - 1; i >= 0; i--) // organising content according to time
     {
       var para = document.createElement("a"); //creating element a
-      var node = document.createTextNode(arr[i]['name']);
+      var node = document.createTextNode(arr[i]["name"]);
       para.appendChild(node);
-      para.setAttribute('id', arr[i]['username']);
-      para.setAttribute('href', 'message.php#' + arr[i]['username']);
-      para.setAttribute('class', 'message');
-      para.setAttribute('onclick', 'newConversation(this,10)');
+      para.setAttribute("id", arr[i]["username"]);
+      para.setAttribute("href", "message.php#" + arr[i]["username"]);
+      para.setAttribute("class", "message");
+      para.setAttribute("onclick", "newConversation(this,10)");
       ele.appendChild(para);
 
       var bre = document.createElement("span"); // creating element span for showing time
-      var inp = document.createTextNode(arr[i]['time']);
+      var inp = document.createTextNode(arr[i]["time"]);
       bre.appendChild(inp);
-      bre.setAttribute('class', 'message_time');
+      bre.setAttribute("class", "message_time");
       para.appendChild(bre);
     }
   } else {
-    $("#message").text('');
+    $("#message").text("");
     var txt = $("<a></a>").text("Not Found");
     $("#message").append(txt);
-    $("#message a").addClass('message');
+    $("#message a").addClass("message");
   }
 
 }
@@ -320,9 +330,9 @@ function myFunction() // Hidden compose message input
   $("#compose_selection").css("visibility", "hidden");
   init();
   flag = 0;
-  $("#compose_name").val('');
-  $("#search_item").val('');
-  $('#compose_text').hide();
+  $("#compose_name").val("");
+  $("#search_item").val("");
+  $("#compose_text").hide();
 }
 
 function previous(element) // Load previous messages
@@ -339,12 +349,12 @@ function mobile(ele) {
     if (ele == "main") {
       $(".sidebar").hide();
       $(".mob-reply").show();
-      $('.chat_name').show();
+      $(".chat_name").show();
       $(".chat_name #chat_heading").show();
-      if (pre == '') {
-        $(".main div").remove('div');
-        $(".main br").remove('br');
-        $(".chat_name #chat_heading a").remove('a');
+      if (pre == "") {
+        $(".main div").remove("div");
+        $(".main br").remove("br");
+        $(".chat_name #chat_heading a").remove("a");
       }
       $(".main").show();
     }
@@ -358,9 +368,9 @@ function mobile(ele) {
       $(".sidebar").show();
     }
     if (ele == "previous")
-      pre = '1';
+      pre = "1";
     else
-      pre = '';
+      pre = "";
   }
 }
 
@@ -388,7 +398,7 @@ function width() {
 
 function startDictation() {
 
-  if (window.hasOwnProperty('webkitSpeechRecognition')) {
+  if (window.hasOwnProperty("webkitSpeechRecognition")) {
 
     var recognition = new webkitSpeechRecognition();
 
@@ -399,7 +409,7 @@ function startDictation() {
     recognition.start();
 
     recognition.onresult = function(e) {
-      document.getElementById('text_reply').value = e.results[0][0].transcript;
+      document.getElementById("text_reply").value = e.results[0][0].transcript;
       recognition.stop();
       reply();
     };
