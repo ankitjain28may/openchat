@@ -8,9 +8,10 @@ conn.onopen = function(e) {
   init();
 };
 
+// On Message
 conn.onmessage = function(e) {
   var msg = JSON.parse(e.data);
-  // console.log(msg);
+  console.log(msg);
   if (!width())
     SideBar(msg['sidebar']);
 
@@ -22,12 +23,16 @@ conn.onmessage = function(e) {
 
   if (msg['Search'] !== undefined)
     searchResult(msg['Search']);
+
+  if (msg['Compose'] !== undefined)
+    composeResult(msg['Compose']);
 };
 
 conn.onerror = function(evt) {
   console.log(evt.data);
 };
 
+// For First time
 function init() {
   conn.send("OpenChat initiated..!");
 }
@@ -65,6 +70,7 @@ function SideBar(msg) {
   }
 }
 
+// SideBar Load Request
 function SidebarRequest() {
   conn.send("Load Sidebar");
 }
@@ -159,14 +165,15 @@ function updateConversation(arr) {
       });
     }
 
-    if (width())
+    if (width()) {
       $(".text_icon #text_reply").attr({
         'name': arr[0]['id']
       });
-    else
+    } else {
       $("#text_reply").attr({
         'name': arr[0]['id']
       });
+    }
   }
 
 }
@@ -212,7 +219,6 @@ function reply() {
 }
 
 // Compose new and direct message to anyone
-
 function compose() {
   mobile('compose');
   flag = 1;
@@ -221,51 +227,46 @@ function compose() {
   $('#compose_text').show();
 }
 
-//compose messages
+function ComposeChoose() {
+  var value = document.getElementById("compose_name").value;
+  if (value != "") {
+    var msg = {
+      "value": value,
+      "Compose": "Compose"
+    };
+    conn.send(JSON.stringify(msg));
+  } else {
+    $("#compose_selection").css("visibility", "hidden");
+  }
+}
 
-function compose_message() {
-  var q = document.getElementById("compose_name").value;
-  // console.log(q);
+//compose messages
+function composeResult(arr) {
   var ele = document.getElementById("suggestion");
   ele.innerHTML = "";
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      arr = xmlhttp.responseText;
-      arr = JSON.parse(arr);
-      // console.log(arr);
 
-      if (arr != [] && arr != "Not Found") {
-        for (var i = arr.length - 1; i >= 0; i--) {
-          var para = document.createElement("li");
-          var active = document.createElement("a");
-          var node = document.createTextNode(arr[i].name);
-          active.appendChild(node);
-          active.setAttribute("href", "#");
-          active.setAttribute("onclick", "newConversation(this,10)");
-          active.setAttribute("class", "suggestion");
-          active.setAttribute("id", arr[i].username);
-          para.appendChild(active);
-          ele.appendChild(para);
-        }
-      } else if (arr == "Not Found") {
-        var txt = $("<a></a>").text('Not Found');
-        var l = $("<li></li>").append(txt);
-        $("#suggestion").append(l);
-        $("#suggestion li a").attr({
-          "onclick": "myFunction()"
-        });
-
-      }
+  if (arr != "Not Found") {
+    for (var i = arr.length - 1; i >= 0; i--) {
+      var para = document.createElement("li");
+      var active = document.createElement("a");
+      var node = document.createTextNode(arr[i].name);
+      active.appendChild(node);
+      active.setAttribute("href", "#");
+      active.setAttribute("onclick", "newConversation(this,10)");
+      active.setAttribute("class", "suggestion");
+      active.setAttribute("id", arr[i].username);
+      para.appendChild(active);
+      ele.appendChild(para);
     }
-    $("#compose_selection").css("visibility", "visible");
-  };
-  if (q != "") {
-    xmlhttp.open("GET", "ajax/suggestion.php?q=" + q, true);
-    xmlhttp.send();
-  } else
-    $("#compose_selection").css("visibility", "hidden"); //for hidding the suggestion
-
+  } else {
+    var txt = $("<a></a>").text('Not Found');
+    var l = $("<li></li>").append(txt);
+    $("#suggestion").append(l);
+    $("#suggestion li a").attr({
+      "onclick": "myFunction()"
+    });
+  }
+  $("#compose_selection").css("visibility", "visible");
 }
 
 function search_choose() {

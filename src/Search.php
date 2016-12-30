@@ -13,7 +13,6 @@ class Search
     protected $connect;
     protected $array;
     protected $obTime;
-    protected $obUser;
 
     function __construct($sessionId)
     {

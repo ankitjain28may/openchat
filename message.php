@@ -67,7 +67,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 			<div id="chat_heading">
 			</div>
 			<div class="compose_text" id="compose_text">
-				<b id="to">To:</b> &nbsp;<input type="text" name="compose_name" placeholder="Name" id="compose_name" value="" onkeyup="compose_message()">
+				<b id="to">To:</b> &nbsp;<input type="text" name="compose_name" placeholder="Name" id="compose_name" value="" onkeyup="ComposeChoose()">
 				<div id="compose_selection">
 					<ul id="suggestion">
 					</ul>

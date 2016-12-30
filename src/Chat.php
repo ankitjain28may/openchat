@@ -8,6 +8,7 @@ use ChatApp\Conversation;
 use ChatApp\Receiver;
 use ChatApp\SideBar;
 use ChatApp\Search;
+use ChatApp\Compose;
 
 class Chat implements MessageComponentInterface {
     protected $clients;
@@ -66,6 +67,11 @@ class Chat implements MessageComponentInterface {
         {
             $searchResult = $this->onSearch($msg, $sessionId);
             $from->send($searchResult);
+        }
+        elseif (@json_decode($msg)->Compose == 'Compose')
+        {
+            $composeResult = $this->onCompose($msg, $sessionId);
+            $from->send($composeResult);
         }
         else
         {
@@ -136,6 +142,12 @@ class Chat implements MessageComponentInterface {
     {
         $obSearch = new Search($sessionId);
         return $obSearch->SearchItem(json_decode($data));
+    }
+
+    public function onCompose($data, $sessionId)
+    {
+        $obCompose = new Compose($sessionId);
+        return $obCompose->SelectUser(json_decode($data));
     }
 
     public function onReply($data, $sessionId)
