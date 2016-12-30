@@ -7,6 +7,7 @@ use ChatApp\Reply;
 use ChatApp\Conversation;
 use ChatApp\Receiver;
 use ChatApp\SideBar;
+use ChatApp\Search;
 
 class Chat implements MessageComponentInterface {
     protected $clients;
@@ -45,12 +46,22 @@ class Chat implements MessageComponentInterface {
             $initial->conversation[0]->login_status = $this->online;
             $from->send(json_encode($initial));
         }
+        elseif ($msg == 'Load Sidebar') {
+            $sidebar = new SideBar();
+            @$initial->initial = json_decode($sidebar->LoadSideBar($from->userId));
+            $from->send(json_encode($initial));
+        }
         elseif (@json_decode($msg)->newConversation == 'Initiated') {
             $conv = new Conversation($sessionId);
             $conversation = $conv->ConversationLoad($msg, False);
             @$result->conversation = json_decode($conversation);
             $from->send(json_encode($result));
 
+        }
+        elseif (@json_decode($msg)->search == 'search') {
+            $search = new Search($sessionId);
+            $searchResult = $search->SearchItem(json_decode($msg));
+            $from->send($searchResult);
         }
         else
         {

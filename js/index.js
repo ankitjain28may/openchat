@@ -17,19 +17,21 @@ conn.onmessage = function(e) {
   if (!width())
     SideBar(msg['sidebar']);
 
-  if(msg['initial'] !== undefined)
+  if (msg['initial'] !== undefined)
     SideBar(msg['initial']);
 
-  if(msg['conversation'] !== undefined)
+  if (msg['conversation'] !== undefined)
     updateConversation(msg['conversation']);
+
+  if (msg['Search'] !== undefined)
+    searchResult(msg['Search']);
 };
 
 conn.onerror = function(evt) {
   console.log(evt.data);
 };
 
-function init()
-{
+function init() {
   conn.send("OpenChat initiated..!");
 }
 
@@ -70,8 +72,7 @@ function SideBar(msg) {
 function updateConversation(arr) {
   var ele = document.getElementById("conversation");
 
-  if (arr[0].type == 1)
-  {
+  if (arr[0].type == 1) {
     ele.innerHTML = "";
 
     // For showing previous message
@@ -87,7 +88,7 @@ function updateConversation(arr) {
       });
     }
 
-    for (var i = arr.length-1; i >= 1; i--) {
+    for (var i = arr.length - 1; i >= 1; i--) {
       // create element
       var para = document.createElement("div");
       if (arr[i]['sent_by'] != arr[i]['start'])
@@ -137,9 +138,7 @@ function updateConversation(arr) {
         'name': arr[0]['id']
       });
     ele.scrollTop = ele.scrollHeight;
-  }
-  else
-  {
+  } else {
     ele.innerHTML = "";
     $("#chat_heading a").remove('a');
 
@@ -164,15 +163,14 @@ function updateConversation(arr) {
       });
     else
       $("#text_reply").attr({
-      'name': arr[0]['id']
-    });
+        'name': arr[0]['id']
+      });
   }
 
 }
 
 // Creating new Conversation or Loading Conversation
-function newConversation(element, load)
-{
+function newConversation(element, load) {
   mobile("main");
   $("#compose_selection").css("visibility", "hidden");
   flag = 0;
@@ -181,9 +179,9 @@ function newConversation(element, load)
   $('#compose_text').hide();
 
   var msg = {
-    "username" : element.id,
-    "load" : load,
-    "newConversation" : "Initiated"
+    "username": element.id,
+    "load": load,
+    "newConversation": "Initiated"
   };
   conn.send(JSON.stringify(msg));
 
@@ -268,23 +266,29 @@ function compose_message() {
 
 }
 
-// For Search
+function search_choose()
+{
+  var value = $("#search_item").val();
+  if(value!="")
+  {
+    var msg = {
+      "value" : value,
+      "search" : "search"
+    };
+    conn.send(JSON.stringify(msg));
+  }
+  else
+  {
+    conn.send("Load Sidebar");
+  }
 
-function search_choose() {
-  // console.log(1);
-  var q = $("#search_item").val();
+}
+
+function searchResult(arr)
+{
   var ele = document.getElementById("message");
-
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      arr = JSON.parse(xmlhttp.responseText); // Response From change.php
-      // console.log(arr);
-      if ($("#search_item").val() == '') {
-        last_time = '';
-        init(1);
-      }
-      if (arr != null) {
+    if (arr != "Not Found")
+    {
         ele.innerHTML = "";
         for (var i = arr.length - 1; i >= 0; i--) // organising content according to time
         {
@@ -303,19 +307,68 @@ function search_choose() {
           bre.setAttribute('class', 'message_time');
           para.appendChild(bre);
         }
-      } else {
+      }
+      else
+      {
         $("#message").text('');
-        // console.log("None");
         var txt = $("<a></a>").text("Not Found");
         $("#message").append(txt);
         $("#message a").addClass('message');
       }
 
-    }
-  };
-  xmlhttp.open("GET", "ajax/search_item.php?q=" + q, true);
-  xmlhttp.send();
 }
+
+// For Search
+
+// function search_choose()
+// {
+//   // console.log(1);
+//   var q = $("#search_item").val();
+//   var ele = document.getElementById("message");
+
+//   var xmlhttp = new XMLHttpRequest();
+//   xmlhttp.onreadystatechange = function() {
+//     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+//       arr = JSON.parse(xmlhttp.responseText); // Response From change.php
+//       // console.log(arr);
+//       if ($("#search_item").val() == '') {
+//         last_time = '';
+//         init(1);
+//       }
+//       if (arr != null) {
+//         ele.innerHTML = "";
+//         for (var i = arr.length - 1; i >= 0; i--) // organising content according to time
+//         {
+//           var para = document.createElement("a"); //creating element a
+//           var node = document.createTextNode(arr[i]['name']);
+//           para.appendChild(node);
+//           para.setAttribute('id', arr[i]['username']);
+//           para.setAttribute('href', 'message.php#' + arr[i]['username']);
+//           para.setAttribute('class', 'message');
+//           para.setAttribute('onclick', 'newConversation(this,10)');
+//           ele.appendChild(para);
+
+//           var bre = document.createElement("span"); // creating element span for showing time
+//           var inp = document.createTextNode(arr[i]['time']);
+//           bre.appendChild(inp);
+//           bre.setAttribute('class', 'message_time');
+//           para.appendChild(bre);
+//         }
+//       } else {
+//         $("#message").text('');
+//         // console.log("None");
+//         var txt = $("<a></a>").text("Not Found");
+//         $("#message").append(txt);
+//         $("#message a").addClass('message');
+//       }
+
+//     }
+//   };
+//   xmlhttp.open("GET", "ajax/search_item.php?q=" + q, true);
+//   xmlhttp.send();
+// }
+
+
 
 window.ondblclick = myFunction;
 
@@ -385,13 +438,10 @@ function mob_hide() {
   $(".mob-reply").hide();
 }
 
-
-
 function width() {
   if (window.innerWidth < 500)
     return true;
 }
-
 
 // Audio Recognization
 
