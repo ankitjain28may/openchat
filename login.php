@@ -20,7 +20,7 @@ if(isset($_SESSION['start']))
                 <li><a href="register.php">Register</a></li>
             </ul>
         </div>
-		
+
         <div class="main">
             <h1>Login</h1>
             <hr><br>
@@ -28,19 +28,19 @@ if(isset($_SESSION['start']))
             <input type="text" name="login" id="login" placeholder="Email or Username" ><br><br>
             <label id="pass_label">Password</label><br><br>
             <input type="password" name="password" id="pass"><br><br><br>
-            <button name="submit" onclick="login_check()" value="Login">Login</button>    
+            <button name="submit" onclick="login_check()" value="Login">Login</button>
         </div>
 
+        <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+        <script type="text/javascript" src="registration-module/js/login_validate.js"></script>
+        <script type="text/javascript" src="node_modules/place-holder.js/placeholder.min.js"></script>
+        <script>
+            $("input").keypress(function(e) {
+                if(e.keyCode == 13) {
+                    $("button").click();
+                }
+            });
+        </script>
     </body>
-    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
-    <script type="text/javascript" src="registration-module/js/login_validate.js"></script>
-    
-    <script type="text/javascript" src="placeholder.js/placeholder.js"></script>
-    <script>
-        $("input").keypress(function(e) {
-            if(e.keyCode == 13) {
-                $("button").click();
-            }
-        });
-    </script>
+
 </html>

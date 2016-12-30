@@ -1,36 +1,69 @@
+
+
+
+# OpenChat
+
 [![Join the chat at https://gitter.im/ankitjain28may/openchat](https://badges.gitter.im/ankitjain28may/openchat.svg)](https://gitter.im/ankitjain28may/openchat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/23e0d72e208d4edfb08702b702bd9139)](https://www.codacy.com/app/ankitjain28may77/openchat?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ankitjain28may/openchat&amp;utm_campaign=Badge_Grade)
 
 
-<h2>This is a messaging platform where people can send message to anyone registered to this platform.</h2>
+> OpenChat is a open source messaging platform where people can send message to anyone registered to this platform.
 
-<div>
-​ <h2>How to use :­­ </h2>
-    <ul>
-		<li>Step 1:­​ Open the Messaging Platform, OpenChat. </li>   
-		<li>Step 2:­ ​Register yourself at the platform with your true identity.</li>  
-		<li>Step 3:­ ​Go to the ‘Message’ option. </li>    
-		<li>Step 4:­ ​Compose new Message by click on ‘New Message’.  </li> 
-		<li>Step 5:­ ​A input field will be shown right next to the new message option, Type the name of the person whom you want to send message. </li>
-		<li>Step 6:­ ​Logout. </li>
-	</ul>
-</div>
-<div>
+## How to Setup
 
-<h2>Technologies Used :--</h2>
-	<ul>
-		<li>1- HTML5</li>
-		<li>2- CSS3</li>
-		<li>3- JavaScript</li>
-		<li>4- jQuery</li>
-		<li>5- JSON</li>
-		<li>6- AJAX</li>
-		<li>7- PHP</li>
-		<li>8- SQL</li>
-	</ul>
-</div>
+Setting up OpenChat on your local machine is really easy.
+Follow this guide to setup your development machine.
 
-<h1>
-Feel free to Contribute.<br>
-<br>
-Fork , Code and Push<br>
-</h1>
+### Requirements :
+
+1. PHP > 5.6
+2. MySQL
+3. Composer
+4. npm
+5. git
+
+
+### Installation :
+
+1. Get the source code on your machine via git.
+
+	```shell
+    git clone https://github.com/ankitjain28may/openchat.git
+    ```
+
+2. Install php and js devendencies
+
+	```shell
+	cd openchat
+	composer install
+	npm instal
+	```
+
+3. Change credential in `database.php`
+
+
+4. Create an empty sql database and run import database.
+
+	```mysql
+	create database openchat;
+	mysql -u[user] -p[password] [database name] < path\openchat\sql\openchat.sql
+	```
+
+5. To start websocket server type
+
+	```php
+	php cmd.php
+	```
+
+6. Open a new terminal window and type
+
+	```php
+	php -S localhost:8888
+	```
+
+That's it, Now start development at [http://localhost:8888](http://localhost:8888) in your browser
+
+## Contribution guidelines
+
+If you are interested in contributing to OpenChat, Open Issues and send PR.
+> Feel free to code and contribute

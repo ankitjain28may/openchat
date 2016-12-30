@@ -109,25 +109,23 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 			</span>
 		</div>
 
-
+		<script type="text/javascript">
+			$(".dropdown").click(function() {
+				$("#dropdown").slideToggle();
+				// $("#dropdown").show();
+			});
+			$("span .fa").click(function() {
+				$(".search_item").show();
+			});
+			// var w='';
+			// if(window.innerWidth<500 && window.outerHeight!=w)
+			// {
+			// 	console.log(1);
+			// 	w=window.outerHeight-135;
+			// 	$(".main").css('min-height',w);
+			// }
+		</script>
 	</body>
-	<script type="text/javascript">
-		$(".dropdown").click(function() {
-			$("#dropdown").slideToggle();
-			// $("#dropdown").show();
-		});
-		$("span .fa").click(function() {
-			$(".search_item").show();
-		});
-		// var w='';
-		// if(window.innerWidth<500 && window.outerHeight!=w)
-		// {
-		// 	console.log(1);
-		// 	w=window.outerHeight-135;
-		// 	$(".main").css('min-height',w);
-		// }
-	</script>
-
 </html>
 
 <?php

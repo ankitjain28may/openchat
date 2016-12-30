@@ -2,7 +2,7 @@ var flag = 0;
 var pre = "";
 
 // Websocket Connection Open
-var conn = new WebSocket("ws://192.168.43.138:8080");
+var conn = new WebSocket("ws://localhost:8080");
 conn.onopen = function (e) {
   console.log("Connection established!");
   init();

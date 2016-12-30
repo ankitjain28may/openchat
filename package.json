@@ -1,0 +1,7 @@
+{
+  "name": "OpenChat",
+  "private": true,
+  "dependencies": {
+    "place-holder.js": "^2.2.4"
+  }
+}

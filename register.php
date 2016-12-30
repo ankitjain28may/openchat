@@ -39,16 +39,15 @@ if(isset($_SESSION['start']))
                 <button name="submit" value="Register" onclick="register_check()" >Register</button>
 
         </div>
-    </body>
-    <script type="text/javascript" src="registration-module/js/register_validate.js"></script>
-    <script type="text/javascript" src="placeholder.js/placeholder.js"></script>
+        <script type="text/javascript" src="registration-module/js/register_validate.js"></script>
+        <script type="text/javascript" src="node_modules/place-holder.js/placeholder.min.js"></script>
 
-    <script>
-        $("input").keypress(function(e) {
-            if(e.keyCode == 13) {
-                $("button").click();
-            }
-        });
-    </script>
+        <script>
+            $("input").keypress(function(e) {
+                if(e.keyCode == 13) {
+                    $("button").click();
+                }
+            });
+        </script>
+    </body>
 </html>
-               
