@@ -1,11 +1,8 @@
-var store = '';
-var recursive;
-var last_time = '';
 var flag = 0;
 var pre = '';
-var ch;
 
-var conn = new WebSocket('ws://localhost:8080');
+// Websocket Connection Open
+var conn = new WebSocket('ws://192.168.43.138:8080');
 conn.onopen = function(e) {
   console.log("Connection established!");
   init();
@@ -13,7 +10,7 @@ conn.onopen = function(e) {
 
 conn.onmessage = function(e) {
   var msg = JSON.parse(e.data);
-  console.log(msg);
+  // console.log(msg);
   if (!width())
     SideBar(msg['sidebar']);
 
@@ -68,8 +65,13 @@ function SideBar(msg) {
   }
 }
 
+function SidebarRequest() {
+  conn.send("Load Sidebar");
+}
+
 // Update Current Conversation
 function updateConversation(arr) {
+  SidebarRequest();
   var ele = document.getElementById("conversation");
 
   if (arr[0].type == 1) {
@@ -266,119 +268,57 @@ function compose_message() {
 
 }
 
-function search_choose()
-{
+function search_choose() {
   var value = $("#search_item").val();
-  if(value!="")
-  {
+  if (value != "") {
     var msg = {
-      "value" : value,
-      "search" : "search"
+      "value": value,
+      "search": "search"
     };
     conn.send(JSON.stringify(msg));
-  }
-  else
-  {
+  } else {
     conn.send("Load Sidebar");
   }
 
 }
 
-function searchResult(arr)
-{
+function searchResult(arr) {
   var ele = document.getElementById("message");
-    if (arr != "Not Found")
+  if (arr != "Not Found") {
+    ele.innerHTML = "";
+    for (var i = arr.length - 1; i >= 0; i--) // organising content according to time
     {
-        ele.innerHTML = "";
-        for (var i = arr.length - 1; i >= 0; i--) // organising content according to time
-        {
-          var para = document.createElement("a"); //creating element a
-          var node = document.createTextNode(arr[i]['name']);
-          para.appendChild(node);
-          para.setAttribute('id', arr[i]['username']);
-          para.setAttribute('href', 'message.php#' + arr[i]['username']);
-          para.setAttribute('class', 'message');
-          para.setAttribute('onclick', 'newConversation(this,10)');
-          ele.appendChild(para);
+      var para = document.createElement("a"); //creating element a
+      var node = document.createTextNode(arr[i]['name']);
+      para.appendChild(node);
+      para.setAttribute('id', arr[i]['username']);
+      para.setAttribute('href', 'message.php#' + arr[i]['username']);
+      para.setAttribute('class', 'message');
+      para.setAttribute('onclick', 'newConversation(this,10)');
+      ele.appendChild(para);
 
-          var bre = document.createElement("span"); // creating element span for showing time
-          var inp = document.createTextNode(arr[i]['time']);
-          bre.appendChild(inp);
-          bre.setAttribute('class', 'message_time');
-          para.appendChild(bre);
-        }
-      }
-      else
-      {
-        $("#message").text('');
-        var txt = $("<a></a>").text("Not Found");
-        $("#message").append(txt);
-        $("#message a").addClass('message');
-      }
+      var bre = document.createElement("span"); // creating element span for showing time
+      var inp = document.createTextNode(arr[i]['time']);
+      bre.appendChild(inp);
+      bre.setAttribute('class', 'message_time');
+      para.appendChild(bre);
+    }
+  } else {
+    $("#message").text('');
+    var txt = $("<a></a>").text("Not Found");
+    $("#message").append(txt);
+    $("#message a").addClass('message');
+  }
 
 }
-
-// For Search
-
-// function search_choose()
-// {
-//   // console.log(1);
-//   var q = $("#search_item").val();
-//   var ele = document.getElementById("message");
-
-//   var xmlhttp = new XMLHttpRequest();
-//   xmlhttp.onreadystatechange = function() {
-//     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-//       arr = JSON.parse(xmlhttp.responseText); // Response From change.php
-//       // console.log(arr);
-//       if ($("#search_item").val() == '') {
-//         last_time = '';
-//         init(1);
-//       }
-//       if (arr != null) {
-//         ele.innerHTML = "";
-//         for (var i = arr.length - 1; i >= 0; i--) // organising content according to time
-//         {
-//           var para = document.createElement("a"); //creating element a
-//           var node = document.createTextNode(arr[i]['name']);
-//           para.appendChild(node);
-//           para.setAttribute('id', arr[i]['username']);
-//           para.setAttribute('href', 'message.php#' + arr[i]['username']);
-//           para.setAttribute('class', 'message');
-//           para.setAttribute('onclick', 'newConversation(this,10)');
-//           ele.appendChild(para);
-
-//           var bre = document.createElement("span"); // creating element span for showing time
-//           var inp = document.createTextNode(arr[i]['time']);
-//           bre.appendChild(inp);
-//           bre.setAttribute('class', 'message_time');
-//           para.appendChild(bre);
-//         }
-//       } else {
-//         $("#message").text('');
-//         // console.log("None");
-//         var txt = $("<a></a>").text("Not Found");
-//         $("#message").append(txt);
-//         $("#message a").addClass('message');
-//       }
-
-//     }
-//   };
-//   xmlhttp.open("GET", "ajax/search_item.php?q=" + q, true);
-//   xmlhttp.send();
-// }
-
-
 
 window.ondblclick = myFunction;
 
 function myFunction() // Hidden compose message input
 {
   $("#compose_selection").css("visibility", "hidden");
-  last_time = '';
   init();
   flag = 0;
-  store = '';
   $("#compose_name").val('');
   $("#search_item").val('');
   $('#compose_text').hide();

@@ -18,6 +18,7 @@ class Chat implements MessageComponentInterface {
         $this->result = '';
         $this->online = 0;
     }
+
     public function onOpen(ConnectionInterface $conn) {
         $conn = $this->setID($conn);
         $this->clients->attach($conn);
@@ -37,68 +38,110 @@ class Chat implements MessageComponentInterface {
         $sessionId = $from->WebSocket->request->getCookies()['PHPSESSID'];
         if($msg == 'OpenChat initiated..!')
         {
-            $sidebar = new SideBar();
-            @$initial->initial = json_decode($sidebar->LoadSideBar($from->userId));
+            @$initial->initial = json_decode($this->onSidebar($from->userId));
 
-            $conv = new Conversation($sessionId);
-            $conversation = $conv->ConversationLoad(json_encode(["username" => $initial->initial[0]->login_id, "load" => 10]), True);
-            $initial->conversation = json_decode($conversation);
+            @$initial->conversation = json_decode(
+                $this->onConversation(
+                    json_encode([
+                        "username" => $initial->initial[0]->login_id,
+                        "load" => 10
+                    ]), True, $sessionId
+                )
+            );
+
             $initial->conversation[0]->login_status = $this->online;
             $from->send(json_encode($initial));
         }
-        elseif ($msg == 'Load Sidebar') {
-            $sidebar = new SideBar();
-            @$initial->initial = json_decode($sidebar->LoadSideBar($from->userId));
+        elseif ($msg == 'Load Sidebar')
+        {
+            @$initial->initial = json_decode($this->onSidebar($from->userId));
             $from->send(json_encode($initial));
         }
-        elseif (@json_decode($msg)->newConversation == 'Initiated') {
-            $conv = new Conversation($sessionId);
-            $conversation = $conv->ConversationLoad($msg, False);
-            @$result->conversation = json_decode($conversation);
+        elseif (@json_decode($msg)->newConversation == 'Initiated')
+        {
+            @$result->conversation = json_decode($this->onConversation($msg, False, $sessionId));
             $from->send(json_encode($result));
-
         }
-        elseif (@json_decode($msg)->search == 'search') {
-            $search = new Search($sessionId);
-            $searchResult = $search->SearchItem(json_decode($msg));
+        elseif (@json_decode($msg)->search == 'search')
+        {
+            $searchResult = $this->onSearch($msg, $sessionId);
             $from->send($searchResult);
         }
         else
         {
-
-            $rep = new Reply($sessionId);
-            $rep->replyTo($msg);
+            $this->onReply($msg, $sessionId);
 
             $msg = json_decode($msg);
-            $msg->from = $from->userId;
+            // $msg->from = $from->userId;
 
             foreach ($this->clients as $client)
             {
                 if ($client->userId == $msg->name)
                 {
-                    $sidebar = new SideBar();
-                    @$result->sidebar = json_decode($sidebar->LoadSideBar($client->userId));
+                    @$result->sidebar = json_decode($this->onSidebar($client->userId));
 
-                    $conv = new Receiver($sessionId);
-                    $conversation = $conv->ReceiverLoad(json_encode(["username" => $client->userId, "load" => 10]), True);
-                    $result->conversation = json_decode($conversation);
+                    @$result->conversation = json_decode(
+                        $this->onReceiver(
+                            json_encode([
+                                "username" => $client->userId,
+                                "load" => 10
+                            ]), True, $sessionId
+                        )
+                    );
+
                     $client->send(json_encode($result));
                     $this->online = 1;
                 }
                 elseif($client == $from)
                 {
-                    $sidebar = new SideBar();
-                    @$this->result->sidebar = json_decode($sidebar->LoadSideBar($client->userId));
-                    $conv = new Conversation($sessionId);
-                    $this->conversation = $conv->ConversationLoad(json_encode(["username" => $msg->name, "load" => 10]), True);
-                    $this->result->conversation = json_decode($this->conversation);
-                    $this->result->conversation[0]->login_status = $this->online;
-                    $client->send(json_encode($this->result));
+                    @$result->sidebar = json_decode($this->onSidebar($client->userId));
+
+                    @$result->conversation = json_decode(
+                        $this->onConversation(
+                            json_encode([
+                                "username" => $msg->name,
+                                "load" => 10
+                            ]), True, $sessionId
+                        )
+                    );
+
+                    $result->conversation[0]->login_status = $this->online;
+                    $client->send(json_encode($result));
                     $this->online = 0;
                 }
             }
 
         }
+    }
+
+    public function onSidebar($data)
+    {
+        $obSidebar = new Sidebar();
+        return $obSidebar->LoadSideBar($data);
+    }
+
+    public function onConversation($data, $para, $sessionId)
+    {
+        $obConversation = new Conversation($sessionId);
+        return $obConversation->ConversationLoad($data, $para);
+    }
+
+    public function onReceiver($data, $para, $sessionId)
+    {
+        $obReceiver = new Receiver($sessionId);
+        return $obReceiver->ReceiverLoad($data, True);
+    }
+
+    public function onSearch($data, $sessionId)
+    {
+        $obSearch = new Search($sessionId);
+        return $obSearch->SearchItem(json_decode($data));
+    }
+
+    public function onReply($data, $sessionId)
+    {
+        $obReply = new Reply($sessionId);
+        $obReply->replyTo($data);
     }
 
     public function onClose(ConnectionInterface $conn) {
@@ -110,4 +153,6 @@ class Chat implements MessageComponentInterface {
         echo "An error has occurred: {$e->getMessage()}\n";
         $conn->close();
     }
+
+
 }
