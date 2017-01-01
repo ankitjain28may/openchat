@@ -40,7 +40,7 @@ if(isset($_SESSION['start']))
 
         </div>
         <script type="text/javascript" src="registration-module/js/register_validate.js"></script>
-        <script type="text/javascript" src="node_modules/place-holder.js/placeholder.min.js"></script>
+        <script type="text/javascript" src="node_modules/place-holder.js/place-holder.min.js"></script>
 
         <script>
             $("input").keypress(function(e) {

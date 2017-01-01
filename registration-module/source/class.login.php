@@ -67,7 +67,7 @@ class login
 								$time_id=date("YmdHis",time()+12600);
 								// $query = "Update "
 								$_SESSION['start']=$login_id;
-								return json_encode(["location"=>"http://localhost/openchat/account.php"]);
+								return json_encode(["location"=> URL."/account.php"]);
 							}
 
 						}

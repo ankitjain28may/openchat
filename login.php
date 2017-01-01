@@ -33,7 +33,7 @@ if(isset($_SESSION['start']))
 
         <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
         <script type="text/javascript" src="registration-module/js/login_validate.js"></script>
-        <script type="text/javascript" src="node_modules/place-holder.js/placeholder.min.js"></script>
+        <script type="text/javascript" src="node_modules/place-holder.js/place-holder.min.js"></script>
         <script>
             $("input").keypress(function(e) {
                 if(e.keyCode == 13) {

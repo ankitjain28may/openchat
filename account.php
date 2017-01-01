@@ -1,13 +1,14 @@
 <!Doctype html>
 <html>
-	
+
 
 <?php
 session_start();
 include 'database.php';
 $connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-$user=substr($_SERVER['REQUEST_URI'],22);
-// var_dump($user);
+$user=explode("/", $_SERVER['REQUEST_URI']);
+$user = $user[count($user)-1];
+var_dump($user);
 if(isset($_SESSION['start']) and !$user)
 {
 	$login_id=$_SESSION['start'];
@@ -66,7 +67,7 @@ else if($user)
 				?>
 				<li><a href="../message.php">Message</a></li>
 				<li><a href="../registration-module/source/class.logout.php">Log out</a></li>
-				<?php 
+				<?php
 				}
 				else
 				{
@@ -78,10 +79,10 @@ else if($user)
 				?>
             </ul>
         </div>
-			
 
 
-		
+
+
         <div class="main">
 			<div class="boxx" >
 
@@ -104,21 +105,21 @@ else if($user)
 							echo '<p>Gender: 	'.$row["gender"] .'</p><br>';
 					}
 					?>
-				</div>	
+				</div>
 				<?php if($_SESSION['start']==$row['login_id'])
 				{
 					?>
 				<div class="edit"><a href="#">Edit Profile</a></div>
 				<?php
 				}
-				?>	
-			</div>	
-	
-			<?php 
+				?>
+			</div>
+
+			<?php
 			if($_SESSION['start']==$row['login_id'])
 			{
 				?>
-		
+
 			<div class="boxx" id="profile">
 				<form method="post" action="../profile_generate.php">
 					<label>Status : </label>
@@ -140,7 +141,7 @@ else if($user)
 		<div class="footer">
 			<h3 class="footer_text">Made with love by <a href="#">Ankit Jain</a></h3>
 		</div>
-	
+
 	</body>
     <script type="text/javascript" src="../js/jquery-3.0.0.min.js"></script>
 	<script type="text/javascript" src="../js/profile.js"></script>
