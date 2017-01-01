@@ -1,0 +1,1 @@
+web: php cmd.php
