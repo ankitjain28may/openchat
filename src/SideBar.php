@@ -1,7 +1,7 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/database.php');
+require_once (dirname(__DIR__) . '/config/database.php');
 use ChatApp\Time;
 
 /**
@@ -14,14 +14,14 @@ class SideBar
     protected $array;
     protected $connect;
 
-    function __construct()
+    public function __construct()
     {
         $this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
         $this->obTime = new Time();
         $this->array = array();
     }
 
-    function LoadSideBar($userId)
+    public function LoadSideBar($userId)
     {
         if(isset($userId))
         {
@@ -65,7 +65,7 @@ class SideBar
         $this->connect->close();
     }
 
-    function Data($id, $row)
+    public function Data($id, $row)
     {
         $query = "SELECT username,name,login_status,login_id from login where login_id = '$id'";
         if($result = $this->connect->query($query))
@@ -81,4 +81,3 @@ class SideBar
     }
 
 }
-?>

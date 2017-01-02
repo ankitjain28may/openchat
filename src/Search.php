@@ -1,7 +1,7 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/database.php');
+require_once (dirname(__DIR__) . '/config/database.php');
 use ChatApp\Time;
 
 /**
@@ -14,7 +14,7 @@ class Search
     protected $array;
     protected $obTime;
 
-    function __construct($sessionId)
+    public function __construct($sessionId)
     {
         session_id($sessionId);
         @session_start();
@@ -24,7 +24,7 @@ class Search
         $this->array = array();
     }
 
-    function SearchItem($suggestion)
+    public function SearchItem($suggestion)
     {
         $suggestion = $suggestion->value;
         $flag = 0;
@@ -77,4 +77,3 @@ class Search
 
     }
 }
-?>

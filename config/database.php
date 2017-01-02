@@ -9,14 +9,14 @@
    function URL()
   {
     $http = "http://";
-    $host = $_SERVER['SERVER_NAME'];
-    $port = $_SERVER['SERVER_PORT'];
+    @$host = $_SERVER['SERVER_NAME'];
+    @$port = $_SERVER['SERVER_PORT'];
     $fol = "";
     if(@$_SERVER['SERVER_ADDR']!=NULL)
     {
-        $fol = explode('/', $_SERVER['PHP_SELF'])[1];
+        $fol = "/".explode('/', $_SERVER['PHP_SELF'])[1];
     }
-    $url = $http.$host.":".$port."/".$fol;
+    $url = $http.$host.":".$port.$fol;
     return $url;
   }
-?>
+

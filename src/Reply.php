@@ -1,7 +1,7 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/database.php');
+require_once (dirname(__DIR__) . '/config/database.php');
 
 /**
 * Store Message in the Database
@@ -10,7 +10,7 @@ class Reply
 {
     protected $connect;
 
-    function __construct($sessionId)
+    public function __construct($sessionId)
     {
         session_id($sessionId);
         @session_start();
@@ -18,7 +18,7 @@ class Reply
         session_write_close();
     }
 
-    function replyTo($msg)
+    public function replyTo($msg)
     {
 
         if(isset($_SESSION['start']) && isset($msg))  //checks for session login and the value send
@@ -90,7 +90,7 @@ class Reply
         $this->connect->close();
     }
 
-    function UpdateMessages($query, $identifier, $reply, $id, $time)
+    public function UpdateMessages($query, $identifier, $reply, $id, $time)
     {
         if($result = $this->connect->query($query))
         {
@@ -109,5 +109,3 @@ class Reply
 
 
 }
-
-?>

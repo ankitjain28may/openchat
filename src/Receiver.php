@@ -1,7 +1,7 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/database.php');
+require_once (dirname(__DIR__) . '/config/database.php');
 use ChatApp\User;
 use ChatApp\Time;
 use ChatApp\Conversation;
@@ -14,7 +14,7 @@ class Receiver
     protected $conversation;
     protected $messages;
 
-    function __construct($sessionId)
+    public function __construct($sessionId)
     {
         session_id($sessionId);
         @session_start();
@@ -23,7 +23,7 @@ class Receiver
         $this->conversation = new Conversation($sessionId);
     }
 
-    function ReceiverLoad($msg)
+    public function ReceiverLoad($msg)
     {
         $id2 = $_SESSION['start'];
         $this->messages = $this->ob->UserDetails($id2, True);
@@ -40,4 +40,3 @@ class Receiver
         return json_encode($this->messages);
     }
 }
-?>

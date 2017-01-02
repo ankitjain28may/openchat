@@ -1,7 +1,7 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/database.php');
+require_once (dirname(__DIR__) . '/config/database.php');
 use ChatApp\Time;
 use ChatApp\User;
 
@@ -15,7 +15,7 @@ class Conversation
     protected $obTime;
     protected $obUser;
 
-    function __construct($sessionId)
+    public function __construct($sessionId)
     {
         session_id($sessionId);
         @session_start();
@@ -26,7 +26,7 @@ class Conversation
         $this->array = array();
     }
 
-    function ConversationLoad($msg, $para)
+    public function ConversationLoad($msg, $para)
     {
 
         $flag = 1;
@@ -103,4 +103,3 @@ class Conversation
         $this->connect->close();
     }
 }
-?>

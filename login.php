@@ -24,15 +24,15 @@ if(isset($_SESSION['start']))
         <div class="main">
             <h1>Login</h1>
             <hr><br>
-            <label id="login_label">Email or Username</label><br><br>
-            <input type="text" name="login" id="login" placeholder="Email or Username" ><br><br>
-            <label id="pass_label">Password</label><br><br>
-            <input type="password" name="password" id="pass"><br><br><br>
+            <label id="login_label">Email or Username</label>
+            <input type="text" name="login" id="login" placeholder="Email or Username" > <br>
+            <label id="pass_label">Password</label>
+            <input type="password" name="passLogin" id="passLogin">
             <button name="submit" onclick="login_check()" value="Login">Login</button>
         </div>
 
         <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
-        <script type="text/javascript" src="registration-module/js/login_validate.js"></script>
+        <script type="text/javascript" src="js/login_validate.js"></script>
         <script type="text/javascript" src="node_modules/place-holder.js/place-holder.min.js"></script>
         <script>
             $("input").keypress(function(e) {

@@ -8,12 +8,12 @@ namespace ChatApp;
 class Time
 {
 
-    function __construct()
+    public function __construct()
     {
         # code...
     }
 
-    function TimeConversion($time)
+    public function TimeConversion($time)
     {
 
         if(substr($time,4,11) == date("d M Y", time() + 16200))

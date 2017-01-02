@@ -1,0 +1,5 @@
+# Do not remove this line or mod_rewrite rules and search engine friendly URLs will stop working
+Options +FollowSymLinks
+RewriteEngine On
+RewriteBase /urlshortner/
+RewriteRule ^([a-zA-Z0-9]+)$ index.php/$1 [NC,L]

@@ -2,7 +2,7 @@
 
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/database.php');
+require_once (dirname(__DIR__) . '/config/database.php');
 
 /**
 * For retreiving User Information
@@ -14,12 +14,12 @@ class User
     protected $result;
     protected $connect;
 
-    function __construct()
+    public function __construct()
     {
         $this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     }
 
-    function UserDetails($id, $para)
+    public function UserDetails($id, $para)
     {
         if($para == True)
             $this->query = "SELECT * from login where login_id = '$id'";
@@ -37,4 +37,3 @@ class User
         }
     }
 }
-?>

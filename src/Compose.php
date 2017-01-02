@@ -1,7 +1,7 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/database.php');
+require_once (dirname(__DIR__) . '/config/database.php');
 
 /**
 *
@@ -11,7 +11,7 @@ class Compose
     protected $connect;
     protected $array;
 
-    function __construct($sessionId)
+    public function __construct($sessionId)
     {
         session_id($sessionId);
         @session_start();
@@ -60,4 +60,3 @@ class Compose
     }
 }
 
-?>

@@ -9,6 +9,7 @@ use ChatApp\Receiver;
 use ChatApp\SideBar;
 use ChatApp\Search;
 use ChatApp\Compose;
+use ChatApp\Online;
 
 class Chat implements MessageComponentInterface {
     protected $clients;
@@ -24,10 +25,12 @@ class Chat implements MessageComponentInterface {
         $conn = $this->setID($conn);
         $this->clients->attach($conn);
         echo "New connection! ({$conn->resourceId})\n";
+        Online::setOnlineStatus($conn->userId);
     }
 
     public function setID($conn)
     {
+        var_dump($conn->WebSocket->request->getCookies()['PHPSESSID']);
         session_id($conn->WebSocket->request->getCookies()['PHPSESSID']);
         @session_start();
         $conn->userId = $_SESSION['start'];
@@ -50,7 +53,7 @@ class Chat implements MessageComponentInterface {
                 )
             );
 
-            $initial->conversation[0]->login_status = $this->online;
+            @$initial->conversation[0]->login_status = $this->online;
             $from->send(json_encode($initial));
         }
         elseif ($msg == 'Load Sidebar')
@@ -157,7 +160,7 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onClose(ConnectionInterface $conn) {
-
+        Online::removeOnlineStatus($conn->userId);
         $this->clients->detach($conn);
         echo "Connection {$conn->resourceId} has disconnected\n";
     }

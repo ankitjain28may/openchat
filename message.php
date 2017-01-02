@@ -26,7 +26,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 			<ul class="nav-right">
 				<li><a href="account.php">Account</a></li>
 				<li><a href="index.php">About</a></li>
-				<li><a href="registration-module/source/class.logout.php">Log Out</a></li>
+				<li><a href="logout.php">Log Out</a></li>
 			</ul>
 
 			<div class="mob-right">
@@ -44,7 +44,7 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 			<ul class="dropdown-list">
 				<li><a href="account.php">Account</a></li>
 				<li><a href="index.php">About</a></li>
-				<li><a href="registration-module/source/class.logout.php">Log Out</a></li>
+				<li><a href="logout.php">Log Out</a></li>
 			</ul>
 		</div>
 
@@ -131,6 +131,6 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 <?php
 }
 else{
-	header('Location:http://www.localhost/openchat/login.php');
+	header('Location:http://localhost/openchat');
 }
 ?>
