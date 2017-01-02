@@ -10,14 +10,12 @@ class Login
 	protected $key;
 	protected $error;
 	protected $connect;
-	protected $session;
 
 	public function __construct()
 	{
 		$this->key = 0;
 		$this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 		$this->error = array();
-		$this->session = new Session();
 	}
 
 	public function authLogin($login, $password)
@@ -62,7 +60,7 @@ class Login
 					{
 						if ($result->num_rows > 0)
 						{
-							$this->session->put('start', $loginID);
+							Session::put('start', $loginID);
 							return json_encode([
 								"location" => URL."/account.php"
 							]);

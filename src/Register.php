@@ -11,14 +11,12 @@ class Register
 	protected $key;
 	protected $obValidate;
 	protected $connect;
-	protected $session;
 
 	public function __construct()
 	{
 		$this->error = array();
 		$this->key = 0;
 		$this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-		$this->session = new Session();
 		$this->obValidate = new Validate();
 
 	}
@@ -103,7 +101,7 @@ class Register
 			}
 		}
 		if ($this->key == 0) {
-			$this->session->put('start', $userId);
+			Session::put('start', $userId);
 			return json_encode([
 				"location" => URL."/account.php"
 			]);

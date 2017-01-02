@@ -30,7 +30,6 @@ class Chat implements MessageComponentInterface {
 
     public function setID($conn)
     {
-        var_dump($conn->WebSocket->request->getCookies()['PHPSESSID']);
         session_id($conn->WebSocket->request->getCookies()['PHPSESSID']);
         @session_start();
         $conn->userId = $_SESSION['start'];

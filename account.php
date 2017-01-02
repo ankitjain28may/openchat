@@ -8,8 +8,7 @@ use ChatApp\Session;
 
 $user = explode("/", $_SERVER['REQUEST_URI']);
 $user = $user[count($user)-1];
-$session = new Session();
-$userId = $session->get('start');
+$userId = Session::get('start');
 if($userId != null and $user == "account.php")
 {
 	$obUser = new User();
@@ -46,7 +45,7 @@ elseif ($user != "account.php")
 		            <a id="brand" href="">OpenChat</a>
 		            <ul class="nav-right">
 		                <li><a href="../index.php">About</a></li>
-		                <?php if($session->get('start') != null): ?>
+		                <?php if(Session::get('start') != null): ?>
 							<li><a href="../message.php">Message</a></li>
 							<li><a href="../logout.php">Log out</a></li>
 						<?php else: ?>
@@ -79,7 +78,7 @@ elseif ($user != "account.php")
 							}
 							?>
 						</div>
-						<?php if($session->get('start') == $row['login_id']): ?>
+						<?php if(Session::get('start') == $row['login_id']): ?>
 							<div class="edit">
 								<a href="#">Edit Profile</a>
 							</div>
@@ -87,7 +86,7 @@ elseif ($user != "account.php")
 					</div>
 
 					<?php
-						if($session->get('start') == $row['login_id']):
+						if(Session::get('start') == $row['login_id']):
 					?>
 
 					<div class="boxx" id="profile">
