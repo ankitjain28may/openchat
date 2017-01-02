@@ -9,7 +9,7 @@ use ChatApp\Session;
 $user = explode("/", $_SERVER['REQUEST_URI']);
 $user = $user[count($user)-1];
 $userId = Session::get('start');
-if($userId != null and $user == "account.php")
+if($userId != null && $user == "account.php")
 {
 	$obUser = new User();
 	$row = $obUser->UserDetails($userId, True);
@@ -65,15 +65,15 @@ elseif ($user != "account.php")
 						<div class="brief">
 							<h1 id="name">Name: <?php echo $row['name']; ?></h1><br>
 							<?php foreach ($row as $key => $value) {
-								if($key =='username' and $value != null)
+								if($key =='username' && $value != null)
 									echo '<p>Username: '.$row["username"] .'</p><br>';
-								if($key == 'email' and $value != null)
+								if($key == 'email' && $value != null)
 									echo '<p>Email Id: '.$row["email"] .'</p><br>';
-								if($key == 'status' and $value != null)
+								if($key == 'status' && $value != null)
 									echo '<p>Status: '.$row["status"] .'</p><br>';
-								if($key == 'education' and $value != null)
+								if($key == 'education' && $value != null)
 									echo '<p>Education: '.$row["education"] .'</p><br>';
-								if($key == 'gender' and $value != null)
+								if($key == 'gender' && $value != null)
 									echo '<p>Gender: 	'.$row["gender"] .'</p><br>';
 							}
 							?>

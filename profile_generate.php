@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'database.php';
+require_once (__DIR__ . '/config/database.php');
 $connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 $login_id=$_SESSION['start'];
 if(isset($_POST['submit']))

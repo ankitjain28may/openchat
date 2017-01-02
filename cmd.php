@@ -17,7 +17,3 @@ $server =IoServer::factory(
 	8080
 	);
 $server->run();
-
-
-
- ?>

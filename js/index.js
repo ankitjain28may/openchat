@@ -3,8 +3,8 @@ var pre = "";
 
 // Websocket Connection Open
 var conn = new WebSocket("ws://localhost:8080");
-conn.onopen = function (e) {
-  console.log("Connection established!");
+conn.onopen = function () {
+  // console.log("Connection established!");
   init();
 };
 
@@ -39,7 +39,7 @@ conn.onmessage = function(e) {
 };
 
 conn.onerror = function(evt) {
-  console.log(evt.data);
+  // console.log(evt.data);
 };
 
 // For First time
@@ -110,9 +110,13 @@ function updateConversation(arr) {
       // create element
       var para = document.createElement("div");
       if (arr[i]["sent_by"] != arr[i]["start"])
+      {
         para.setAttribute("class", "receiver");
+      }
       else
+      {
         para.setAttribute("class", "sender");
+      }
 
       ele.appendChild(para);
       var bre = document.createElement("br");
@@ -132,7 +136,7 @@ function updateConversation(arr) {
     }
 
     $("#chat_heading a").remove("a");
-    var txt = $("<a></a>").text(arr[0].name);
+    txt = $("<a></a>").text(arr[0].name);
     $("#chat_heading").append(txt);
     $("#chat_heading a").attr({
       "href": "http://localhost/openchat/account.php/" + arr[0].username
@@ -148,26 +152,30 @@ function updateConversation(arr) {
     }
 
     if (width())
+    {
       $(".text_icon #text_reply").attr({
         "name": arr[0]["id"]
       });
+    }
     else
+    {
       $("#text_reply").attr({
         "name": arr[0]["id"]
       });
+    }
     ele.scrollTop = ele.scrollHeight;
   } else {
     ele.innerHTML = "";
     $("#chat_heading a").remove("a");
 
-    var txt = $("<a></a>").text(arr[0].name);
+    txt = $("<a></a>").text(arr[0].name);
     $("#chat_heading").append(txt);
     $("#chat_heading a").attr({
       "href": "http://localhost/openchat/account.php/" + arr[0].username
     });
 
     if (arr[0]["login_status"] == "1") {
-      var online = document.createElement("p");
+      online = document.createElement("p");
       online.setAttribute("class", "online");
       $("#chat_heading a").append(online);
       $("#chat_heading a p").css({
@@ -208,16 +216,20 @@ function newConversation(element, load) {
 
 // For reply to other messages
 function reply() {
+  var re="";
   if (width())
-    var re = ".text_icon #text_reply";
+  {
+    re = ".text_icon #text_reply";
+  }
   else
-    var re = "#text_reply";
+  {
+    re = "#text_reply";
+  }
 
   var ele = [$(re).val()];
   var id = $(re).attr("name");
   $(re).val("");
   // console.log(ele);
-  var p = "";
   var q = {
     "name": id,
     "reply": ele
@@ -368,9 +380,13 @@ function mobile(ele) {
       $(".sidebar").show();
     }
     if (ele == "previous")
+    {
       pre = "1";
+    }
     else
+    {
       pre = "";
+    }
   }
 }
 
@@ -391,7 +407,10 @@ function mob_hide() {
 
 function width() {
   if (window.innerWidth < 500)
+  {
     return true;
+  }
+  return false;
 }
 
 // Audio Recognization
@@ -414,7 +433,7 @@ function startDictation() {
       reply();
     };
 
-    recognition.onerror = function(e) {
+    recognition.onerror = function() {
       recognition.stop();
     }
 

@@ -17,7 +17,6 @@ class Chat implements MessageComponentInterface {
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
-        $this->result = '';
         $this->online = 0;
     }
 
