@@ -83,7 +83,7 @@ class Register
 			$query = "INSERT INTO register VALUES(null, '$email', '$username', '$pass')";
 			if(!$this->connect->query($query)) {
 				$this->key = 1;
-				echo "You are not registered || Error in registration2";
+				echo "You are not registered || Error in registration1";
 			}
 			else
 			{
@@ -95,7 +95,15 @@ class Register
 					$query = "INSERT INTO login VALUES('$userId', '$name', '$email', '$username', '$mob', 0)";
 					if(!$this->connect->query($query)) {
 						$this->key = 1;
-						echo "You are not registered || Error in registration1";
+						echo "You are not registered || Error in registration2";
+					}
+					else
+					{
+						$query = "INSERT INTO profile VALUES('$userId', 'Joined OpenChat', 'Joined OpenChat', '')";
+						if(!$this->connect->query($query)) {
+							$this->key = 1;
+							echo "You are not registered || Error in registration3";
+						}
 					}
 				}
 			}

@@ -1,40 +1,37 @@
 <?php
-session_start();
 require_once (__DIR__ . '/config/database.php');
+require_once (__DIR__ . '/vendor/autoload.php');
+use ChatApp\Session;
+use ChatApp\Profile;
+
 $connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-$login_id=$_SESSION['start'];
+$userId = Session::get('start');
+$data = '';
 if(isset($_POST['submit']))
 {
-	$query="SELECT * from profile where login_id='$login_id'";
-	if($result=$connect->query($query))
-	{
-		if($result->num_rows>0)
+	$data = Profile::getProfile($userId);
+	if($data != NULL):
+		$status = get($_POST['status'], $data['status']);
+		$edu = get($_POST['education'], $data['education']);
+		$gender = get($_POST['gender'], $data['gender']);
+		$query = "UPDATE profile set status='$status', education='$edu', gender='$gender' where login_id = '$userId'";
+		if($result = $connect->query($query))
 		{
-			$row=$result->fetch_assoc();
+			header('Location:'.URL.'/account.php');
 		}
-	}
-	if(trim($_POST['status']))
-		$status=$_POST['status'];
-	else
-		$status=$row['status'];
-	if(trim($_POST['education']))
-		$edu=$_POST['education'];
-	else
-		$edu=$row['education'];
-	if(isset($_POST['gender']))
-		$gender=$_POST['gender'];
-	else
-		$gender=$row['gender'];
-
-	$query="UPDATE profile set status='$status', education='$edu', gender='$gender' where login_id='$login_id'";
-	if($result=$connect->query($query))
-	{
-		header('Location: account.php');
-	}
-	else
-	{
-		die("error");
-	}
+		else
+		{
+			header("Location:".URL."/error.php");
+		}
+	endif;
+}
+else
+{
+	header("Location:".URL."/error.php");
 }
 
-?>
+function get($value, $default)
+{
+	$value = trim($value);
+	return (isset($value) ? $value : $default);
+}

@@ -51,7 +51,7 @@ class Chat implements MessageComponentInterface {
                 )
             );
 
-            @$initial->conversation[0]->login_status = $this->online;
+            // @$initial->conversation[0]->login_status = $this->online;
             $from->send(json_encode($initial));
         }
         elseif ($msg == 'Load Sidebar')

@@ -1,7 +1,7 @@
 <?php
 
 namespace ChatApp;
-session_start();
+@session_start();
 
 class Session
 {

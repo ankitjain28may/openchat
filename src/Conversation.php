@@ -77,12 +77,12 @@ class Conversation
                             $this->array = array_merge($this->array, [$row]);
                         }
 
-                        $this->array = array_merge([['name' => $fetch['name'], 'username' => $fetch['username'], 'id' => $fetch['login_id'], 'load' => $add_load, 'type' => 1]], $this->array);
+                        $this->array = array_merge([['name' => $fetch['name'], 'username' => $fetch['username'], 'id' => $fetch['login_id'], 'load' => $add_load, 'login_status' => $fetch['login_status'], 'type' => 1]], $this->array);
                         return json_encode($this->array);
                     }
                     else
                     {
-                        return json_encode([['name' => $fetch['name'], 'username' => $fetch['username'], 'id' => $fetch['login_id'], 'type' => 0]]);
+                        return json_encode([['name' => $fetch['name'], 'username' => $fetch['username'], 'id' => $fetch['login_id'], 'login_status' => $fetch['login_status'], 'type' => 0]]);
                     }
                 }
                 else

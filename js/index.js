@@ -11,7 +11,7 @@ conn.onopen = function () {
 // On Message
 conn.onmessage = function(e) {
   var msg = JSON.parse(e.data);
-  // console.log(msg);
+  console.log(msg);
   if (!width())
   {
     SideBar(msg.sidebar);
@@ -87,7 +87,10 @@ function SidebarRequest() {
 
 // Update Current Conversation
 function updateConversation(arr) {
-  SidebarRequest();
+  if(!width())
+  {
+    SidebarRequest();
+  }
   var ele = document.getElementById("conversation");
 
   if (arr[0].type == 1) {
