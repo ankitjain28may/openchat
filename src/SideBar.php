@@ -1,7 +1,7 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/config/database.php');
+require_once (dirname(__DIR__) . '/vendor/autoload.php');
 use ChatApp\Time;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
