@@ -15,7 +15,7 @@ $userId = Session::get('start');
 if($userId != null && $user == "account.php")
 {
 	$obUser = new User();
-	$row = $obUser->UserDetails($userId, True);
+	$row = $obUser->userDetails($userId, True);
 
 	if($row != NULL)
 	{
@@ -26,7 +26,7 @@ if($userId != null && $user == "account.php")
 elseif ($user != "account.php")
 {
 	$obUser = new User();
-	$row = $obUser->UserDetails($user, False);
+	$row = $obUser->userDetails($user, False);
 	if($row != NULL):
 		$userId = $row['login_id'];
 		$details = Profile::getProfile($userId);
