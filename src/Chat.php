@@ -124,31 +124,31 @@ class Chat implements MessageComponentInterface {
     public function onSidebar($data)
     {
         $obSidebar = new Sidebar();
-        return $obSidebar->LoadSideBar($data);
+        return $obSidebar->loadSideBar($data);
     }
 
     public function onConversation($data, $para, $sessionId)
     {
         $obConversation = new Conversation($sessionId);
-        return $obConversation->ConversationLoad($data, $para);
+        return $obConversation->conversationLoad($data, $para);
     }
 
     public function onReceiver($data, $para, $sessionId)
     {
         $obReceiver = new Receiver($sessionId);
-        return $obReceiver->ReceiverLoad($data, True);
+        return $obReceiver->receiverLoad($data, True);
     }
 
     public function onSearch($data, $sessionId)
     {
         $obSearch = new Search($sessionId);
-        return $obSearch->SearchItem(json_decode($data));
+        return $obSearch->searchItem(json_decode($data));
     }
 
     public function onCompose($data, $sessionId)
     {
         $obCompose = new Compose($sessionId);
-        return $obCompose->SelectUser(json_decode($data));
+        return $obCompose->selectUser(json_decode($data));
     }
 
     public function onReply($data, $sessionId)

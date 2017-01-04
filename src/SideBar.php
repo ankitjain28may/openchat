@@ -3,6 +3,10 @@
 namespace ChatApp;
 require_once (dirname(__DIR__) . '/config/database.php');
 use ChatApp\Time;
+use Dotenv\Dotenv;
+$dotenv = new Dotenv(dirname(__DIR__));
+$dotenv->load();
+
 
 /**
 * Fetching the sidebar results
@@ -16,12 +20,17 @@ class SideBar
 
     public function __construct()
     {
-        $this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        $this->connect = mysqli_connect(
+            getenv('DB_HOST'),
+            getenv('DB_USER'),
+            getenv('DB_PASSWORD'),
+            getenv('DB_NAME')
+        );
         $this->obTime = new Time();
         $this->array = array();
     }
 
-    public function LoadSideBar($userId)
+    public function loadSideBar($userId)
     {
         if(isset($userId))
         {
@@ -37,7 +46,7 @@ class SideBar
                         $substring = substr($identifier, 0, $length);
                         if($substring != $userId)
                         {
-                            $this->Data($substring, $row);
+                            $this->data($substring, $row);
                         }
 
                         else
@@ -65,15 +74,15 @@ class SideBar
         $this->connect->close();
     }
 
-    public function Data($id, $row)
+    public function data($userId, $row)
     {
-        $query = "SELECT username,name,login_status,login_id from login where login_id = '$id'";
+        $query = "SELECT username, name, login_status, login_id from login where login_id = '$userId'";
         if($result = $this->connect->query($query))
         {
             if($result->num_rows > 0)
             {
                 $fetch = $result->fetch_assoc();
-                $row['time'] = $this->obTime->TimeConversion($row['time']);
+                $row['time'] = $this->obTime->timeConversion($row['time']);
                 $fetch = array_merge($fetch, ['time' => $row['time']]);
                 $this->array = array_merge($this->array, [$fetch]);
             }

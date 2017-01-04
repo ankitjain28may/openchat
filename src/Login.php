@@ -1,8 +1,12 @@
 <?php
 
 namespace ChatApp;
+require_once (dirname(__DIR__) . '/vendor/autoload.php');
 use ChatApp\Session;
-require_once (dirname(__DIR__) . '/config/database.php');
+use Dotenv\Dotenv;
+$dotenv = new Dotenv(dirname(__DIR__));
+$dotenv->load();
+
 
 class Login
 {
@@ -14,7 +18,12 @@ class Login
 	public function __construct()
 	{
 		$this->key = 0;
-		$this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+		$this->connect = mysqli_connect(
+            getenv('DB_HOST'),
+            getenv('DB_USER'),
+            getenv('DB_PASSWORD'),
+            getenv('DB_NAME')
+        );
 		$this->error = array();
 	}
 
@@ -62,7 +71,7 @@ class Login
 						{
 							Session::put('start', $loginID);
 							return json_encode([
-								"location" => URL."/account.php"
+								"location" => getenv('APP_URL')."/account.php"
 							]);
 						}
 						else

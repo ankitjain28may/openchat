@@ -1,10 +1,15 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/config/database.php');
+require_once (dirname(__DIR__) . '/vendor/autoload.php');
 use ChatApp\User;
-use ChatApp\Time;
+use ChatApp\Session;
 use ChatApp\Conversation;
+use Dotenv\Dotenv;
+$dotenv = new Dotenv(dirname(__DIR__));
+$dotenv->load();
+
+
 /**
 *
 */
@@ -23,13 +28,13 @@ class Receiver
         $this->conversation = new Conversation($sessionId);
     }
 
-    public function ReceiverLoad($msg)
+    public function receiverLoad($msg)
     {
-        $id2 = $_SESSION['start'];
-        $this->messages = $this->ob->UserDetails($id2, True);
+        $id2 = Session::get('start');
+        $this->messages = $this->ob->userDetails($id2, True);
         $username = $this->messages['username'];
         $name = $this->messages['name'];
-        $this->messages = json_decode($this->conversation->ConversationLoad($msg, True));
+        $this->messages = json_decode($this->conversation->conversationLoad($msg, True));
         $id = json_decode($msg)->username;
         for ($i=1 ; $i < count($this->messages); $i++) {
             $this->messages[$i]->start = $id;

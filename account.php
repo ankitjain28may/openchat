@@ -1,10 +1,13 @@
 <?php
 
 require_once (__DIR__ . '/vendor/autoload.php');
-require_once (__DIR__ . '/config/database.php');
 use ChatApp\User;
 use ChatApp\Profile;
 use ChatApp\Session;
+use Dotenv\Dotenv;
+$dotenv = new Dotenv(__DIR__);
+$dotenv->load();
+
 
 $user = explode("/", $_SERVER['REQUEST_URI']);
 $user = $user[count($user)-1];
@@ -16,7 +19,7 @@ if($userId != null && $user == "account.php")
 
 	if($row != NULL)
 	{
-		$location = URL . "/account.php/". $row['username'];
+		$location = getenv('APP_URL') . "/account.php/". $row['username'];
 		header("Location:".$location);
 	}
 }
@@ -30,7 +33,7 @@ elseif ($user != "account.php")
 		if($details != NULL)
 			$row = array_merge($row, $details);
 		else
-			header("Location:".URL."/error.php");
+			header("Location:".getenv('APP_URL')."/error.php");
 ?>
 
 		<!Doctype html>
@@ -117,12 +120,12 @@ elseif ($user != "account.php")
 		</html>
 <?php
 	else:
-		header("Location:".URL."/error.php");
+		header("Location:".getenv('APP_URL')."/error.php");
 	endif;
 }
 else
 {
-	header("Location: ".URL);
+	header("Location: ".getenv('APP_URL'));
 }
 ?>
 

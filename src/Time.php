@@ -13,7 +13,7 @@ class Time
         # code...
     }
 
-    public function TimeConversion($time)
+    public function timeConversion($time)
     {
 
         if(substr($time,4,11) == date("d M Y", time() + 16200))

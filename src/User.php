@@ -2,7 +2,11 @@
 
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/config/database.php');
+require_once (dirname(__DIR__) . '/vendor/autoload.php');
+use Dotenv\Dotenv;
+$dotenv = new Dotenv(dirname(__DIR__));
+$dotenv->load();
+
 
 /**
 * For retreiving User Information
@@ -16,15 +20,20 @@ class User
 
     public function __construct()
     {
-        $this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        $this->connect = mysqli_connect(
+            getenv('DB_HOST'),
+            getenv('DB_USER'),
+            getenv('DB_PASSWORD'),
+            getenv('DB_NAME')
+        );
     }
 
-    public function UserDetails($id, $para)
+    public function userDetails($userId, $para)
     {
         if($para == True)
-            $this->query = "SELECT * from login where login_id = '$id'";
+            $this->query = "SELECT * from login where login_id = '$userId'";
         else
-            $this->query = "SELECT * from login where username = '$id'";
+            $this->query = "SELECT * from login where username = '$userId'";
         $this->result = $this->connect->query($this->query);
         if($this->result->num_rows > 0)                   // if true
         {

@@ -42,7 +42,7 @@ Follow this guide to setup your development machine.
 	npm instal
 	```
 
-3. Change credential in `database.php`
+3. Rename file `.env.example` to `.env` and change credentials.
 
 
 4. Create an empty sql database and run import database.
@@ -61,10 +61,10 @@ Follow this guide to setup your development machine.
 6. Open a new terminal window and type
 
 	```php
-	php -S localhost:8888
+	php -S localhost:80
 	```
 
-That's it, Now start development at [http://localhost:8888](http://localhost:8888) in your browser
+That's it, Now start development at [http://localhost:80](http://localhost:80) in your browser
 
 ## Contribution guidelines
 

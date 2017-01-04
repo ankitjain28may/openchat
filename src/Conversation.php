@@ -1,9 +1,14 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/config/database.php');
+require_once (dirname(__DIR__) . '/vendor/autoload.php');
+use ChatApp\Session;
 use ChatApp\Time;
 use ChatApp\User;
+use Dotenv\Dotenv;
+$dotenv = new Dotenv(dirname(__DIR__));
+$dotenv->load();
+
 
 /**
 *
@@ -19,36 +24,41 @@ class Conversation
     {
         session_id($sessionId);
         @session_start();
-        $this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        $this->connect = mysqli_connect(
+            getenv('DB_HOST'),
+            getenv('DB_USER'),
+            getenv('DB_PASSWORD'),
+            getenv('DB_NAME')
+        );
         session_write_close();
         $this->obTime = new Time();
         $this->obUser = new User();
         $this->array = array();
     }
 
-    public function ConversationLoad($msg, $para)
+    public function conversationLoad($msg, $para)
     {
 
         $flag = 1;
-        if(isset($_SESSION['start']) && isset($msg))
+        if(Session::get('start') != null && isset($msg))
         {
             $add_load = 0;
-            $id = $_SESSION['start'];
+            $userId = Session::get('start');
             $msg = json_decode($msg);
             $username = $msg->username;
             $load = $msg->load;
 
-            $fetch = $this->obUser->UserDetails($username, $para);
+            $fetch = $this->obUser->userDetails($username, $para);
 
             if($fetch != NULL)
             {
                 $login_id = (int)$fetch['login_id'];
 
                 // Unique Identifier
-                if($login_id > $id)
-                    $identifier = $id.':'.$login_id;
+                if($login_id > $userId)
+                    $identifier = $userId.':'.$login_id;
                 else
-                    $identifier = $login_id.':'.$id;
+                    $identifier = $login_id.':'.$userId;
 
                 $query = "SELECT total_messages from total_message where identifier = '$identifier'";
                 if($result = $this->connect->query($query))
@@ -72,8 +82,8 @@ class Conversation
                     {
                         while($row = $result->fetch_assoc())
                         {
-                            $row['time'] = $this->obTime->TimeConversion($row['time']);
-                            $row = array_merge($row,['start' => $id]);
+                            $row['time'] = $this->obTime->timeConversion($row['time']);
+                            $row = array_merge($row,['start' => $userId]);
                             $this->array = array_merge($this->array, [$row]);
                         }
 

@@ -1,7 +1,12 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/config/database.php');
+require_once (dirname(__DIR__) . '/vendor/autoload.php');
+use ChatApp\Session;
+use Dotenv\Dotenv;
+$dotenv = new Dotenv(dirname(__DIR__));
+$dotenv->load();
+
 
 /**
 *
@@ -15,21 +20,27 @@ class Compose
     {
         session_id($sessionId);
         @session_start();
-        $this->connect = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        $this->connect = mysqli_connect(
+            getenv('DB_HOST'),
+            getenv('DB_USER'),
+            getenv('DB_PASSWORD'),
+            getenv('DB_NAME')
+        );
+
         session_write_close();
         $this->array = array();
     }
 
-    public function SelectUser($msg)
+    public function selectUser($msg)
     {
         $msg = $msg->value;
-        if(isset($_SESSION['start']) && isset($msg))
+        if(Session::get('start') != null && isset($msg))
         {
-            $id = $_SESSION['start'];
+            $userId = Session::get('start');
             $suggestion = trim($msg);
             if($suggestion != "" )
             {
-                $query = "SELECT * FROM login where login_id != '$id' and name like '$suggestion%' ORDER BY name DESC";
+                $query = "SELECT * FROM login where login_id != '$userId' and name like '$suggestion%' ORDER BY name DESC";
                 if($result = $this->connect->query($query))
                 {
                     if($result->num_rows > 0)

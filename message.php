@@ -1,6 +1,13 @@
 <?php
-session_start();
-if(isset($_SESSION['start']) and empty($_GET['user']))
+
+require_once (__DIR__ . '/vendor/autoload.php');
+use ChatApp\Session;
+use Dotenv\Dotenv;
+$dotenv = new Dotenv(__DIR__);
+$dotenv->load();
+
+
+if(Session::get('start') != null && empty($_GET['user']))
 {
 ?>
 <!DOCTYPE html>
@@ -131,6 +138,6 @@ if(isset($_SESSION['start']) and empty($_GET['user']))
 <?php
 }
 else{
-	header('Location:http://localhost/openchat');
+	header('Location:'. getenv('APP_URL'));
 }
 ?>
