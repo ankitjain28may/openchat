@@ -9,7 +9,7 @@ $dotenv->load();
 // die("Hello");
 if(Session::get('start') != null)
 {
-    header("Location:".getenv('APP_URL')."/account.php");
+    header("Location:".getenv('APP_URL')."/views/account.php");
 }
 ?>
   <!Doctype html>
@@ -19,11 +19,11 @@ if(Session::get('start') != null)
     <title>Open Chat</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script type="text/javascript" src="public/assests/js/jquery-3.0.0.min.js"></script>
+    <link rel="stylesheet" href="public/assests/css/bootstrap.min.css">
 
     <!-- Latest compiled JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="public/assests/js/bootstrap.min.js"></script>
     <style type="text/css">
       .navbar {
                 border-radius: 0;
@@ -144,8 +144,8 @@ if(Session::get('start') != null)
   </div>
 
     <!-- Scripts -->
-    <script type="text/javascript" src="js/login_validate.js"></script>
-    <script type="text/javascript" src="js/register_validate.js"></script>
+    <script type="text/javascript" src="public/assests/js/login_validate.js"></script>
+    <script type="text/javascript" src="public/assests/js/register_validate.js"></script>
   </body>
 
 

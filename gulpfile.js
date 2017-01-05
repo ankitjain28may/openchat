@@ -3,7 +3,8 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat');
     connect = require('gulp-connect-php'),
-    browserSync = require('browser-sync');
+    browserSync = require('browser-sync'),
+    rename = require('gulp-rename');
 
 var jsSources = ['js/*.js'],
     phpSources = ['*.php'];
@@ -37,11 +38,20 @@ gulp.task('log', function() {
 // });
 
 // gulp.task('js', function() {
-//   gulp.src(jsSources)
+//   gulp.src('js/index.js')
+//   .pipe(concat('script.js'))
+//   .pipe(rename({ suffix: '.min' }))
 //   .pipe(uglify())
+//   .pipe(gulp.dest('js'))
+// });
+
+// gulp.task('js2', function() {
+//   gulp.src('js/index.js')
 //   .pipe(concat('script.js'))
 //   .pipe(gulp.dest('js'))
-//   .pipe(connect.reload())
+//   .pipe(rename({ suffix: '.min' }))
+//   .pipe(uglify())
+//   .pipe(gulp.dest('js'))
 // });
 
 
@@ -91,7 +101,7 @@ gulp.task('connect', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(['**/*.php']).on('change', browserSync.reload);
+  gulp.watch(['views/*.php']).on('change', browserSync.reload);
 });
 
 

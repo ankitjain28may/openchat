@@ -1,9 +1,9 @@
 <?php
 
-require_once (__DIR__ . '/vendor/autoload.php');
+require_once (dirname(__DIR__) . '/vendor/autoload.php');
 use ChatApp\Session;
 use Dotenv\Dotenv;
-$dotenv = new Dotenv(__DIR__);
+$dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
 
 
@@ -16,12 +16,12 @@ if(Session::get('start') != null && empty($_GET['user']))
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Messages</title>
-		<link rel="stylesheet" href="css/style.css">
-	 	<link rel="stylesheet" href="css/font-awesome-4.6.3/css/font-awesome.min.css">
-	 	<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
-	<script type="text/javascript" src="js/index.js"></script>
-	<script src="js/handlebars.min.js"></script>
-    <script src="js/moment.min.js"></script>
+		<link rel="stylesheet" href="../public/assests/css/style.css">
+	 	<link rel="stylesheet" href="../public/assests/css/font-awesome-4.6.3/css/font-awesome.min.css">
+	 	<script type="text/javascript" src="../public/assests/js/jquery-3.0.0.min.js"></script>
+	<script type="text/javascript" src="../public/assests/js/index.js"></script>
+	<script src="../public/assests/js/handlebars.min.js"></script>
+    <script src="../public/assests/js/moment.min.js"></script>
 	<!-- // <script type="text/javascript" src="js/mobile.js"></script> -->
 
 	</head>
@@ -32,7 +32,7 @@ if(Session::get('start') != null && empty($_GET['user']))
 			<a id="brand" href="">OpenChat</a>
 			<ul class="nav-right">
 				<li><a href="account.php">Account</a></li>
-				<li><a href="index.php">About</a></li>
+				<li><a href="../index.php">About</a></li>
 				<li><a href="logout.php">Log Out</a></li>
 			</ul>
 
@@ -50,7 +50,7 @@ if(Session::get('start') != null && empty($_GET['user']))
 		<div id="dropdown">
 			<ul class="dropdown-list">
 				<li><a href="account.php">Account</a></li>
-				<li><a href="index.php">About</a></li>
+				<li><a href="../index.php">About</a></li>
 				<li><a href="logout.php">Log Out</a></li>
 			</ul>
 		</div>
@@ -138,6 +138,6 @@ if(Session::get('start') != null && empty($_GET['user']))
 <?php
 }
 else{
-	header('Location:'. getenv('APP_URL'));
+	header('Location:'. getenv('APP_URL')."/index.php");
 }
 ?>

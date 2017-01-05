@@ -121,7 +121,7 @@ class Register
 		if ($this->key == 0) {
 			Session::put('start', $userId);
 			return json_encode([
-				"location" => getenv('APP_URL')."/account.php"
+				"location" => getenv('APP_URL')."/views/account.php"
 			]);
 		}
 		else

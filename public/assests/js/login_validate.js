@@ -64,7 +64,7 @@ function loginCheck()
                 }
             }
         };
-        xmlhttp.open("POST", "ajax/validate_login.php", true);
+        xmlhttp.open("POST", "../views/validate_login.php", true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xmlhttp.send(q);
     }

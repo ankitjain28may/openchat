@@ -60,8 +60,8 @@ Follow this guide to setup your development machine.
 
 6. Open a new terminal window and type
 
-	```php
-	php -S localhost:80
+	```js
+	gulp
 	```
 
 That's it, Now start development at [http://localhost:80](http://localhost:80) in your browser

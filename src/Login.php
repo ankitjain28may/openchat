@@ -71,7 +71,7 @@ class Login
 						{
 							Session::put('start', $loginID);
 							return json_encode([
-								"location" => getenv('APP_URL')."/account.php"
+								"location" => getenv('APP_URL')."/views/account.php"
 							]);
 						}
 						else

@@ -1,11 +1,11 @@
 <?php
 
-require_once (__DIR__ . '/vendor/autoload.php');
+require_once (dirname(__DIR__) . '/vendor/autoload.php');
 use ChatApp\User;
 use ChatApp\Profile;
 use ChatApp\Session;
 use Dotenv\Dotenv;
-$dotenv = new Dotenv(__DIR__);
+$dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
 // die("Hello");
 
@@ -19,7 +19,7 @@ if($userId != null && $user == "account.php")
 
 	if($row != NULL)
 	{
-		$location = getenv('APP_URL') . "/account.php/". $row['username'];
+		$location = getenv('APP_URL') . "/views/account.php/". $row['username'];
 		header("Location:".$location);
 	}
 }
@@ -33,21 +33,21 @@ elseif ($user != "account.php")
 		if($details != NULL)
 			$row = array_merge($row, $details);
 		else
-			header("Location:".getenv('APP_URL')."/error.php");
+			header("Location:".getenv('APP_URL')."/views/error.php");
 ?>
 
 		<!Doctype html>
 		<html>
 			<head>
 				<title>OpenChat || Profile</title>
-		        <link rel="stylesheet" href="../css/profile.css">
+		        <link rel="stylesheet" href="../../public/assests/css/profile.css">
 			</head>
 			<body>
 
 				<div class="header">
 		            <a id="brand" href="">OpenChat</a>
 		            <ul class="nav-right">
-		                <li><a href="../index.php">About</a></li>
+		                <li><a href="../../index.php">About</a></li>
 		                <?php if(Session::get('start') != null): ?>
 							<li><a href="../message.php">Message</a></li>
 							<li><a href="../logout.php">Log out</a></li>
@@ -62,7 +62,7 @@ elseif ($user != "account.php")
 					<div class="boxx" >
 
 						<div class="pic">
-							<img src="../assests/ankit.png">
+							<img src="../../public/assests/img/ankit.png">
 						</div>
 
 						<div class="brief">
@@ -113,19 +113,19 @@ elseif ($user != "account.php")
 					<h3 class="footer_text">Made with love by <a href="#">Ankit Jain</a></h3>
 				</div>
 
-			    <script type="text/javascript" src="../js/jquery-3.0.0.min.js"></script>
-				<script type="text/javascript" src="../js/profile.js"></script>
-			    <script type="text/javascript" src="../node_modules/place-holder.js/place-holder.min.js"></script>
+			    <script type="text/javascript" src="../../public/assests/js/jquery-3.0.0.min.js"></script>
+				<script type="text/javascript" src="../../public/assests/js/profile.js"></script>
+			    <script type="text/javascript" src="../../node_modules/place-holder.js/place-holder.min.js"></script>
 			</body>
 		</html>
 <?php
 	else:
-		header("Location:".getenv('APP_URL')."/error.php");
+		header("Location:".getenv('APP_URL')."/views/error.php");
 	endif;
 }
 else
 {
-	header("Location: ".getenv('APP_URL'));
+	header("Location: ".getenv('APP_URL')."/views/");
 }
 ?>
 

@@ -1,10 +1,10 @@
 <?php
 
-require_once (__DIR__ . '/vendor/autoload.php');
+require_once (dirname(__DIR__) . '/vendor/autoload.php');
 use ChatApp\Session;
 use ChatApp\Profile;
 use Dotenv\Dotenv;
-$dotenv = new Dotenv(__DIR__);
+$dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
 
 $connect = mysqli_connect(
@@ -26,17 +26,17 @@ if(isset($_POST['submit']))
 		$query = "UPDATE profile set status = '$status', education = '$edu', gender = '$gender' where login_id = '$userId'";
 		if($result = $connect->query($query))
 		{
-			header('Location:'.getenv('APP_URL').'/account.php');
+			header('Location:'.getenv('APP_URL').'/views/account.php');
 		}
 		else
 		{
-			header("Location:".getenv('APP_URL')."/error.php");
+			header("Location:".getenv('APP_URL')."/views/error.php");
 		}
 	endif;
 }
 else
 {
-	header("Location:".getenv('APP_URL')."/error.php");
+	header("Location:".getenv('APP_URL')."/views/error.php");
 }
 
 function get($value, $default)
