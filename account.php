@@ -7,7 +7,7 @@ use ChatApp\Session;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(__DIR__);
 $dotenv->load();
-
+// die("Hello");
 
 $user = explode("/", $_SERVER['REQUEST_URI']);
 $user = $user[count($user)-1];

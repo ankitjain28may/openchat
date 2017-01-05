@@ -6,7 +6,7 @@ use Dotenv\Dotenv;
 $dotenv = new Dotenv(__DIR__);
 $dotenv->load();
 
-
+// die("Hello");
 if(Session::get('start') != null)
 {
     header("Location:".getenv('APP_URL')."/account.php");

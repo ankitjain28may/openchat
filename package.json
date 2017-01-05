@@ -3,5 +3,15 @@
   "private": true,
   "dependencies": {
     "place-holder.js": "^2.2.4"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.5",
+    "gulp": "latest",
+    "gulp-coffee": "latest",
+    "gulp-concat": "latest",
+    "gulp-connect-php": "0.0.5",
+    "gulp-sass": "latest",
+    "gulp-uglify": "latest",
+    "gulp-util": "latest"
   }
 }
