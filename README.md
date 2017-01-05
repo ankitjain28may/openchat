@@ -64,7 +64,7 @@ Follow this guide to setup your development machine.
 	gulp
 	```
 
-That's it, Now start development at [http://localhost:80](http://localhost:80) in your browser
+That's it, Now start development at [http://localhost:8888](http://localhost:8888) in your browser
 
 ## Contribution guidelines
 
