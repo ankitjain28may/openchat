@@ -16,13 +16,26 @@ if(Session::get('start') != null && empty($_GET['user']))
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Messages</title>
-		<link rel="stylesheet" href="../public/assests/css/style.css">
-	 	<link rel="stylesheet" href="../public/assests/css/font-awesome-4.6.3/css/font-awesome.min.css">
+
+		<link rel="stylesheet" href="../public/dist/css/style.min.css">
+
+
+		<!-- <link rel="stylesheet" href="../public/assests/css/style.css">
+ -->
+		<!-- Font Awesome File -->
+	 	<!-- <link rel="stylesheet" href="../public/assests/css/font-awesome-4.6.3/css/font-awesome.min.css"> -->
+
+	 	<!-- jQuery File -->
+	 	<!--
 	 	<script type="text/javascript" src="../public/assests/js/jquery-3.0.0.min.js"></script>
-	<script type="text/javascript" src="../public/assests/js/index.js"></script>
-	<script src="../public/assests/js/handlebars.min.js"></script>
-    <script src="../public/assests/js/moment.min.js"></script>
-	<!-- // <script type="text/javascript" src="js/mobile.js"></script> -->
+
+		<script type="text/javascript" src="../public/assests/js/index.js"></script>
+		<script src="../public/assests/js/handlebars.min.js"></script>
+	    <script src="../public/assests/js/moment.min.js"></script>
+	     -->
+
+	    <!-- Minified File -->
+		<script type="text/javascript" src="../public/dist/js/script.min.js"></script>
 
 	</head>
 	<body>

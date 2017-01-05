@@ -5,8 +5,12 @@
     "place-holder.js": "^2.2.4"
   },
   "devDependencies": {
+    "del": "^2.2.2",
     "browser-sync": "^2.18.5",
     "gulp": "latest",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-html-minifier": "^0.1.8",
+    "gulp-imagemin": "^3.0.3",
     "gulp-coffee": "latest",
     "gulp-concat": "latest",
     "gulp-connect-php": "0.0.5",

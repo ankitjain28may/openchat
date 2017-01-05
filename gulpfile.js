@@ -4,86 +4,32 @@ var gulp = require('gulp'),
     concat = require('gulp-concat');
     connect = require('gulp-connect-php'),
     browserSync = require('browser-sync'),
-    rename = require('gulp-rename');
-
-var jsSources = ['js/*.js'],
-    phpSources = ['*.php'];
-
-
-
-
+    del = require('del'),
+    rename = require('gulp-rename'),
+    cssnano = require('gulp-cssnano');
 
 gulp.task('log', function() {
   gutil.log('== My First Task ==')
 });
 
-// gulp.task('copy', function() {
-//   gulp.src('index.html')
-//   .pipe(gulp.dest(outputDir))
-// });
 
-// gulp.task('sass', function() {
-//   gulp.src(sassSources)
-//   .pipe(sass({style: 'expanded'}))
-//     .on('error', gutil.log)
-//   .pipe(gulp.dest('assets'))
-//   .pipe(connect.reload())
-// });
+gulp.task('js', function() {
+  gulp.src(['public/assests/js/jquery-3.0.0.min.js','public/assests/js/index.js', 'public/assests/js/handlebars.min.js', 'public/assests/js/moment.min.js'])
+  .pipe(concat('script.js'))
+  .pipe(rename({ suffix: '.min' }))
+  .pipe(uglify())
+  .pipe(gulp.dest('public/dist/js'))
+  .on('change', browserSync.reload);
+});
 
-// gulp.task('coffee', function() {
-//   gulp.src(coffeeSources)
-//   .pipe(coffee({bare: true})
-//     .on('error', gutil.log))
-//   .pipe(gulp.dest('scripts'))
-// });
-
-// gulp.task('js', function() {
-//   gulp.src('js/index.js')
-//   .pipe(concat('script.js'))
-//   .pipe(rename({ suffix: '.min' }))
-//   .pipe(uglify())
-//   .pipe(gulp.dest('js'))
-// });
-
-// gulp.task('js2', function() {
-//   gulp.src('js/index.js')
-//   .pipe(concat('script.js'))
-//   .pipe(gulp.dest('js'))
-//   .pipe(rename({ suffix: '.min' }))
-//   .pipe(uglify())
-//   .pipe(gulp.dest('js'))
-// });
-
-
-
-// gulp.task('watch', function() {
-
-//   livereload.listen();
-//   // gulp.watch('*.php').on('change', livereload.reload);
-
-//     gulp.watch('*.php').on('change', function(file) {
-//           gutil.log("Changed" + file.path);
-//           livereload.changed(file.path);
-//       });
-
-// });
-
-
-// gulp.task('connect', function() {
-//   connectPHP.server({
-//     hostname: '127.0.0.1',
-//     bin: 'C:/xampp/php/php.exe',
-//     ini: 'C:/xampp/php/php.ini',
-//     port: 3000,
-//     base: '.',
-//     livereload: true
-//   // }, function () {
-//   //         browserSync.init({
-//   //           proxy: "localhost:3000"
-//   //   });
-//   });
-// });
-
+gulp.task('css', function() {
+  gulp.src(['public/assests/css/style.css', 'public/assests/css/font-awesome-4.6.3/css/font-awesome.min.css'])
+  .pipe(concat('style.css'))
+  .pipe(rename({ suffix: '.min' }))
+  .pipe(cssnano())
+  .pipe(gulp.dest('public/dist/css'))
+  .on('change', browserSync.reload);
+})
 
 
 
@@ -101,19 +47,14 @@ gulp.task('connect', function() {
 });
 
 gulp.task('watch', function() {
+  gulp.watch('public/assets/js/*.js', ['js']);
   gulp.watch(['views/*.php']).on('change', browserSync.reload);
 });
 
+// cleaning build process- run clean before deploy and rebuild files again
+gulp.task('clean', function() {
+    return del(['public/dist/js', 'public/dist/css'], { force: true });
+});
 
-//task that fires up browserSync proxy after connect server has started
-// gulp.task('browser-sync',['connect'], function() {
 
-// });
-
-
-//default task that runs task browser-sync ones and then watches php files to change. If they change browserSync is reloaded
-// gulp.task('default', ['browser-sync'], function () {
-//   gulp.watch(['*.php'], browserSync.reload);
-// });
-
-gulp.task('default', ['connect', 'watch']);
+gulp.task('default', ['clean','css', 'js', 'connect', 'watch']);
