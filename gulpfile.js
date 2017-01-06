@@ -14,7 +14,7 @@ gulp.task("log", function() {
 
 
 gulp.task("js", function() {
-  gulp.src(["public/assests/js/jquery-3.0.0.min.js","public/assests/js/index.js", "public/assests/js/handlebars.min.js", "public/assests/js/moment.min.js"])
+  gulp.src(["public/assests/js/jquery-3.0.0.min.js", "public/assests/js/index.js", "public/assests/js/handlebars.min.js", "public/assests/js/moment.min.js"])
   .pipe(concat("script.js"))
   .pipe(rename({ suffix: ".min" }))
   .pipe(uglify())

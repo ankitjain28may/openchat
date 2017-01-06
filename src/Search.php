@@ -43,7 +43,7 @@ class Search
             $suggestion = trim($suggestion);
             if($suggestion != "")
             {
-                $query = "SELECT * FROM login where login_id != '$userId' and name like '$suggestion%' ORDER BY name ASC";
+                $query = "SELECT * FROM login where login_id != '$userId' and name like '$suggestion%' ORDER BY name DESC";
                 if($result = $this->connect->query($query))
                 {
                     if($result->num_rows > 0)
@@ -59,7 +59,7 @@ class Search
                                     $fetch = $result1->fetch_assoc();
                                     $fetch['time'] = $this->obTime->timeConversion($fetch['time']);
 
-                                    $this->array = array_merge($this->array, [['time' => $fetch['time'], 'username' => $row['username'], 'name' => $row['name']]]);
+                                    $this->array = array_merge($this->array, [['time' => $fetch['time'], 'username' => $row['username'], 'name' => $row['name'], 'login_status' => $row['login_status']]]);
                                     $flag = 1;
                                 }
                             }

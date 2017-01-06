@@ -50,7 +50,6 @@ class Chat implements MessageComponentInterface {
                     ]), True, $sessionId
                 )
             );
-
             // @$initial->conversation[0]->login_status = $this->online;
             $from->send(json_encode($initial));
         }

@@ -38,9 +38,6 @@ conn.onmessage = function(e) {
   }
 };
 
-conn.onerror = function(evt) {
-  // console.log(evt.data);
-};
 
 // For First time
 function init() {
@@ -48,104 +45,94 @@ function init() {
 }
 
 // For updating Sidebar
-function SideBar(msg) {
+function SideBar(msg)
+{
   mobile("sidebar");
   // Getting Div
-  var ele = document.getElementById("message");
-  if (msg != null) {
-    $("#message a").remove();
-    // organising content according to time
-    for(var i = 0; i < msg.length; i++) {
-      var para = document.createElement("a");
-      var node = document.createTextNode(msg[i]["name"]);
-      para.appendChild(node);
-      para.setAttribute("id", msg[i]["username"]);
-      para.setAttribute("href", "message.php#" + msg[i]["username"]);
-      para.setAttribute("class", "message");
-      para.setAttribute("onclick", "newConversation(this,10)");
-      ele.appendChild(para);
-
-      var bre = document.createElement("span");
-      var inp = document.createTextNode(msg[i]["time"]);
-      bre.appendChild(inp);
-      bre.setAttribute("class", "message_time");
-      para.appendChild(bre);
-
-      if (msg[i]["login_status"] == "1") {
-        var online = document.createElement("div");
-        online.setAttribute("class", "online");
-        para.appendChild(online);
-      }
-    }
+  if (msg != null)
+  {
+    createSidebarElement(msg);
   }
 }
 
 // SideBar Load Request
-function SidebarRequest() {
+function sidebarRequest() {
   conn.send("Load Sidebar");
 }
 
 // Update Current Conversation
-function updateConversation(arr) {
+function updateConversation(data)
+{
   if(!width())
   {
-    SidebarRequest();
+    sidebarRequest();
   }
   var ele = document.getElementById("conversation");
+  ele.innerHTML = "";
 
-  if (arr[0].type == 1) {
-    ele.innerHTML = "";
-
+  if (data[0].type === 1) {
     // For showing previous message
-    if (arr[0].load > 10) {
-      var txt = $("<a></a>").text("Show Previous Message!");
-      var te = $("<div></div>").append(txt);
-      $("#conversation").append(te);
+    if (data[0].load > 10) {
+      var aElement = $("<a></a>").text("Show Previous Message!");
+      var divElement = $("<div></div>").append(aElement);
+      $("#conversation").append(divElement);
       $("#conversation div").addClass("previous");
       $("#conversation div a").attr({
         "onclick": "previous(this)",
-        "id": arr[0].username,
-        "name": arr[0].load
+        "id": data[0].username,
+        "name": data[0].load
       });
     }
 
-    for (var i = arr.length - 1; i >= 1; i--) {
+    for (var i = data.length - 1; i >= 1; i--) {
       // create element
-      var para = document.createElement("div");
-      if (arr[i]["sent_by"] != arr[i]["start"])
+      var divElement = document.createElement("div");
+      if (data[i]["sent_by"] !== data[i].start)
       {
-        para.setAttribute("class", "receiver");
+        divElement.setAttribute("class", "receiver");
       }
       else
       {
-        para.setAttribute("class", "sender");
+        divElement.setAttribute("class", "sender");
       }
 
-      ele.appendChild(para);
-      var bre = document.createElement("br");
-      bre.setAttribute("style", "clear:both;");
-      ele.appendChild(bre);
+      ele.appendChild(divElement);
+      var brElement = document.createElement("br");
+      brElement.setAttribute("style", "clear:both;");
+      ele.appendChild(brElement);
 
-      var info = document.createElement("p");
-      var node = document.createTextNode(arr[i]["message"]);
-      info.appendChild(node);
-      para.appendChild(info);
+      var pElement = document.createElement("p");
+      var pText = document.createTextNode(data[i].message);
+      pElement.appendChild(pText);
+      divElement.appendChild(pElement);
 
-      var tt = document.createElement("h6");
-      var inp = document.createTextNode(arr[i]["time"]);
-      tt.appendChild(inp);
-      tt.setAttribute("class", "message_time");
-      info.appendChild(tt);
+      var h6Element = document.createElement("h6");
+      var h6Text = document.createTextNode(data[i].time);
+      h6Element.appendChild(h6Text);
+      h6Element.setAttribute("class", "message_time");
+      pElement.appendChild(h6Element);
     }
 
-    $("#chat_heading a").remove("a");
-    txt = $("<a></a>").text(arr[0].name);
-    $("#chat_heading").append(txt);
+    setConversationDetails(data[0]);
+
+    ele.scrollTop = ele.scrollHeight;
+  }
+  else
+  {
+    setConversationDetails(data[0]);
+  }
+}
+
+function setConversationDetails(details)
+{
+  $("#chat_heading a").remove("a");
+    var aElement = $("<a></a>").text(details.name);
+    $("#chat_heading").append(aElement);
     $("#chat_heading a").attr({
-      "href": "http://localhost/openchat/account.php/" + arr[0].username
+      "href": "http://localhost/openchat/account.php/" + details.username
     });
-    // Online
-    if (arr[0]["login_status"] == "1") {
+
+    if (details.login_status === "1") {
       var online = document.createElement("p");
       online.setAttribute("class", "online");
       $("#chat_heading a").append(online);
@@ -157,50 +144,20 @@ function updateConversation(arr) {
     if (width())
     {
       $(".text_icon #text_reply").attr({
-        "name": arr[0]["id"]
+        "name": details.id
       });
     }
     else
     {
       $("#text_reply").attr({
-        "name": arr[0]["id"]
+        "name": details.id
       });
     }
-    ele.scrollTop = ele.scrollHeight;
-  } else {
-    ele.innerHTML = "";
-    $("#chat_heading a").remove("a");
-
-    txt = $("<a></a>").text(arr[0].name);
-    $("#chat_heading").append(txt);
-    $("#chat_heading a").attr({
-      "href": "http://localhost/openchat/account.php/" + arr[0].username
-    });
-
-    if (arr[0]["login_status"] == "1") {
-      online = document.createElement("p");
-      online.setAttribute("class", "online");
-      $("#chat_heading a").append(online);
-      $("#chat_heading a p").css({
-        "float": "right"
-      });
-    }
-
-    if (width()) {
-      $(".text_icon #text_reply").attr({
-        "name": arr[0]["id"]
-      });
-    } else {
-      $("#text_reply").attr({
-        "name": arr[0]["id"]
-      });
-    }
-  }
-
 }
 
 // Creating new Conversation or Loading Conversation
-function newConversation(element, load) {
+function newConversation(element, load)
+{
   mobile("main");
   $("#compose_selection").css("visibility", "hidden");
   flag = 0;
@@ -218,33 +175,33 @@ function newConversation(element, load) {
 }
 
 // For reply to other messages
-function reply() {
-  var re="";
+function reply()
+{
+  var replyElement = "";
   if (width())
   {
-    re = ".text_icon #text_reply";
+    replyElement = ".text_icon #text_reply";
   }
   else
   {
-    re = "#text_reply";
+    replyElement = "#text_reply";
   }
 
-  var ele = [$(re).val()];
-  var id = $(re).attr("name");
-  $(re).val("");
-  // console.log(ele);
+  var message = [$(replyElement).val()];
+  var id = $(replyElement).attr("name");
+  $(replyElement).val("");
+  // console.log(message);
   var q = {
     "name": id,
-    "reply": ele
+    "reply": message
   };
-  q = JSON.stringify(q);
-  // console.log(q);
-  conn.send(q);
+  conn.send(JSON.stringify(q));
 
 }
 
 // Compose new and direct message to anyone
-function compose() {
+function compose()
+{
   mobile("compose");
   flag = 1;
   $("#chat_heading a").remove("a");
@@ -252,41 +209,50 @@ function compose() {
   $("#compose_text").show();
 }
 
-function ComposeChoose() {
-  var value = document.getElementById("compose_name").value;
-  if (value != "") {
+function composeChoose()
+{
+  var text = document.getElementById("compose_name").value;
+  if (text !== "") {
     var msg = {
-      "value": value,
+      "value": text,
       "Compose": "Compose"
     };
     conn.send(JSON.stringify(msg));
-  } else {
+  }
+  else
+  {
     $("#compose_selection").css("visibility", "hidden");
   }
 }
 
 //compose messages
-function composeResult(arr) {
+function composeResult(arr)
+{
   var ele = document.getElementById("suggestion");
   ele.innerHTML = "";
 
-  if (arr != "Not Found") {
-    for (var i = arr.length - 1; i >= 0; i--) {
-      var para = document.createElement("li");
-      var active = document.createElement("a");
-      var node = document.createTextNode(arr[i].name);
-      active.appendChild(node);
-      active.setAttribute("href", "#");
-      active.setAttribute("onclick", "newConversation(this,10)");
-      active.setAttribute("class", "suggestion");
-      active.setAttribute("id", arr[i].username);
-      para.appendChild(active);
-      ele.appendChild(para);
+  if (arr !== "Not Found")
+  {
+    for (var i = arr.length - 1; i >= 0; i--)
+    {
+      var liElement = document.createElement("li");
+      var aElement = document.createElement("a");
+      var aText = document.createTextNode(arr[i].name);
+      aElement.appendChild(aText);
+      aElement.setAttribute("href", "#");
+      aElement.setAttribute("onclick", "newConversation(this,10)");
+      aElement.setAttribute("class", "suggestion");
+      aElement.setAttribute("id", arr[i].username);
+      liElement.appendChild(aElement);
+      ele.appendChild(liElement);
     }
-  } else {
-    var txt = $("<a></a>").text("Not Found");
-    var l = $("<li></li>").append(txt);
-    $("#suggestion").append(l);
+  }
+  else
+  {
+    var aElement = $("<a></a>").text("Not Found");
+    var liElement = $("<li></li>").append(aElement);
+    $("#suggestion").append(liElement);
+
     $("#suggestion li a").attr({
       "onclick": "myFunction()"
     });
@@ -294,48 +260,71 @@ function composeResult(arr) {
   $("#compose_selection").css("visibility", "visible");
 }
 
-function search_choose() {
-  var value = $("#search_item").val();
-  if (value != "") {
+function search_choose()
+{
+  var text = $("#search_item").val();
+  if (text !== "")
+  {
     var msg = {
-      "value": value,
+      "value": text,
       "search": "search"
     };
+
     conn.send(JSON.stringify(msg));
-  } else {
+  }
+  else
+  {
     conn.send("Load Sidebar");
   }
 
 }
 
-function searchResult(arr) {
-  var ele = document.getElementById("message");
-  if (arr != "Not Found") {
-    ele.innerHTML = "";
-    for (var i = arr.length - 1; i >= 0; i--) // organising content according to time
-    {
-      var para = document.createElement("a"); //creating element a
-      var node = document.createTextNode(arr[i]["name"]);
-      para.appendChild(node);
-      para.setAttribute("id", arr[i]["username"]);
-      para.setAttribute("href", "message.php#" + arr[i]["username"]);
-      para.setAttribute("class", "message");
-      para.setAttribute("onclick", "newConversation(this,10)");
-      ele.appendChild(para);
-
-      var bre = document.createElement("span"); // creating element span for showing time
-      var inp = document.createTextNode(arr[i]["time"]);
-      bre.appendChild(inp);
-      bre.setAttribute("class", "message_time");
-      para.appendChild(bre);
-    }
-  } else {
+function searchResult(arr)
+{
+  if (arr !== "Not Found")
+  {
+    createSidebarElement(arr);
+  }
+  else
+  {
     $("#message").text("");
-    var txt = $("<a></a>").text("Not Found");
-    $("#message").append(txt);
+    var aElement = $("<a></a>").text("Not Found");
+    $("#message").append(aElement);
     $("#message a").addClass("message");
   }
 
+}
+
+function createSidebarElement(data)
+{
+  // organising content according to time
+  var ele = document.getElementById('message');
+  ele.innerHTML = "";
+  var condition = data.length;
+  for (var i = 0; i < condition; i++)
+  {
+      var aElement = document.createElement("a"); //creating element a
+      var aText = document.createTextNode(data[i].name);
+      aElement.appendChild(aText);
+      aElement.setAttribute("id", data[i].username);
+      aElement.setAttribute("href", "message.php#" + data[i].username);
+      aElement.setAttribute("class", "message");
+      aElement.setAttribute("onclick", "newConversation(this,10)");
+      ele.appendChild(aElement);
+
+      // creating element span for showing time
+      var spanElement = document.createElement("span");
+      var spanText = document.createTextNode(data[i].time);
+      spanElement.appendChild(spanText);
+      spanElement.setAttribute("class", "message_time");
+      aElement.appendChild(spanElement);
+
+      if (data[i].login_status === "1") {
+        var online = document.createElement("div");
+        online.setAttribute("class", "online");
+        aElement.appendChild(online);
+    }
+  }
 }
 
 window.ondblclick = myFunction;
@@ -358,7 +347,8 @@ function previous(element) // Load previous messages
   newConversation(element, lo);
 }
 
-function mobile(ele) {
+function mobile(ele)
+{
   if (width()) {
     mob_hide();
     if (ele == "main") {

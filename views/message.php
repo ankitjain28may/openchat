@@ -26,16 +26,16 @@ if(Session::get('start') != null && empty($_GET['user']))
 	 	<!-- <link rel="stylesheet" href="../public/assests/css/font-awesome-4.6.3/css/font-awesome.min.css"> -->
 
 	 	<!-- jQuery File -->
-	 	<!--
+
 	 	<script type="text/javascript" src="../public/assests/js/jquery-3.0.0.min.js"></script>
 
 		<script type="text/javascript" src="../public/assests/js/index.js"></script>
 		<script src="../public/assests/js/handlebars.min.js"></script>
 	    <script src="../public/assests/js/moment.min.js"></script>
-	     -->
+
 
 	    <!-- Minified File -->
-		<script type="text/javascript" src="../public/dist/js/script.min.js"></script>
+		<!-- <script type="text/javascript" src="../public/dist/js/script.min.js"></script> -->
 
 	</head>
 	<body>
@@ -50,8 +50,6 @@ if(Session::get('start') != null && empty($_GET['user']))
 			</ul>
 
 			<div class="mob-right">
-
-
 				<div class="dropdown">
 					<div class="line"></div>
 					<div class="line"></div>
@@ -87,7 +85,7 @@ if(Session::get('start') != null && empty($_GET['user']))
 			<div id="chat_heading">
 			</div>
 			<div class="compose_text" id="compose_text">
-				<b id="to">To:</b> &nbsp;<input type="text" name="compose_name" placeholder="Name" id="compose_name" value="" onkeyup="ComposeChoose()">
+				<b id="to">To:</b> &nbsp;<input type="text" name="compose_name" placeholder="Name" id="compose_name" value="" onkeyup="composeChoose()">
 				<div id="compose_selection">
 					<ul id="suggestion">
 					</ul>
