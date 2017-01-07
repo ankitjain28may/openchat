@@ -13,14 +13,14 @@ $dotenv->load();
 class Register
 {
 	protected $error;
-	protected $key;
+	protected $flag;
 	protected $obValidate;
 	protected $connect;
 
 	public function __construct()
 	{
 		$this->error = array();
-		$this->key = 0;
+		$this->flag = 0;
 		$this->connect = mysqli_connect(
             getenv('DB_HOST'),
             getenv('DB_USER'),
@@ -31,108 +31,96 @@ class Register
 
 	}
 
-	public function authRegister($name, $email, $username, $password, $mob)
+	public function authRegister($data)
 	{
-		$name = trim($name);
-		$email = trim($email);
-		$username = trim($username);
-		$password = trim($password);
-		$mob = trim($mob);
+		$data = $this->emptyValue($data);
+		$name = $data["name"];
+		$email = $data["email"];
+		$username = $data["username"];
+		$mob = $data["mob"];
+		$password = $data["passRegister"];
 		$userId = '';
 
-		if (empty($name)) {
-			$this->onError(["name" => " *Enter the name"]);
-		}
-
-		if(empty($email)) {
-			$this->onError(["email" => " *Enter the email address"]);
-		}
-		elseif(filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-			$this->onError(["email" => " *Enter correct Email address"]);
-		}
-		else
+		if(filter_var($email, FILTER_VALIDATE_EMAIL) == false)
 		{
-			if($this->obValidate->validateEmailInDb($email) === 1)
-			{
-
-				$this->onError(["email" => " *Email is already registered"]);
-			}
+			$this->onError("email", " *Enter correct Email address");
 		}
-
-		if(empty($username)) {
-			$this->onError(["username" => " *Enter the username"]);
-		}
-		else
+		else if($this->obValidate->validateEmailInDb($email) === 1)
 		{
-			if($this->obValidate->validateUsernameInDb($username) === 1)
-			{
-
-				$this->onError(["username" => " *Username is already registered"]);
-			}
+			$this->onError("email", " *Email is already registered");
 		}
 
-		if(empty($password)) {
-			$this->onError(["password" => " *Enter the password"]);
+		if($this->obValidate->validateUsernameInDb($username) === 1)
+		{
+			$this->onError("username", " *Username is already registered");
 		}
 
-		if(empty($mob)) {
-			$this->onError(["mob" => " *Enter the Mobile Number"]);
-		}
-		elseif (!preg_match("/^[0-9]{10}$/", $mob)) {
-			$this->onError(["mob" => " *Enter correct Mobile Number"]);
+		if (!preg_match("/^[0-9]{10}$/", $data["mob"])) {
+			$this->onError("mob", " *Enter correct Mobile Number");
 		}
 
-		if($this->key == 1)
+		if($this->flag == 1)
 		{
 			return json_encode($this->error);
 		}
-		else
-		{
-			$this->key = 0;
-			$pass = md5($password);
-			$query = "INSERT INTO register VALUES(null, '$email', '$username', '$pass')";
-			if(!$this->connect->query($query)) {
-				$this->key = 1;
-				echo "You are not registered || Error in registration1";
-			}
-			else
-			{
-				$query = "SELECT id FROM register WHERE email = '$email'";
-				if($result = $this->connect->query($query)) {
-					$row = $result->fetch_assoc();
-					$userId = $row['id'];
 
-					$query = "INSERT INTO login VALUES('$userId', '$name', '$email', '$username', '$mob', 0)";
-					if(!$this->connect->query($query)) {
-						$this->key = 1;
-						echo "You are not registered || Error in registration2";
-					}
-					else
-					{
-						$query = "INSERT INTO profile VALUES('$userId', 'Joined OpenChat', 'Joined OpenChat', '')";
-						if(!$this->connect->query($query)) {
-							$this->key = 1;
-							echo "You are not registered || Error in registration3";
-						}
-					}
-				}
-			}
+		$password = md5($password);
+
+		$query = "INSERT INTO register VALUES(null, '$email', '$username', '$password')";
+		if(!$this->connect->query($query))
+		{
+			return json_encode(["Error" => "You are not registered, ".$this->connect->error ]);
 		}
-		if ($this->key == 0) {
+		$query = "SELECT id FROM register WHERE email = '$email'";
+		if($result = $this->connect->query($query))
+		{
+			$row = $result->fetch_assoc();
+			$userId = $row['id'];
+			$query = "INSERT INTO login VALUES('$userId', '$name', '$email', '$username', '$mob', 0)";
+
+			if(!$this->connect->query($query))
+			{
+				return json_encode(["Error" => "You are not registered, ".$this->connect->error ]);
+			}
+
+			$query = "INSERT INTO profile VALUES('$userId', 'Joined OpenChat', 'Joined OpenChat', '')";
+			if(!$this->connect->query($query))
+			{
+				return json_encode(["Error" => "You are not registered, ".$this->connect->error ]);
+			}
+
 			Session::put('start', $userId);
 			return json_encode([
 				"location" => getenv('APP_URL')."/views/account.php"
 			]);
 		}
-		else
-		{
-			return json_encode($this->error);
-		}
 	}
 
-	public function onError($value)
+
+	public function onError($key, $value)
 	{
-		$this->key = 1;
-		$this->error = array_merge($this->error, $value);
+		$this->flag = 1;
+		$this->error = array_merge($this->error, [["key" => $key, "value" => $value]]);
+	}
+
+	public function emptyValue($data)
+	{
+		$errorCode = array(
+			"name" => " *Enter the name",
+			"email" => " *Enter the email address",
+			"username" => " *Enter the username",
+			"passRegister" => " *Enter the password",
+			"mob" => " *Enter the Mobile Number"
+		);
+
+		foreach ($data as $key => $value) {
+			$data[$key] = trim($data[$key]);
+			$value = trim($value);
+			if(empty($value))
+			{
+				$this->onError($key, $errorCode[$key]);
+			}
+		}
+		return $data;
 	}
 }

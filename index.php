@@ -122,27 +122,6 @@ if(Session::get('start') != null)
       <br><br><br>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Error</h4>
-        </div>
-        <div class="modal-body">
-          <p>Fill all the details that are required.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
     <!-- Scripts -->
     <script type="text/javascript" src="public/assests/js/login_validate.js"></script>
     <script type="text/javascript" src="public/assests/js/register_validate.js"></script>

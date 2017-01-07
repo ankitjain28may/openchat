@@ -12,10 +12,19 @@ if(isset($_POST['q']))
 	$mob = $registerField->mob;
 	$password = $registerField->password;
 	$obRegister = new Register();
-	$result = $obRegister->authRegister($name, $email, $username, $password, $mob);
+	$data = array(
+		'name' => $name,
+		'email' => $email,
+		'username' => $username,
+		'passRegister' => $password,
+		'mob' => $mob
+	);
+	$result = $obRegister->authRegister($data);
 	if(isset($result))
 		echo $result;
 	else
 		echo json_encode([]);
 }
+
+
 

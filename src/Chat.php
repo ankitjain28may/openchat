@@ -135,7 +135,7 @@ class Chat implements MessageComponentInterface {
     public function onReceiver($data, $para, $sessionId)
     {
         $obReceiver = new Receiver($sessionId);
-        return $obReceiver->receiverLoad($data, True);
+        return $obReceiver->receiverLoad($data, $para);
     }
 
     public function onSearch($data, $sessionId)

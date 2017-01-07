@@ -15,7 +15,7 @@ $dotenv->load();
 */
 class Receiver
 {
-    protected $ob;
+    protected $obUser;
     protected $conversation;
     protected $messages;
 
@@ -24,24 +24,24 @@ class Receiver
         session_id($sessionId);
         @session_start();
         session_write_close();
-        $this->ob = new User();
+        $this->obUser = new User();
         $this->conversation = new Conversation($sessionId);
     }
 
-    public function receiverLoad($msg)
+    public function receiverLoad($msg, $para)
     {
         $id2 = Session::get('start');
-        $this->messages = $this->ob->userDetails($id2, True);
+        $this->messages = $this->obUser->userDetails($id2, $para);
         $username = $this->messages['username'];
         $name = $this->messages['name'];
-        $this->messages = json_decode($this->conversation->conversationLoad($msg, True));
-        $id = json_decode($msg)->username;
+        $this->messages = json_decode($this->conversation->conversationLoad($msg, $para));
+        $id1 = json_decode($msg)->username;
         for ($i=1 ; $i < count($this->messages); $i++) {
-            $this->messages[$i]->start = $id;
+            $this->messages[$i]->start = $id1;
         }
         $this->messages[0]->username = $username;
         $this->messages[0]->name = $name;
-        $this->messages[0]->id = $id2;
+        $this->messages[0]->id1 = $id2;
         return json_encode($this->messages);
     }
 }
