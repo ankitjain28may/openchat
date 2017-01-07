@@ -41,7 +41,7 @@ class Receiver
         }
         $this->messages[0]->username = $username;
         $this->messages[0]->name = $name;
-        $this->messages[0]->id1 = $id2;
+        $this->messages[0]->id = $id2;
         return json_encode($this->messages);
     }
 }

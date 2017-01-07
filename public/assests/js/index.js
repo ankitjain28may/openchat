@@ -16,6 +16,13 @@ conn.onmessage = function(e) {
   {
     SideBar(msg.sidebar);
   }
+  else
+  {
+    if( document.getElementById("conversation").style.display == "none")
+    {
+      SideBar(msg.sidebar);
+    }
+  }
 
   if (msg.initial !== undefined)
   {
@@ -25,6 +32,19 @@ conn.onmessage = function(e) {
   if (msg.conversation !== undefined)
   {
     updateConversation(msg.conversation);
+  }
+
+  if(msg.reply !== undefined)
+  {
+    var textAreaId = $("#text_reply").attr("name");
+    if(width())
+    {
+      textAreaId = $(".text_icon #text_reply").attr("name");
+    }
+    if(msg.reply[0].id === textAreaId)
+    {
+      updateConversation(msg.reply);
+    }
   }
 
   if (msg.Search !== undefined)
@@ -63,64 +83,70 @@ function sidebarRequest() {
 // Update Current Conversation
 function updateConversation(data)
 {
+
   if(!width())
   {
     sidebarRequest();
   }
+
   var ele = document.getElementById("conversation");
   ele.innerHTML = "";
 
-  if (data[0].type === 1) {
-    // For showing previous message
-    if (data[0].load > 10) {
-      var aElement = $("<a></a>").text("Show Previous Message!");
-      var divElement = $("<div></div>").append(aElement);
-      $("#conversation").append(divElement);
-      $("#conversation div").addClass("previous");
-      $("#conversation div a").attr({
-        "onclick": "previous(this)",
-        "id": data[0].username,
-        "name": data[0].load
-      });
-    }
-
-    for (var i = data.length - 1; i >= 1; i--) {
-      // create element
-      var divElement = document.createElement("div");
-      if (data[i]["sent_by"] !== data[i].start)
-      {
-        divElement.setAttribute("class", "receiver");
-      }
-      else
-      {
-        divElement.setAttribute("class", "sender");
+    if (data[0].type === 1) {
+      // For showing previous message
+      if (data[0].load > 10) {
+        var aElement = $("<a></a>").text("Show Previous Message!");
+        var divElement = $("<div></div>").append(aElement);
+        $("#conversation").append(divElement);
+        $("#conversation div").addClass("previous");
+        $("#conversation div a").attr({
+          "onclick": "previous(this)",
+          "id": data[0].username,
+          "name": data[0].load
+        });
       }
 
-      ele.appendChild(divElement);
-      var brElement = document.createElement("br");
-      brElement.setAttribute("style", "clear:both;");
-      ele.appendChild(brElement);
+      for (var i = data.length - 1; i >= 1; i--) {
+        // create element
+        var divElement = document.createElement("div");
+        if (data[i]["sent_by"] !== data[i].start)
+        {
+          divElement.setAttribute("class", "receiver");
+        }
+        else
+        {
+          divElement.setAttribute("class", "sender");
+        }
 
-      var pElement = document.createElement("p");
-      var pText = document.createTextNode(data[i].message);
-      pElement.appendChild(pText);
-      divElement.appendChild(pElement);
+        ele.appendChild(divElement);
+        var brElement = document.createElement("br");
+        brElement.setAttribute("style", "clear:both;");
+        ele.appendChild(brElement);
 
-      var h6Element = document.createElement("h6");
-      var h6Text = document.createTextNode(data[i].time);
-      h6Element.appendChild(h6Text);
-      h6Element.setAttribute("class", "message_time");
-      pElement.appendChild(h6Element);
+        var pElement = document.createElement("p");
+        var pText = document.createTextNode(data[i].message);
+        pElement.appendChild(pText);
+        divElement.appendChild(pElement);
+
+        var h6Element = document.createElement("h6");
+        var h6Text = document.createTextNode(data[i].time);
+        h6Element.appendChild(h6Text);
+        h6Element.setAttribute("class", "message_time");
+        pElement.appendChild(h6Element);
+      }
+
+      setConversationDetails(data[0]);
+
+      ele.scrollTop = ele.scrollHeight;
     }
+    else
+    {
+      setConversationDetails(data[0]);
+    }
+}
 
-    setConversationDetails(data[0]);
+function firstConversation(argument) {
 
-    ele.scrollTop = ele.scrollHeight;
-  }
-  else
-  {
-    setConversationDetails(data[0]);
-  }
 }
 
 function setConversationDetails(details)

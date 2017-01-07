@@ -55,7 +55,7 @@ class Chat implements MessageComponentInterface {
         }
         elseif ($msg == 'Load Sidebar')
         {
-            @$initial->initial = json_decode($this->onSidebar($from->userId));
+            @$initial->sidebar = json_decode($this->onSidebar($from->userId));
             $from->send(json_encode($initial));
         }
         elseif (@json_decode($msg)->newConversation == 'Initiated')
@@ -84,9 +84,9 @@ class Chat implements MessageComponentInterface {
             {
                 if ($client->userId == $msg->name)
                 {
-                    @$result->sidebar = json_decode($this->onSidebar($client->userId));
+                    @$receiveResult->sidebar = json_decode($this->onSidebar($client->userId));
 
-                    @$result->conversation = json_decode(
+                    @$receiveResult->reply = json_decode(
                         $this->onReceiver(
                             json_encode([
                                 "username" => $client->userId,
@@ -95,14 +95,14 @@ class Chat implements MessageComponentInterface {
                         )
                     );
 
-                    $client->send(json_encode($result));
+                    $client->send(json_encode($receiveResult));
                     $this->online = 1;
                 }
                 elseif($client == $from)
                 {
-                    @$result->sidebar = json_decode($this->onSidebar($client->userId));
+                    @$sentResult->sidebar = json_decode($this->onSidebar($client->userId));
 
-                    @$result->conversation = json_decode(
+                    @$sentResult->conversation = json_decode(
                         $this->onConversation(
                             json_encode([
                                 "username" => $msg->name,
@@ -111,8 +111,8 @@ class Chat implements MessageComponentInterface {
                         )
                     );
 
-                    $result->conversation[0]->login_status = $this->online;
-                    $client->send(json_encode($result));
+                    $sentResult->conversation[0]->login_status = $this->online;
+                    $client->send(json_encode($sentResult));
                     $this->online = 0;
                 }
             }
