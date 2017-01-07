@@ -145,9 +145,6 @@ function updateConversation(data)
     }
 }
 
-function firstConversation(argument) {
-
-}
 
 function setConversationDetails(details)
 {

@@ -40,9 +40,10 @@ class Chat implements MessageComponentInterface {
         $sessionId = $from->WebSocket->request->getCookies()['PHPSESSID'];
         if($msg == 'OpenChat initiated..!')
         {
-            @$initial->initial = json_decode($this->onSidebar($from->userId));
+            $initial = (object) array();
+            $initial->initial = json_decode($this->onSidebar($from->userId));
 
-            @$initial->conversation = json_decode(
+            $initial->conversation = json_decode(
                 $this->onConversation(
                     json_encode([
                         "username" => $initial->initial[0]->login_id,
@@ -55,12 +56,14 @@ class Chat implements MessageComponentInterface {
         }
         elseif ($msg == 'Load Sidebar')
         {
-            @$initial->sidebar = json_decode($this->onSidebar($from->userId));
-            $from->send(json_encode($initial));
+            $sidebar = (object) array();
+            $sidebar->sidebar = json_decode($this->onSidebar($from->userId));
+            $from->send(json_encode($sidebar));
         }
         elseif (@json_decode($msg)->newConversation == 'Initiated')
         {
-            @$result->conversation = json_decode($this->onConversation($msg, False, $sessionId));
+            $result = (object) array();
+            $result->conversation = json_decode($this->onConversation($msg, False, $sessionId));
             $from->send(json_encode($result));
         }
         elseif (@json_decode($msg)->search == 'search')
@@ -78,15 +81,16 @@ class Chat implements MessageComponentInterface {
             $this->onReply($msg, $sessionId);
 
             $msg = json_decode($msg);
-            // $msg->from = $from->userId;
 
+            $receiveResult = (object)array();
+            $sentResult = (object)array();
             foreach ($this->clients as $client)
             {
                 if ($client->userId == $msg->name)
                 {
-                    @$receiveResult->sidebar = json_decode($this->onSidebar($client->userId));
+                    $receiveResult->sidebar = json_decode($this->onSidebar($client->userId));
 
-                    @$receiveResult->reply = json_decode(
+                    $receiveResult->reply = json_decode(
                         $this->onReceiver(
                             json_encode([
                                 "username" => $client->userId,
@@ -100,9 +104,9 @@ class Chat implements MessageComponentInterface {
                 }
                 elseif($client == $from)
                 {
-                    @$sentResult->sidebar = json_decode($this->onSidebar($client->userId));
+                    $sentResult->sidebar = json_decode($this->onSidebar($client->userId));
 
-                    @$sentResult->conversation = json_decode(
+                    $sentResult->conversation = json_decode(
                         $this->onConversation(
                             json_encode([
                                 "username" => $msg->name,
