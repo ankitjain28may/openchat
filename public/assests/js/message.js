@@ -4,7 +4,7 @@ var pre = "";
 // Websocket Connection Open
 var conn = new WebSocket("ws://localhost:8080");
 conn.onopen = function() {
-  // console.log("Connection established!");
+  console.log("Connection established!");
   init();
 };
 
@@ -78,42 +78,60 @@ function updateConversation(data) {
 
   if (data[0].type === 1) {
     // For showing previous message
-    if (data[0].load > 10) {
+    if (data[0].load > 10)
+    {
+      var divE1 = $("<div></div>").addClass("row message-previous");
+      var divE2 = $("<div></div>").addClass("col-sm-12 previous");
       var aElement = $("<a></a>").text("Show Previous Message!");
-      var divElement = $("<div></div>").append(aElement);
-      $("#conversation").append(divElement);
-      $("#conversation div").addClass("previous");
-      $("#conversation div a").attr({
-        "onclick": "previous(this)",
+      aElement.attr({
         "id": data[0].username,
         "name": data[0].load
       });
+      divE2.append(aElement);
+      divE1.append(divE2);
+      $("#conversation").append(divE1);
     }
 
     for (var i = data.length - 1; i >= 1; i--) {
       // create element
-      var divElement = document.createElement("div");
-      if (data[i]["sent_by"] !== data[i].start) {
-        divElement.setAttribute("class", "receiver");
-      } else {
-        divElement.setAttribute("class", "sender");
+      var divElement1 = $("<div></div>").addClass("row message-body");
+      var divElement2 = $("<div></div>").addClass("col-sm-12");
+      var divElement3 = $("<div></div>");
+      var messageText = $("<div></div>").addClass("message-text").text(data[i].message);
+      var spanElement = $("<span></span>").addClass("message-time pull-right").text(data[i].time);
+
+      if (data[i]["sent_by"] !== data[i].start)
+      {
+       divElement2.addClass("message-main-receiver");
+       divElement3.addClass("receiver");
       }
+      else
+      {
+        divElement2.addClass("message-main-sender");
+       divElement3.addClass("sender");
+      }
+      divElement3.append(messageText);
+      divElement3.append(spanElement);
+      divElement2.append(divElement3);
+      divElement1.append(divElement2);
+      $("#conversation").append(divElement1);
 
-      ele.appendChild(divElement);
-      var brElement = document.createElement("br");
-      brElement.setAttribute("style", "clear:both;");
-      ele.appendChild(brElement);
 
-      var pElement = document.createElement("p");
-      var pText = document.createTextNode(data[i].message);
-      pElement.appendChild(pText);
-      divElement.appendChild(pElement);
+      // ele.appendChild(divElement);
+      // var brElement = document.createElement("br");
+      // brElement.setAttribute("style", "clear:both;");
+      // ele.appendChild(brElement);
 
-      var h6Element = document.createElement("h6");
-      var h6Text = document.createTextNode(data[i].time);
-      h6Element.appendChild(h6Text);
-      h6Element.setAttribute("class", "message_time");
-      pElement.appendChild(h6Element);
+      // var pElement = document.createElement("p");
+      // var pText = document.createTextNode(data[i].message);
+      // pElement.appendChild(pText);
+      // divElement.appendChild(pElement);
+
+      // var h6Element = document.createElement("h6");
+      // var h6Text = document.createTextNode(data[i].time);
+      // h6Element.appendChild(h6Text);
+      // h6Element.setAttribute("class", "message_time");
+      // pElement.appendChild(h6Element);
     }
 
     setConversationDetails(data[0]);
@@ -124,32 +142,20 @@ function updateConversation(data) {
   }
 }
 
-function setConversationDetails(details) {
-  $("#chat_heading a").remove("a");
-  var aElement = $("<a></a>").text(details.name);
-  $("#chat_heading").append(aElement);
-  $("#chat_heading a").attr({
+function setConversationDetails(details)
+{
+  $(".heading-name-meta").text(details.name);
+  $(".heading-name-meta").attr({
     "href": "http://localhost/openchat/account.php/" + details.username
   });
-
+  $(".heading-online").removeClass("show");
   if (details.login_status === "1") {
-    var online = document.createElement("p");
-    online.setAttribute("class", "online");
-    $("#chat_heading a").append(online);
-    $("#chat_heading a p").css({
-      "float": "right"
-    });
+    $(".heading-online").addClass("show");
   }
 
-  if (width()) {
-    $(".text_icon #text_reply").attr({
-      "name": details.id
-    });
-  } else {
-    $("#text_reply").attr({
-      "name": details.id
-    });
-  }
+  $("#text_reply").attr({
+    "name": details.id
+  });
 }
 
 // Creating new Conversation or Loading Conversation
@@ -275,32 +281,41 @@ function createSidebarElement(data) {
   var ele = document.getElementById('message');
   ele.innerHTML = "";
   var condition = data.length;
-  for (var i = 0; i < condition; i++) {
-    var aElement = document.createElement("a"); //creating element a
-    var aText = document.createTextNode(data[i].name);
-    aElement.appendChild(aText);
-    aElement.setAttribute("id", data[i].username);
-    aElement.setAttribute("href", "message.php#" + data[i].username);
-    aElement.setAttribute("class", "message");
-    aElement.setAttribute("onclick", "newConversation(this,10)");
-    ele.appendChild(aElement);
+  for (var i = 0; i < condition; i++)
+  {
 
-    // creating element span for showing time
-    var spanElement = document.createElement("span");
-    var spanText = document.createTextNode(data[i].time);
-    spanElement.appendChild(spanText);
-    spanElement.setAttribute("class", "message_time");
-    aElement.appendChild(spanElement);
+    var div1 = $("<div></div>").addClass("row sideBar-body");
 
-    if (data[i].login_status === "1") {
-      var online = document.createElement("div");
-      online.setAttribute("class", "online");
-      aElement.appendChild(online);
-    }
+    div1.attr({
+      "id" : data[i].username
+    });
+
+    var div2 = $("<div></div>").addClass("col-sm-3 col-xs-3 sideBar-avatar");
+    var div3 = $("<div></div>").addClass("avatar-icon");
+    var imgElement = $("<img>").attr({
+      "src": "../public/assests/img/bg.png"
+    });
+    div3.append(imgElement);
+    div2.append(div3);
+    div1.append(div2);
+
+    div2 = $("<div></div>").addClass("col-sm-9 col-xs-9 sideBar-main");
+    div3 = $("<div></div>").addClass("row");
+    var div4 = $("<div></div>").addClass("col-sm-8 col-xs-8 sideBar-name");
+    var spanE = $("<span></span>").addClass("name-meta").text(data[i].name);
+    div4.append(spanE);
+    div3.append(div4);
+
+    div4 = $("<div></div>").addClass("col-sm-4 col-xs-4 pull-right sideBar-time");
+    spanE = $("<span></span>").addClass("time-meta pull-right").text(data[i].time);
+     div4.append(spanE);
+    div3.append(div4);
+    div2.append(div3);
+
+    div1.append(div2);
+    $("#message").append(div1);
   }
 }
-
-window.ondblclick = myFunction;
 
 function myFunction() // Hidden compose message input
 {
@@ -400,5 +415,25 @@ function startDictation() {
 
   }
 }
+$(document).ready(function(){
+  $('body').on('click', '.sideBar-body', function() {
+    console.log(this);
+      newConversation(this,10);
+  });
 
+  $('body').on('click', '.reply-send',
+   function() {
+    reply();
+  });
+
+  $('body').on('click', '.reply-recording',
+   function() {
+    startDictation();
+  });
+
+  $('body').on('click', '.previous a',
+   function() {
+    previous(this);
+  });
+});
 console.log("Hello, Contact me at ankitjain28may77@gmail.com");

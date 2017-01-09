@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../public/assests/css/message.css">
+  <!-- Font Awesome File -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../public/assests/js/message.js"></script>
+</head>
+
+<body>
+
+  <div class="container app">
+    <div class="row app-one">
+      <div class="col-sm-4 side">
+        <!-- Heading -->
+        <div class="row heading">
+          <div class="col-sm-3 col-xs-3 heading-avatar">
+            <div class="heading-avatar-icon">
+              <img src="../public/assests/img/bg.png">
+            </div>
+          </div>
+          <div class="col-sm-1 col-xs-1  heading-dot  pull-right">
+            <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
+          </div>
+          <div class="col-sm-2 col-xs-2 heading-compose  pull-right">
+            <i class="fa fa-comments fa-2x  pull-right" aria-hidden="true"></i>
+          </div>
+        </div>
+        <!-- Heading End -->
+
+        <!-- SearchBox -->
+        <div class="row searchBox">
+          <div class="col-sm-12" id="searchBox-inner">
+            <div class="form-group has-feedback">
+              <input id="searchText" type="text" class="form-control" name="searchText" placeholder="Search">
+              <span class="glyphicon glyphicon-search form-control-feedback"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search Box End -->
+        <!-- sideBar -->
+        <div class="row sideBar" id="message">
+
+        </div>
+        <!-- Sidebar End -->
+
+      </div>
+      <!-- Side End -->
+
+      <!-- Conversation Start -->
+      <div class="col-sm-8 conversation">
+        <!-- Heading -->
+        <div class="row heading">
+          <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+            <div class="heading-avatar-icon">
+              <img src="../public/assests/img/bg.png">
+            </div>
+          </div>
+          <div class="col-sm-8 col-xs-7 heading-name">
+            <a class="heading-name-meta">Ankit Jain
+            </a>
+            <span class="heading-online">Online</span>
+          </div>
+          <div class="col-sm-1 col-xs-1  heading-dot pull-right">
+            <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
+          </div>
+        </div>
+        <!-- Heading End -->
+
+        <!-- Message Box -->
+        <div class="row message" id="conversation">
+
+        </div>
+        <!-- Message Box End -->
+
+        <!-- Reply Box -->
+        <div class="row reply">
+          <div class="col-sm-1 col-xs-1 reply-emojis">
+            <i class="fa fa-smile-o fa-2x"></i>
+          </div>
+          <div class="col-sm-9 col-xs-9 reply-main">
+            <textarea class="form-control" rows="1" id="text_reply"></textarea>
+          </div>
+          <div class="col-sm-1 col-xs-1 reply-recording">
+            <i class="fa fa-microphone fa-2x" aria-hidden="true"></i>
+          </div>
+          <div class="col-sm-1 col-xs-1 reply-send">
+            <i class="fa fa-send fa-2x" aria-hidden="true"></i>
+          </div>
+        </div>
+        <!-- Reply Box End -->
+      </div>
+      <!-- Conversation End -->
+    </div>
+    <!-- App One End -->
+  </div>
+
+  <!-- App End -->
+
+</body>
+
+</html>

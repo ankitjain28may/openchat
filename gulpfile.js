@@ -23,7 +23,7 @@ gulp.task("js", function() {
 });
 
 gulp.task("css", function() {
-  gulp.src(["public/assests/css/style.css", "public/assests/css/font-awesome-4.6.3/css/font-awesome.min.css"])
+  gulp.src(["public/assests/css/style.css"])
   .pipe(concat("style.css"))
   .pipe(rename({ suffix: ".min" }))
   .pipe(cssnano())
