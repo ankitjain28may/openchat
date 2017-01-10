@@ -6,6 +6,7 @@ var gulp = require("gulp"),
     browserSync = require("browser-sync"),
     del = require("del"),
     rename = require("gulp-rename"),
+    cache = require("gulp-cache"),
     cssnano = require("gulp-cssnano");
 
 gulp.task("log", function() {
@@ -54,9 +55,8 @@ gulp.task("clean", function() {
     return del(["public/dist/js", "public/dist/css"], { force: true });
 });
 
-var cache = require('gulp-cache');
 
-gulp.task('clear', function (done) {
+gulp.task("clear", function (done) {
   return cache.clearAll(done);
 });
 

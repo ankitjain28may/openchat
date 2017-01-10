@@ -104,7 +104,6 @@ function newConversation(element, load)
   if(width())
   {
     toConversation();
-    console.log("ok2");
   }
 
   var msg = {
@@ -120,7 +119,7 @@ function setConversationDetails(details)
 {
   $(".heading-name-meta").text(details.name);
   $(".heading-name-meta").attr({
-    "href": location.href.substring(0, location.href.lastIndexOf('/') + 1) + "account.php/" + details.username
+    "href": location.href.substring(0, location.href.lastIndexOf("/") + 1) + "account.php/" + details.username
   });
 
   $(".heading-online").removeClass("show");
@@ -202,7 +201,6 @@ function reply() {
     "reply": message
   };
   conn.send(JSON.stringify(q));
-
 }
 
 function notFound(eleId)
@@ -238,7 +236,7 @@ function composeResult(arr)
 
   if (arr !== "Not Found")
   {
-    createSidebarElement(arr, "compose")
+    createSidebarElement(arr, "compose");
   }
   else
   {
@@ -258,7 +256,7 @@ function searchChoose() {
   }
   else
   {
-    conn.send("Load Sidebar");
+    sidebarRequest();
   }
 
 }
@@ -311,12 +309,15 @@ function startDictation() {
 
 
 // On Message
-conn.onmessage = function(e) {
+conn.onmessage = function(e)
+{
   var msg = JSON.parse(e.data);
   // console.log(msg);
-  if (!width()) {
+  if (!width())
+  {
     SideBar(msg.sidebar);
-  } else {
+  } else
+  {
     if (!$(".side").hasClass("hide")) {
       SideBar(msg.sidebar);
     }
@@ -348,43 +349,42 @@ conn.onmessage = function(e) {
 
 // Event Listeners
 $(document).ready(function(){
-  $('body').on('click', '.sideBar-body', function() {
+  $("body").on("click", ".sideBar-body", function() {
       newConversation(this,10);
-      console.log("ok");
   });
 
-  $('body').on('click', '.reply-send',
+  $("body").on("click", ".reply-send",
    function() {
     reply();
   });
 
-  $('body').on('click', '.reply-recording',
+  $("body").on("click", ".reply-recording",
    function() {
     startDictation();
   });
 
-  $('body').on('click', '.lowerBar-recording',
+  $("body").on("click", ".lowerBar-recording",
    function() {
     startDictation();
   });
 
-  $('body').on('click', '.lowerBar-back',
+  $("body").on("click", ".lowerBar-back",
    function() {
     toSidebar();
     sidebarRequest();
   });
 
-  $('body').on('click', '.previous a',
+  $("body").on("click", ".previous a",
    function() {
     previous(this);
   });
 
-  $('body').on('keyup', '#searchText',
+  $("body").on("keyup", "#searchText",
    function() {
     searchChoose();
   });
 
-  $('body').on('keyup', '#composeText',
+  $("body").on("keyup", "#composeText",
    function() {
     composeChoose();
   });
