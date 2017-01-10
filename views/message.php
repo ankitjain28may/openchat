@@ -23,16 +23,16 @@ if(Session::get('start') != null && empty($_GET['user']))
 		<!-- Font Awesome File -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-	 	<!-- jQuery File
+	 	<!-- jQuery File -->
 	 	<script type="text/javascript" src="../public/assests/js/jquery-3.0.0.min.js"></script>
 
 		<script type="text/javascript" src="../public/assests/js/index.js"></script>
 		<script src="../public/assests/js/handlebars.min.js"></script>
-	    <script src="../public/assests/js/moment.min.js"></script> -->
+	    <script src="../public/assests/js/moment.min.js"></script>
 
 
 	    <!-- Minified File -->
-		<script type="text/javascript" src="../public/dist/js/script.min.js"></script>
+		<!-- <script type="text/javascript" src="../public/dist/js/script.min.js"></script> -->
 
 	</head>
 	<body>

@@ -2,6 +2,7 @@
   "name": "OpenChat",
   "private": true,
   "dependencies": {
+    "gulp-cache": "^0.4.5",
     "place-holder.js": "^2.2.4"
   },
   "devDependencies": {

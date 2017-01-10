@@ -54,5 +54,11 @@ gulp.task("clean", function() {
     return del(["public/dist/js", "public/dist/css"], { force: true });
 });
 
+var cache = require('gulp-cache');
+
+gulp.task('clear', function (done) {
+  return cache.clearAll(done);
+});
+
 
 gulp.task("default", ["clean","css", "js", "connect", "watch"]);

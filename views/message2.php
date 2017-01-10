@@ -1,4 +1,15 @@
+<?php
 
+require_once (dirname(__DIR__) . '/vendor/autoload.php');
+use ChatApp\Session;
+use Dotenv\Dotenv;
+$dotenv = new Dotenv(dirname(__DIR__));
+$dotenv->load();
+
+if(Session::get('start') != null && empty($_GET['user']))
+{
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,7 +37,7 @@
           <div class="row heading">
             <div class="col-sm-3 col-xs-3 heading-avatar">
               <div class="heading-avatar-icon">
-                <img src="styles/bg.png">
+                <img src="../public/assests/img/ankit.png">
               </div>
             </div>
             <div class="col-sm-1 col-xs-1  heading-dot  pull-right">
@@ -98,13 +109,13 @@
         <div class="row heading">
           <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
             <div class="heading-avatar-icon">
-              <img src="styles/bg.png">
+              <img src="../public/assests/img/ankit.png">
             </div>
           </div>
           <div class="col-sm-8 col-xs-7 heading-name">
-            <a class="heading-name-meta">
+            <a class="heading-name-meta">Ankit Jain
             </a>
-            <span class="heading-online"></span>
+            <span class="heading-online">Online</span>
           </div>
           <div class="col-sm-1 col-xs-1  heading-dot pull-right">
             <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
@@ -160,3 +171,10 @@
 </body>
 
 </html>
+
+<?php
+}
+else{
+  header('Location:'. getenv('APP_URL')."/index.php");
+}
+?>

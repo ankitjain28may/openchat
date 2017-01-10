@@ -207,7 +207,7 @@ function registerCheck() {
                 });
             }
         };
-        xmlhttp.open("POST", "../views/validate_register.php", true);
+        xmlhttp.open("POST", "views/validate_register.php", true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xmlhttp.send(q);
     }

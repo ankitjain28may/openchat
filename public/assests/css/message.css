@@ -19,6 +19,14 @@ body {
   font-size: 1.5em !important;
 }
 
+.notFound {
+  text-align: center;
+  font-size: 100%;
+  font-weight: 700;
+  padding: 15% 0;
+  color: #929fa6;
+}
+
 .app {
   position: relative;
   overflow: hidden;
@@ -43,6 +51,31 @@ body {
   margin: 0;
   height: 100%;
 }
+.side-one {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  position: relative;
+  display: block;
+  top: 0;
+}
+
+.side-two {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  position: relative;
+  top: -100%;
+  left: -100%;
+  -webkit-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+
+}
+
 
 .heading {
   padding: 10px 16px 10px 15px;
@@ -117,7 +150,7 @@ body {
   width: 100%;
 }
 
-#searchBox-inner {
+.searchBox-inner {
   height: 100%;
   width: 100%;
   padding: 10px;
@@ -129,7 +162,7 @@ body {
   box-shadow: none;
 }*/
 
-#searchBox-inner input:focus {
+.searchBox-inner input:focus {
   outline: none;
   border: none;
   box-shadow: none;
@@ -202,6 +235,78 @@ body {
   vertical-align: baseline;
 }
 
+/*New Message*/
+
+.newMessage {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  position: relative;
+  left: -100%;
+}
+.newMessage-heading {
+  padding: 10px 16px 10px 15px;
+  margin: 0;
+  height: 100px;
+  width: 100%;
+  background-color: #00bfa5;
+  z-index: 1001;
+}
+
+.newMessage-main {
+  padding: 10px 16px 0 15px;
+  margin: 0;
+  height: 60px;
+  margin-top: 30px;
+  width: 100%;
+  z-index: 1001;
+  color: #fff;
+}
+
+.newMessage-title {
+  font-size: 18px;
+  font-weight: 700;
+  padding: 10px 5px;
+}
+.newMessage-back {
+  text-align: center;
+  vertical-align: baseline;
+  padding: 12px 5px;
+  display: block;
+  cursor: pointer;
+}
+.newMessage-back i {
+  margin: auto;
+}
+
+.composeBox {
+  padding: 0;
+  margin: 0;
+  height: 60px;
+  width: 100%;
+}
+
+.composeBox-inner {
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  background-color: #fbfbfb;
+}
+
+.composeBox-inner input:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.compose-sideBar {
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  overflow-y: auto;
+  border: 1px solid #f7f7f7;
+  height: calc(100% - 160px);
+}
 
 /*Conversation*/
 
@@ -311,40 +416,20 @@ body {
   background-color: #f5f1ee;
   padding: 10px 5px 10px 5px;
   margin: 0;
+  vertical-align: middle;
   z-index: 1000;
 }
 
-.reply-emojis {
-  padding: 5px;
-}
-
-.reply-emojis i {
-  text-align: center;
-  padding: 5px 5px 5px 5px;
-  color: #93918f;
-  cursor: pointer;
-}
-
-.reply-recording {
-  padding: 5px;
-}
-
-.reply-recording i {
+.reply-icons {
   text-align: center;
   padding: 5px;
-  color: #93918f;
+  display: block;
   cursor: pointer;
+  vertical-align: middle;
 }
 
-.reply-send {
-  padding: 5px;
-}
-
-.reply-send i {
-  text-align: center;
-  padding: 5px;
+.reply-icons i {
   color: #93918f;
-  cursor: pointer;
 }
 
 .reply-main {
@@ -370,6 +455,8 @@ body {
   text-indent: 5px;
   box-shadow: none;
 }
+
+
 
 @media screen and (max-width: 700px) {
   .app {
@@ -443,6 +530,7 @@ body {
     color: rgba(0, 0, 0, .4);
     vertical-align: baseline;
   }
+
   /*Conversation*/
   .conversation {
     padding: 0;
@@ -453,15 +541,22 @@ body {
     /*overflow-y: auto;*/
   }
   .message {
-    height: calc(100% - 140px);
+    height: calc(100% - 180px);
+  }
+  .heading-name-meta {
+    font-size: 120%;
+  }
+  .heading-online {
+    color: #fff;
   }
   .reply {
     height: 70px;
   }
-  .reply-emojis {
+  .reply-icons
+  {
     padding: 5px 0;
   }
-  .reply-emojis i {
+  .reply-icons i {
     padding: 5px 2px;
     font-size: 1.8em !important;
   }
@@ -472,18 +567,29 @@ body {
     padding: 8px;
     font-size: 18px;
   }
-  .reply-recording {
-    padding: 5px 0;
+
+  .lowerBar {
+    height: 40px;
+    width: 100%;
+    background-color: #333;
+    padding: 5px;
+    margin: 0;
+    z-index: 1000;
+    vertical-align: middle;
+    display: none;
   }
-  .reply-recording i {
-    padding: 5px 0;
-    font-size: 1.8em !important;
+
+  .lowerBar-icons {
+    padding: 5px;
+    display: block;
+    cursor: pointer;
+    vertical-align: middle;
+
   }
-  .reply-send {
-    padding: 5px 0;
-  }
-  .reply-send i {
-    padding: 5px 2px 5px 0;
-    font-size: 1.8em !important;
+
+  .lowerBar-icons i {
+    text-align: center;
+    color: #fff;
+    font-size: 1.5em !important;
   }
 }
