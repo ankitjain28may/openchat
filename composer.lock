@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "cboden/ratchet",
-            "version": "v0.3.5",
+            "version": "v0.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ratchetphp/Ratchet.git",
-                "reference": "b5ccecad9390db85d2c8df7cbeb047292fbbf4b8"
+                "reference": "84df35d2a6576985b9e81b564d3c25809f8d647e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ratchetphp/Ratchet/zipball/b5ccecad9390db85d2c8df7cbeb047292fbbf4b8",
-                "reference": "b5ccecad9390db85d2c8df7cbeb047292fbbf4b8",
+                "url": "https://api.github.com/repos/ratchetphp/Ratchet/zipball/84df35d2a6576985b9e81b564d3c25809f8d647e",
+                "reference": "84df35d2a6576985b9e81b564d3c25809f8d647e",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "server",
                 "sockets"
             ],
-            "time": "2016-05-25 12:55:03"
+            "time": "2017-01-06 14:36:36"
         },
         {
             "name": "doctrine/inflector",
@@ -757,24 +757,72 @@
             "time": "2016-03-08 02:09:32"
         },
         {
-            "name": "react/socket",
-            "version": "v0.4.4",
+            "name": "react/promise",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/reactphp/socket.git",
-                "reference": "d61930e1aefb2a704b0adbe6bb97ee4a835d6a96"
+                "url": "https://github.com/reactphp/promise.git",
+                "reference": "2760f3898b7e931aa71153852dcd48a75c9b95db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/socket/zipball/d61930e1aefb2a704b0adbe6bb97ee4a835d6a96",
-                "reference": "d61930e1aefb2a704b0adbe6bb97ee4a835d6a96",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/2760f3898b7e931aa71153852dcd48a75c9b95db",
+                "reference": "2760f3898b7e931aa71153852dcd48a75c9b95db",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "React\\Promise\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@gmail.com"
+                }
+            ],
+            "description": "A lightweight implementation of CommonJS Promises/A for PHP",
+            "keywords": [
+                "promise",
+                "promises"
+            ],
+            "time": "2016-12-22 14:09:01"
+        },
+        {
+            "name": "react/socket",
+            "version": "v0.4.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/socket.git",
+                "reference": "32385d71f84c4a26ea577cb91f1220decb440dce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/socket/zipball/32385d71f84c4a26ea577cb91f1220decb440dce",
+                "reference": "32385d71f84c4a26ea577cb91f1220decb440dce",
                 "shasum": ""
             },
             "require": {
                 "evenement/evenement": "~2.0|~1.0",
                 "php": ">=5.3.0",
                 "react/event-loop": "0.4.*|0.3.*",
-                "react/stream": "^0.4.2"
+                "react/promise": "^2.0 || ^1.1",
+                "react/stream": "^0.4.5"
+            },
+            "require-dev": {
+                "clue/block-react": "^1.1",
+                "react/socket-client": "^0.5.1"
             },
             "type": "library",
             "autoload": {
@@ -786,11 +834,11 @@
             "license": [
                 "MIT"
             ],
-            "description": "Library for building an evented socket server.",
+            "description": "Async, streaming plaintext TCP/IP and secure TLS socket server for React PHP",
             "keywords": [
                 "Socket"
             ],
-            "time": "2016-12-19 22:52:38"
+            "time": "2017-01-08 11:36:16"
         },
         {
             "name": "react/stream",
