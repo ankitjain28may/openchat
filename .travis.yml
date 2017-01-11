@@ -8,10 +8,10 @@ before_install:
   - cp .env.example .env
   - composer require phpunit/phpunit:4.8.* satooshi/php-coveralls:dev-master
   - composer install --dev
-  - mkdir -p tests/logs
 
 script:
-  - ./vendor/bin/phpunit --coverage-clover ./tests/logs/clover.xml
+  - mkdir -p build/logs
+  - phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
   - php vendor/bin/coveralls -v
