@@ -10,7 +10,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/23e0d72e208d4edfb08702b702bd9139)](https://www.codacy.com/app/ankitjain28may77/openchat?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ankitjain28may/openchat&amp;utm_campaign=Badge_Grade)
 
 
-> OpenChat is a open source messaging platform where people can send message to anyone registered to this platform.
+> OpenChat is an Open Source messaging platform where people can send messages to anyone registered to this platform.
 
 ## How to Setup
 
@@ -34,12 +34,12 @@ Follow this guide to setup your development machine.
     git clone https://github.com/ankitjain28may/openchat.git
     ```
 
-2. Install php and js devendencies
+2. Install php and js dependencies
 
 	```shell
 	cd openchat
 	composer install
-	npm instal
+	npm install
 	```
 
 3. Rename file `.env.example` to `.env` and change credentials.
@@ -52,7 +52,7 @@ Follow this guide to setup your development machine.
 	mysql -u[user] -p[password] [database name] < path\openchat\sql\openchat.sql
 	```
 
-5. To start websocket server type
+5. To start the websocket server type
 
 	```php
 	php cmd.php
@@ -64,7 +64,7 @@ Follow this guide to setup your development machine.
 	gulp
 	```
 
-That's it, Now start development at [http://localhost:8888](http://localhost:8888) in your browser
+That's it, now start development at [http://localhost:8888](http://localhost:8888) in your browser
 
 ## Contribution guidelines
 
