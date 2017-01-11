@@ -11,7 +11,7 @@ before_install:
   - mkdir -p tests/logs
 
 script:
-  - dev ./vendor/bin/phpunit --coverage-clover ./tests/logs/clover.xml
+  - ./vendor/bin/phpunit --coverage-clover ./tests/logs/clover.xml
 
 after_script:
-  - dev php vendor/bin/coveralls -v
+  - php vendor/bin/coveralls -v
