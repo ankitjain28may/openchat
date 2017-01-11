@@ -318,7 +318,7 @@ function startDictation() {
 conn.onmessage = function(e)
 {
   var msg = JSON.parse(e.data);
-  console.log(msg);
+  // console.log(msg);
   if (!width())
   {
     SideBar(msg.sidebar);

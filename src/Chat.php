@@ -13,11 +13,9 @@ use ChatApp\Online;
 
 class Chat implements MessageComponentInterface {
     protected $clients;
-    protected $online;
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
-        $this->online = 0;
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -53,7 +51,6 @@ class Chat implements MessageComponentInterface {
                     )
                 );
             }
-            // @$initial->conversation[0]->login_status = $this->online;
             $from->send(json_encode($initial));
         }
         elseif ($msg == 'Load Sidebar')
@@ -102,7 +99,6 @@ class Chat implements MessageComponentInterface {
                     );
 
                     $client->send(json_encode($receiveResult));
-                    $this->online = 1;
                 }
                 elseif($client == $from)
                 {
@@ -117,9 +113,7 @@ class Chat implements MessageComponentInterface {
                         )
                     );
 
-                    // $sentResult->conversation[0]->login_status = $this->online;
                     $client->send(json_encode($sentResult));
-                    $this->online = 0;
                 }
             }
 
