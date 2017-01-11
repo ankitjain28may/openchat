@@ -43,14 +43,16 @@ class Chat implements MessageComponentInterface {
             $initial = (object) array();
             $initial->initial = json_decode($this->onSidebar($from->userId));
 
-            $initial->conversation = json_decode(
-                $this->onConversation(
-                    json_encode([
-                        "username" => $initial->initial[0]->login_id,
-                        "load" => 10
-                    ]), True, $sessionId
-                )
-            );
+            if($initial->initial != null) {
+                $initial->conversation = json_decode(
+                    $this->onConversation(
+                        json_encode([
+                            "username" => $initial->initial[0]->login_id,
+                            "load" => 10
+                        ]), True, $sessionId
+                    )
+                );
+            }
             // @$initial->conversation[0]->login_status = $this->online;
             $from->send(json_encode($initial));
         }
@@ -115,7 +117,7 @@ class Chat implements MessageComponentInterface {
                         )
                     );
 
-                    $sentResult->conversation[0]->login_status = $this->online;
+                    // $sentResult->conversation[0]->login_status = $this->online;
                     $client->send(json_encode($sentResult));
                     $this->online = 0;
                 }

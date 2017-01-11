@@ -436,6 +436,30 @@ body {
   padding: 2px 5px;
 }
 
+.lowerBar {
+  height: 40px;
+  width: 100%;
+  background-color: #333;
+  padding: 5px;
+  margin: 0;
+  z-index: 1000;
+  vertical-align: middle;
+  display: none;
+}
+
+.lowerBar-icons {
+  padding: 5px;
+  display: block;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.lowerBar-icons i {
+  text-align: center;
+  color: #fff;
+  font-size: 1.5em !important;
+}
+
 .reply-main textarea {
   width: 100%;
   resize: none;
@@ -458,7 +482,7 @@ body {
 
 
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 767px) {
   .app {
     top: 0;
     height: 100%;

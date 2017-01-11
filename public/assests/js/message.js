@@ -1,6 +1,6 @@
 
 // Websocket Connection Open
-var conn = new WebSocket("ws://192.168.43.138:8080");
+var conn = new WebSocket("ws://localhost:8080");
 
 
 // For First time
@@ -91,7 +91,7 @@ function toSidebar() {
 }
 
 function width() {
-  if (window.innerWidth < 500) {
+  if (window.innerWidth < 768) {
     return true;
   }
   return false;
@@ -280,6 +280,12 @@ function previous(element)
   newConversation(element, lo);
 }
 
+function hideComposeScreen() {
+  $(".side-two").css({
+    "left": "-100%"
+  });
+}
+
 // Audio Recognization
 
 function startDictation() {
@@ -312,7 +318,7 @@ function startDictation() {
 conn.onmessage = function(e)
 {
   var msg = JSON.parse(e.data);
-  // console.log(msg);
+  console.log(msg);
   if (!width())
   {
     SideBar(msg.sidebar);
@@ -350,7 +356,8 @@ conn.onmessage = function(e)
 // Event Listeners
 $(document).ready(function(){
   $("body").on("click", ".sideBar-body", function() {
-      newConversation(this,10);
+    newConversation(this,10);
+    hideComposeScreen();
   });
 
   $("body").on("click", ".reply-send",
@@ -396,9 +403,7 @@ $(document).ready(function(){
   });
 
   $(".newMessage-back").click(function() {
-    $(".side-two").css({
-      "left": "-100%"
-    });
+    hideComposeScreen();
   });
 
 });
