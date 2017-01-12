@@ -4,6 +4,8 @@ namespace ChatApp\Tests;
 use PHPUnit_Framework_TestCase;
 use ChatApp\Login;
 use ChatApp\Register;
+use ChatApp\Profile;
+use ChatApp\User;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
@@ -14,11 +16,14 @@ class TestUser
 {
     protected $obRegister;
     protected $obLogin;
+    protected $obUser;
+
 
     public function setUp()
     {
         $this->obRegister = new Register();
         $this->obLogin = new Login();
+        $this->obUser = new User();
     }
 
 
@@ -43,6 +48,7 @@ class TestUser
 
     /**
     * @depends test_authRegister
+    *  Testing for the login with correct credentials
     */
 
     public function test_authLogin()
@@ -68,6 +74,7 @@ class TestUser
 
     /**
     * @depends test_authRegister
+    *  Testing for the login with empty credentials
     */
 
     public function test_authLoginEmptyValues()
@@ -95,6 +102,7 @@ class TestUser
 
     /**
     * @depends test_authRegister
+    *  Testing for the login with invalid or wrong email
     */
 
     public function test_authLoginWrongEmail()
@@ -118,6 +126,7 @@ class TestUser
 
     /**
     * @depends test_authRegister
+    *  Testing for the login with invalid email credentials
     */
     public function test_authLoginInvalidUsernameEmail()
     {
@@ -140,6 +149,7 @@ class TestUser
 
     /**
     * @depends test_authRegister
+    *  Testing for the login with invalid password credentials
     */
     public function test_authLoginInvalidPassword()
     {
@@ -160,7 +170,65 @@ class TestUser
     }
 
     /**
-    *   @depends test_authLogin
+    * @depends test_authRegister
+    *  Testing for the Profile::class with valid login_id
+    */
+    public function test_getProfile()
+    {
+        $output = Profile::getProfile(1);
+        $this->assertEquals([
+            'login_id' => '1',
+            'status' => 'Joined OpenChat',
+            'education' => 'Joined OpenChat',
+            'gender' => ''
+        ], $output);
+    }
+
+    /**
+    * @depends test_authRegister
+    *  Testing for the Profile::class with invalid login_id
+    */
+    public function test_getProfileInvalidID()
+    {
+        $output = Profile::getProfile(0);
+        $this->assertEquals(NULL, $output);
+    }
+
+    /**
+    * @depends test_authRegister
+    *  Testing for the User::class with valid login_id
+    */
+    public function test_userDetails()
+    {
+        $expectedOutput = [
+            "login_id" => "1",
+            "name" => "Test",
+            "email" => "test@testing.com",
+            "username"=> "test",
+            "mobile"=> "1234567890",
+            "login_status"=> "0"
+        ];
+
+        $outputLoginId = $this->obUser->userDetails(1, True);
+        $outputUsername = $this->obUser->userDetails('test', False);
+        $this->assertEquals($expectedOutput, $outputLoginId);
+        $this->assertEquals($expectedOutput, $outputUsername);
+    }
+
+    /**
+    * @depends test_authRegister
+    *  Testing for the User::class with invalid data
+    */
+    public function test_userDetailsInvalidID()
+    {
+        $output = $this->obUser->userDetails(0, True);
+        $this->assertEquals(NULL, $output);
+    }
+
+
+    /**
+    *   @depends test_userDetails
+    *  Empty the DB
     */
     public function test_EmptyDB()
     {
