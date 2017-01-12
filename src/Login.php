@@ -34,8 +34,7 @@ class Login
 		$login = $data["login"];
 		$password = $data["passLogin"];
 
-
-		if (preg_match("/^[@]{1}$/", $login))
+		if (preg_match("/^.+[@]{1}.+$/", $login))
 		{
 			if(filter_var($login, FILTER_VALIDATE_EMAIL) == false)
 			{
@@ -89,7 +88,7 @@ class Login
 	{
 		$errorCode = array(
 			"login" => " *Enter the login field",
-			"passRegister" => " *Enter the password"
+			"passLogin" => " *Enter the password"
 		);
 
 		foreach ($data as $key => $value) {

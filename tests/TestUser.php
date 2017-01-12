@@ -47,16 +47,116 @@ class TestUser
 
     public function test_authLogin()
     {
-        $output = $this->obLogin->authLogin(
+        $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
+        $outputEmail = $this->obLogin->authLogin(
             [
                 "login" => 'test@testing.com',
                 "passLogin" => 'testing'
             ]
         );
-        $output = (array)json_decode($output);
-        $this->assertEquals([
-            'location' => 'http://127.0.0.1/openchat/views/account.php'
-            ], $output);
+        $outputEmail = (array)json_decode($outputEmail);
+        $outputUsername = $this->obLogin->authLogin(
+            [
+                "login" => 'test',
+                "passLogin" => 'testing'
+            ]
+        );
+        $outputUsername = (array)json_decode($outputUsername);
+        $this->assertEquals($expectedOutput, $outputEmail);
+        $this->assertEquals($expectedOutput, $outputUsername);
+    }
+
+    /**
+    * @depends test_authRegister
+    */
+
+    public function test_authLoginEmptyValues()
+    {
+        $output = $this->obLogin->authLogin(
+            [
+                "login" => '',
+                "passLogin" => ''
+            ]
+        );
+        $output = (array)json_decode($output, True);
+        $expectedOutput = [
+            [
+                "key" => "login",
+                "value" => " *Enter the login field"
+            ],
+            [
+                "key" => "passLogin",
+                "value" => " *Enter the password"
+            ]
+        ];
+
+        $this->assertEquals($expectedOutput, $output);
+    }
+
+    /**
+    * @depends test_authRegister
+    */
+
+    public function test_authLoginWrongEmail()
+    {
+        $output = $this->obLogin->authLogin(
+            [
+                "login" => 'email@-domain.com',
+                "passLogin" => 'egfb'
+            ]
+        );
+        $output = (array)json_decode($output, True);
+        $expectedOutput = [
+            [
+                "key" => "login",
+                "value" => " *Enter correct Email address"
+            ]
+        ];
+
+        $this->assertEquals($expectedOutput, $output);
+    }
+
+    /**
+    * @depends test_authRegister
+    */
+    public function test_authLoginInvalidUsernameEmail()
+    {
+        $output = $this->obLogin->authLogin(
+            [
+                "login" => 'invalid',
+                "passLogin" => 'invalid'
+            ]
+        );
+        $output = (array)json_decode($output, True);
+        $expectedOutput = [
+            [
+                "key" => "login",
+                "value" => " *Invalid username or email"
+            ]
+        ];
+
+        $this->assertEquals($expectedOutput, $output);
+    }
+
+    /**
+    * @depends test_authRegister
+    */
+    public function test_authLoginInvalidPassword()
+    {
+        $output = $this->obLogin->authLogin(
+            [
+                "login" => 'test',
+                "passLogin" => 'invalid'
+            ]
+        );
+        $output = (array)json_decode($output, True);
+        $expectedOutput = [
+            [
+                "key" => "passLogin",
+                "value" => " *Invalid password"
+            ]
+        ];
+        $this->assertEquals($expectedOutput, $output);
     }
 
     /**
