@@ -8,7 +8,7 @@ php:
 before_install:
   - cp .env.travis .env
   - composer require phpunit/phpunit:4.8.* satooshi/php-coveralls:dev-master
-  - composer install --dev
+  - composer install --dev --no-interaction
   - mysql -e 'CREATE DATABASE openchat;'
   - mysql -u root  openchat < ./sql/openchat.sql
 
