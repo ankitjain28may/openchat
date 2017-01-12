@@ -5,6 +5,8 @@ use PHPUnit_Framework_TestCase;
 use ChatApp\Login;
 use ChatApp\Register;
 use ChatApp\Profile;
+use ChatApp\Validate;
+use ChatApp\Online;
 use ChatApp\User;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
@@ -17,6 +19,7 @@ class TestUser
     protected $obRegister;
     protected $obLogin;
     protected $obUser;
+    protected $obValidate;
 
 
     public function setUp()
@@ -24,6 +27,7 @@ class TestUser
         $this->obRegister = new Register();
         $this->obLogin = new Login();
         $this->obUser = new User();
+        $this->obValidate = new Validate();
     }
 
 
@@ -225,9 +229,65 @@ class TestUser
         $this->assertEquals(NULL, $output);
     }
 
+    /**
+    * @depends test_authRegister
+    *  Testing for the Validate::class for email
+    */
+    public function test_validateEmailInDb()
+    {
+        $output = $this->obValidate->validateEmailInDb('test@testing.com');
+        $this->assertEquals(1, $output);
+    }
 
     /**
-    *   @depends test_userDetails
+    * @depends test_authRegister
+    *  Testing for the Validate::class for username
+    */
+    public function test_validateUsernameInDb()
+    {
+        $output = $this->obValidate->validateUsernameInDb('test');
+        $this->assertEquals(1, $output);
+    }
+
+    /**
+    * @depends test_authRegister
+    *  Testing for the Validate::class for non-existing username
+    */
+    public function test_validateUsernameInDbNot()
+    {
+        $output = $this->obValidate->validateUsernameInDb('abc');
+        $this->assertEquals(0, $output);
+    }
+
+    /**
+    * @depends test_authRegister
+    *  Testing for the Validate::class for non-existing email
+    */
+    public function test_validateEmailInDbNot()
+    {
+        $output = $this->obValidate->validateEmailInDb('ankitjain28may77@gmail.com');
+        $this->assertEquals(0, $output);
+    }
+
+    /**
+    * @depends test_authRegister
+    *  Testing for the Online::class
+    */
+    public function test_Online()
+    {
+        Online::setOnlineStatus(1);
+        $output = $this->obUser->userDetails(1, True);
+        $output = $output['login_status'];
+        $this->assertEquals("1", $output);
+        Online::removeOnlineStatus(1);
+        $output = $this->obUser->userDetails(1, True);
+        $output = $output['login_status'];
+        $this->assertEquals("0", $output);
+    }
+
+
+    /**
+    *   @depends test_Online
     *  Empty the DB
     */
     public function test_EmptyDB()
