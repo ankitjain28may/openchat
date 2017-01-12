@@ -15,6 +15,7 @@ class TestSession
         $key = 'test';
         $value = 'test';
         Session::put($key, $value);
+        $this->assertTrue(true);
         return ['key' => $key, 'value' => $value];
     }
 
