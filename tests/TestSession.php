@@ -9,22 +9,25 @@ class TestSession
         PHPUnit_Framework_TestCase
 {
 
+    protected $array;
 
-    public function testPutValue()
+    public function setUp()
     {
-        $key = 'test';
-        $value = 'test';
-        Session::put($key, $value);
-        $this->assertTrue(true);
-        return ['key' => $key, 'value' => $value];
+        $this->array['key'] = 'test';
+        $this->array['value'] = 'test';
+        Session::put($this->array['key'], $this->array['value']);
     }
 
-    /**
-    * @depends testPutValue
-    */
-    public function testGet($array)
+    public function testGet()
     {
-        $value = Session::get($array['key']);
+        $value = Session::get($this->array['key']);
+        $this->assertEquals($this->array['value'], $value);
+    }
+
+    public function tearDown()
+    {
+        Session::forget($this->array['key']);
+        $value = Session::get($this->array['key']);
         $this->assertEquals(null, $value);
     }
 }
