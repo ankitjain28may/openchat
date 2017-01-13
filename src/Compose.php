@@ -67,7 +67,6 @@ class Compose
                 return json_encode(["Compose" => "Not Found"]);
             }
         }
-        $this->connect->close();
     }
 }
 

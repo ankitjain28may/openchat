@@ -6,12 +6,9 @@ use ChatApp\Register;
 use ChatApp\Compose;
 use ChatApp\Session;
 
-use Dotenv\Dotenv;
-$dotenv = new Dotenv(dirname(__DIR__));
-$dotenv->load();
 session_start();
 
-class TestChat
+class TestCompose
 extends
     PHPUnit_Framework_TestCase
 {
@@ -79,17 +76,26 @@ extends
             'location' => 'http://127.0.0.1/openchat/views/account.php'
             ], $output);
         $compose = new Compose($sessionId);
+
+        // Matched not found
         $output = $compose->selectUser((object)["value" => "ank"]);
         $output = (array)json_decode($output);
         $this->assertEquals(["Compose" => "Not Found"], $output);
 
+        // For suggestion matched
         $output = $compose->selectUser((object)["value" => "t"]);
         $output = (array)json_decode($output);
         $this->assertEquals($expectedOutput, $output);
 
+        // Not Found
         $output = $compose->selectUser((object)["value" => ""]);
         $output = (array)json_decode($output);
         $this->assertEquals(["Compose" => "Not Found"], $output);
+
+        // Query Failed
+        $output = $compose->selectUser((object)["value" => "'"]);
+        $output = (array)json_decode($output);
+        $this->assertEquals(["Compose" => "Query Failed"], $output);
 
     }
 

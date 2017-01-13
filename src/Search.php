@@ -38,7 +38,7 @@ class Search
         $suggestion = $suggestion->value;
         $flag = 0;
         $userId = Session::get('start');
-        if($userId != null && isset($suggestion))
+        if($userId != null && !empty($suggestion))
         {
             $suggestion = trim($suggestion);
             if($suggestion != "")
