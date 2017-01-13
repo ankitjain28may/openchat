@@ -52,6 +52,66 @@ class TestUser
 
     /**
     * @depends test_authRegister
+    *  Testing for the register with invalid email credentials
+    */
+    public function test_authregisterInvalidEmail()
+    {
+        $output = $this->obRegister->authregister(
+            [
+                "name" => 'Test',
+                "email" => 'test@-testing.com',
+                "username" => 'abc',
+                "mob" => '1234567890',
+                "passRegister" => 'testing'
+            ]
+        );
+        $output = (array)json_decode($output, True);
+        $expectedOutput = [
+            [
+                "key" => "email",
+                "value" => " *Enter correct Email address"
+            ]
+        ];
+
+        $this->assertEquals($expectedOutput, $output);
+    }
+
+    /**
+    * @depends test_authRegister
+    *  Testing for the register with invalid email credentials
+    */
+    public function test_authregisterInvalidCredentials()
+    {
+        $output = $this->obRegister->authregister(
+            [
+                "name" => 'Test',
+                "email" => 'test@testing.com',
+                "username" => 'test',
+                "mob" => '1234567ese',
+                "passRegister" => 'testing'
+            ]
+        );
+        $output = (array)json_decode($output, True);
+        $expectedOutput = [
+            [
+                "key" => "email",
+                "value" => " *Email is already registered"
+            ],
+            [
+                "key" => "username",
+                "value" => " *Username is already registered"
+            ],
+            [
+                "key" => "mob",
+                "value" => " *Enter correct Mobile Number"
+            ]
+        ];
+
+        $this->assertEquals($expectedOutput, $output);
+    }
+
+    /**
+    * @depends test_authRegister
     *  Testing for the login with correct credentials
     */
 
