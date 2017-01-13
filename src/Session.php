@@ -17,4 +17,5 @@ class Session
     public static function forget($key){
         unset($_SESSION[$key]);
     }
+
 }

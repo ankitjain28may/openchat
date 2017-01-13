@@ -52,6 +52,32 @@ class TestUser
 
     /**
     * @depends test_authRegister
+    *  Testing for the register with empty username
+    */
+    public function test_authregisterEmptyUsername()
+    {
+        $output = $this->obRegister->authregister(
+            [
+                "name" => 'Test',
+                "email" => 'test@google.com',
+                "username" => '',
+                "mob" => '1234567890',
+                "passRegister" => 'testing'
+            ]
+        );
+        $output = (array)json_decode($output, True);
+        $expectedOutput = [
+            [
+                "key" => "username",
+                "value" => " *Enter the username"
+            ]
+        ];
+
+        $this->assertEquals($expectedOutput, $output);
+    }
+
+    /**
+    * @depends test_authRegister
     *  Testing for the register with invalid email credentials
     */
     public function test_authregisterInvalidEmail()
@@ -78,7 +104,7 @@ class TestUser
 
     /**
     * @depends test_authRegister
-    *  Testing for the register with invalid email credentials
+    *  Testing for the register with repeated credentials
     */
     public function test_authregisterInvalidCredentials()
     {
