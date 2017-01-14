@@ -136,24 +136,24 @@ extends
     *   @depends test_authRegister2
     *  Empty the DB
     */
-    // public function test_EmptyDB()
-    // {
-    //     $connect = mysqli_connect(
-    //         getenv('DB_HOST'),
-    //         getenv('DB_USER'),
-    //         getenv('DB_PASSWORD'),
-    //         getenv('DB_NAME')
-    //     );
-    //     $query = "TRUNCATE `login`";
-    //     $this->assertTrue($connect->query($query));
-    //     $query = "TRUNCATE `profile`";
-    //     $this->assertTrue($connect->query($query));
-    //     $query = "TRUNCATE `messages`";
-    //     $this->assertTrue($connect->query($query));
-    //     $query = "TRUNCATE `total_message`";
-    //     $this->assertTrue($connect->query($query));
-    //     $query = "TRUNCATE `register`";
-    //     $this->assertTrue($connect->query($query));
-    // }
+    public function test_EmptyDB()
+    {
+        $connect = mysqli_connect(
+            getenv('DB_HOST'),
+            getenv('DB_USER'),
+            getenv('DB_PASSWORD'),
+            getenv('DB_NAME')
+        );
+        $query = "TRUNCATE `login`";
+        $this->assertTrue($connect->query($query));
+        $query = "TRUNCATE `profile`";
+        $this->assertTrue($connect->query($query));
+        $query = "TRUNCATE `messages`";
+        $this->assertTrue($connect->query($query));
+        $query = "TRUNCATE `total_message`";
+        $this->assertTrue($connect->query($query));
+        $query = "TRUNCATE `register`";
+        $this->assertTrue($connect->query($query));
+    }
 
 }
