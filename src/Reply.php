@@ -30,11 +30,10 @@ class Reply
 
     public function replyTo($msg)
     {
-
-        if(Session::get('start') != null && isset($msg))  //checks for session login and the value send
+        $msg = json_decode($msg);   //decode json value
+        if(Session::get('start') != null && !empty($msg))  //checks for session login and the value send
         {
             $userId = Session::get('start');
-            $msg = json_decode($msg);   //decode json value
             $identifier = $msg->name;
 
             $receiverID = $identifier;  //stores id of the person whom message is to be sent
@@ -65,7 +64,7 @@ class Reply
                     {
                         // Update Total_Message Table
                         $query = "UPDATE total_message SET total_messages = total_messages+1, time = '$time', unread = 1, id = '$time_id' WHERE identifier = '$identifier'";
-                        $this->updateMessages($query, $identifier, $reply, $userId, $time);
+                        return $this->updateMessages($query, $identifier, $reply, $userId, $time);
 
                     }
                     else    // if he sends message for the first time
@@ -84,20 +83,19 @@ class Reply
                         }
                         // insert Details in Total_Message Table
                         $query = "INSERT into total_message values('$identifier', 1, '$user1', '$user2', 1, '$time', '$time_id')";
-                        $this->updateMessages($query, $identifier, $reply, $userId, $time);
+                        return $this->updateMessages($query, $identifier, $reply, $userId, $time);
                     }
                 }
                 else // if he is unauthorized echo message is failed
                 {
-                    echo "Message is failed";
+                    return "Invalid Authentication";
                 }
             }
         }
         else
         {
-            echo "failed";
+            return "Failed";
         }
-        $this->connect->close();
     }
 
     public function updateMessages($query, $identifier, $reply, $userId, $time)
@@ -106,16 +104,17 @@ class Reply
         {
             //insert message in db
             $query = "INSERT into messages values('$identifier', '$reply', '$userId', '$time', null)";
-            if($result = $this->connect->query($query))
+            if($this->connect->query($query))
             {
-                echo "Messages is sent \n";    // if query is executed return true
+                return "Messages is sent";    // if query is executed return true
             }
             else
             {
-                echo "Message is failed";
+                return "Message is failed";
             }
         }
     }
 
 
 }
+

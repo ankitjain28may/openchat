@@ -45,7 +45,7 @@ CREATE TABLE `messages` (
   `message` text NOT NULL,
   `sent_by` varchar(255) NOT NULL,
   `time` varchar(30) NOT NULL,
-  `id` int(11) NOT NULL
+  `id` int(11) NOT NULL auto_increment primary key
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

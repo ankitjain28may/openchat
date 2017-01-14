@@ -77,7 +77,8 @@ class Chat implements MessageComponentInterface {
         }
         else
         {
-            $this->onReply($msg, $sessionId);
+            $getReturn = $this->onReply($msg, $sessionId);
+            echo $getReturn;
 
             $msg = json_decode($msg);
 

@@ -39,15 +39,13 @@ extends
         $this->assertEquals([
             'location' => 'http://127.0.0.1/openchat/views/account.php'
             ], $output);
-        $sessionId = session_id();
-        return $sessionId;
     }
 
     /**
     * @depends test_authRegister
     *  Testing for the register with empty username
     */
-    public function test_authRegister2($sessionId)
+    public function test_authRegister2()
     {
         $expectedOutput = [
             "Compose" => [
@@ -75,6 +73,8 @@ extends
         $this->assertEquals([
             'location' => 'http://127.0.0.1/openchat/views/account.php'
             ], $output);
+
+        $sessionId = session_id();
         $compose = new Compose($sessionId);
 
         // Matched not found
