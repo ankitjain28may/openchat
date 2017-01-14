@@ -48,7 +48,6 @@ class SideBar
                         {
                             $this->data($substring, $row);
                         }
-
                         else
                         {
                             $substring = substr($identifier, $length+1);
@@ -57,21 +56,11 @@ class SideBar
                     }
                     return json_encode($this->array);
                 }
-                else
-                {
-                    return json_encode(null);
-                }
+                return json_encode(null);
             }
-            else
-            {
-                echo "Query Failed";
-            }
+            return "Query Failed";
         }
-        else
-        {
-            header('Location:../login.php');
-        }
-        $this->connect->close();
+        return "Invalid Authentication";
     }
 
     public function data($userId, $row)

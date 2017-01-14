@@ -222,9 +222,36 @@ extends
 
     }
 
+    /**
+    * @depends testAuthRegister2
+    *  Testing for Search Class
+    */
+    public function testSearchWithTotalMessages($userId)
+    {
+        $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
+        $outputEmail = $this->obLogin->authLogin(
+            [
+                "login" => 'test',
+                "passLogin" => 'testing'
+            ]
+        );
+        $outputEmail = (array)json_decode($outputEmail);
+        $this->assertEquals($expectedOutput, $outputEmail);
+
+        $sessionId = session_id();
+        $search = new Search($sessionId);
+
+
+        // For suggestion matched but not in total messages
+        $output = $search->searchItem((object)["value" => "T"]);
+        $output = json_decode($output);
+        $this->assertEquals("test2", $output->Search[0]->username);
+
+    }
+
 
     /**
-    *   @depends testReply
+    *   @depends testSearchWithTotalMessages
     *  Empty the DB
     */
     public function test_EmptyDB()
