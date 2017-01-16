@@ -106,26 +106,26 @@ extends
         ];
 
 
-        $sessionId = session_id();
-        $compose = new Compose($sessionId);
+        $compose = new Compose();
+        $userId = Session::get('start');
 
         // Matched not found
-        $output = $compose->selectUser((object)["value" => "ank"]);
+        $output = $compose->selectUser((object)["value" => "ank", "userId" => $userId]);
         $output = (array)json_decode($output);
         $this->assertEquals(["Compose" => "Not Found"], $output);
 
         // For suggestion matched
-        $output = $compose->selectUser((object)["value" => "t"]);
+        $output = $compose->selectUser((object)["value" => "t", "userId" => $userId]);
         $output = (array)json_decode($output);
         $this->assertEquals($expectedOutput, $output);
 
         // Not Found
-        $output = $compose->selectUser((object)["value" => ""]);
+        $output = $compose->selectUser((object)["value" => "", "userId" => $userId]);
         $output = (array)json_decode($output);
         $this->assertEquals(["Compose" => "Not Found"], $output);
 
         // Query Failed
-        $output = $compose->selectUser((object)["value" => "'"]);
+        $output = $compose->selectUser((object)["value" => "'", "userId" => $userId]);
         $output = (array)json_decode($output);
         $this->assertEquals(["Compose" => "Query Failed"], $output);
         Session::forget('start');
@@ -180,14 +180,13 @@ extends
     */
     public function testReply($userId)
     {
-        $msg = [
+        $msg =(object) [
             "name" => $userId,
             "reply" => [
                 0 => "Hello World"
             ]
         ];
 
-        $msg = json_encode($msg);
 
         $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
         $outputEmail = $this->obLogin->authLogin(
@@ -198,31 +197,32 @@ extends
         );
         $outputEmail = (array)json_decode($outputEmail);
         $this->assertEquals($expectedOutput, $outputEmail);
-
-
-        $sessionId = session_id();
-        $obReply = new Reply($sessionId);
+        $currentId = Session::get('start');
+        $obReply = new Reply();
+        $msg->userId = $currentId;
 
         $output = $obReply->replyTo($msg);
         $this->assertEquals("Messages is sent", $output);
 
-        $output = $obReply->replyTo(json_encode([]));
+        $output = $obReply->replyTo([]);
         $this->assertEquals("Failed", $output);
 
-        $output = $obReply->replyTo(json_encode([
+        $output = $obReply->replyTo((object) [
             "name" => -1,
             "reply" => [
                 0 => "Hello World"
-            ]
-        ]));
+            ],
+            "userId" => $currentId
+        ]);
         $this->assertEquals("Invalid Authentication", $output);
 
-        $output = $obReply->replyTo(json_encode([
+        $output = $obReply->replyTo((object) [
             "name" => $userId,
             "reply" => [
                 0 => "Hello"
-            ]
-        ]));
+            ],
+            "userId" => $currentId
+        ]);
         $this->assertEquals("Messages is sent", $output);
         Session::forget('start');
     }

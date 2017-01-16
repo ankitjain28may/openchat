@@ -15,27 +15,22 @@ class Reply
 {
     protected $connect;
 
-    public function __construct($sessionId)
+    public function __construct()
     {
-        session_id($sessionId);
-        @session_start();
         $this->connect = mysqli_connect(
             getenv('DB_HOST'),
             getenv('DB_USER'),
             getenv('DB_PASSWORD'),
             getenv('DB_NAME')
         );
-        session_write_close();
     }
 
     public function replyTo($msg)
     {
-        $msg = json_decode($msg);   //decode json value
-        if(Session::get('start') != null && !empty($msg))  //checks for session login and the value send
+        if(!empty($msg))  //checks for the value send
         {
-            $userId = Session::get('start');
+            $userId = $msg->userId;
             $identifier = $msg->name;
-
             $receiverID = $identifier;  //stores id of the person whom message is to be sent
 
             if($identifier > $userId)    // geneate specific unique code to store messages
@@ -86,16 +81,10 @@ class Reply
                         return $this->updateMessages($query, $identifier, $reply, $userId, $time);
                     }
                 }
-                else // if he is unauthorized echo message is failed
-                {
-                    return "Invalid Authentication";
-                }
+                return "Invalid Authentication";  // if he is unauthorized echo message is failed
             }
         }
-        else
-        {
-            return "Failed";
-        }
+        return "Failed";
     }
 
     public function updateMessages($query, $identifier, $reply, $userId, $time)
@@ -108,10 +97,7 @@ class Reply
             {
                 return "Messages is sent";    // if query is executed return true
             }
-            else
-            {
-                return "Message is failed";
-            }
+            return "Message is failed";
         }
     }
 

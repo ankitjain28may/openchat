@@ -72,18 +72,20 @@ class Chat implements MessageComponentInterface {
         }
         elseif (@json_decode($msg)->Compose == 'Compose')
         {
-            $composeResult = $this->onCompose($msg, $sessionId);
+            $msg = json_decode($msg);
+            $msg->userId = $from->userId;
+            $composeResult = $this->onCompose($msg);
             $from->send($composeResult);
         }
         else
         {
-            $getReturn = $this->onReply($msg, $sessionId);
+            $msg = (object) json_decode($msg);
+            $msg->userId = $from->userId;
+            $getReturn = $this->onReply($msg);
             echo $getReturn;
 
-            $msg = json_decode($msg);
-
-            $receiveResult = (object)array();
-            $sentResult = (object)array();
+            $receiveResult = (object) array();
+            $sentResult = (object) array();
             foreach ($this->clients as $client)
             {
                 if ($client->userId == $msg->name)
@@ -145,16 +147,17 @@ class Chat implements MessageComponentInterface {
         return $obSearch->searchItem(json_decode($data));
     }
 
-    public function onCompose($data, $sessionId)
+    public function onCompose($data)
     {
-        $obCompose = new Compose($sessionId);
-        return $obCompose->selectUser(json_decode($data));
+        $obCompose = new Compose();
+        return $obCompose->selectUser($data);
     }
 
-    public function onReply($data, $sessionId)
+    public function onReply($data)
     {
-        $obReply = new Reply($sessionId);
-        $obReply->replyTo($data);
+        $obReply = new Reply();
+        var_dump($data);
+        return $obReply->replyTo($data);
     }
 
     public function onClose(ConnectionInterface $conn) {
@@ -166,6 +169,5 @@ class Chat implements MessageComponentInterface {
         echo "An error has occurred: {$e->getMessage()}\n";
         $conn->close();
     }
-
 
 }
