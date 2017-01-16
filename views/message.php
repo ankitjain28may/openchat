@@ -106,20 +106,8 @@ if(Session::get('start') != null && empty($_GET['user']))
       <!-- Conversation Start -->
       <div class="col-sm-8 conversation">
         <!-- Heading -->
-        <div class="row heading">
-          <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
-            <div class="heading-avatar-icon">
-              <img src="../public/assests/img/ankit.png">
-            </div>
-          </div>
-          <div class="col-sm-8 col-xs-7 heading-name">
-            <a class="heading-name-meta">Ankit Jain
-            </a>
-            <span class="heading-online">Online</span>
-          </div>
-          <div class="col-sm-1 col-xs-1  heading-dot pull-right">
-            <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
-          </div>
+        <div class="row heading" id="conversationHeading">
+
         </div>
         <!-- Heading End -->
 

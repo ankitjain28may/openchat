@@ -117,15 +117,35 @@ function newConversation(element, load)
 // Set Details
 function setConversationDetails(details)
 {
-  $(".heading-name-meta").text(details.name);
-  $(".heading-name-meta").attr({
+  $("#conversationHeading").html("");
+
+  var headingEle = $("<div></div>").addClass("col-sm-2 col-md-1 col-xs-3 heading-avatar");
+  var headingAva = $("<div></div>").addClass("heading-avatar-icon");
+  var headingImg = $("<img>").attr({"src" : "../public/assests/img/ankit.png"});
+  headingAva.append(headingImg);
+  headingEle.append(headingAva);
+
+  var headingEleName = $("<div></div>").addClass("col-sm-8 col-xs-7 heading-name");
+  var headingNameMeta = $("<a></a>").addClass("heading-name-meta").text(details.name);
+  headingNameMeta.attr({
     "href": location.href.substring(0, location.href.lastIndexOf("/") + 1) + "account.php/" + details.username
   });
-
-  $(".heading-online").removeClass("show");
+  var headingOnline = $("<span></span>").addClass("heading-online");
+  headingOnline.text("");
   if (details.login_status === "1") {
-    $(".heading-online").addClass("show");
+    headingOnline.text("Online");
   }
+  headingEleName.append(headingNameMeta);
+  headingEleName.append(headingOnline);
+
+  var headingDot = $("<div></div>").addClass("col-sm-1 col-xs-1  heading-dot pull-right");
+  var headingDotIcon = $("<i></i>").addClass("fa fa-ellipsis-v fa-2x  pull-right").attr({"aria-hidden" : "true"});
+  headingDot.append(headingDotIcon);
+
+
+  $("#conversationHeading").append(headingEle);
+  $("#conversationHeading").append(headingEleName);
+  $("#conversationHeading").append(headingDot);
 
   $("#text_reply").attr({
     "name": details.id

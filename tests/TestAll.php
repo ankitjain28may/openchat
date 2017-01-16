@@ -45,6 +45,7 @@ extends
         $this->assertEquals([
             'location' => 'http://127.0.0.1/openchat/views/account.php'
             ], $output);
+        Session::forget('start');
     }
 
     /**
@@ -70,6 +71,8 @@ extends
 
         $userId = Session::get('start');
         return $userId;
+        Session::forget('start');
+
     }
 
     /**
@@ -125,6 +128,7 @@ extends
         $output = $compose->selectUser((object)["value" => "'"]);
         $output = (array)json_decode($output);
         $this->assertEquals(["Compose" => "Query Failed"], $output);
+        Session::forget('start');
 
     }
 
@@ -166,6 +170,7 @@ extends
         $output = $search->searchItem((object)["value" => "'"]);
         $output = (array)json_decode($output);
         $this->assertEquals(["Search" => "Not Found"], $output);
+        Session::forget('start');
 
     }
 
@@ -219,19 +224,19 @@ extends
             ]
         ]));
         $this->assertEquals("Messages is sent", $output);
-
+        Session::forget('start');
     }
 
     /**
-    * @depends testAuthRegister2
+    * @depends testReply
     *  Testing for Search Class
     */
-    public function testSearchWithTotalMessages($userId)
+    public function testSearchWithTotalMessages()
     {
         $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
         $outputEmail = $this->obLogin->authLogin(
             [
-                "login" => 'test',
+                "login" => 'test2',
                 "passLogin" => 'testing'
             ]
         );
@@ -246,6 +251,7 @@ extends
         $output = $search->searchItem((object)["value" => "T"]);
         $output = json_decode($output);
         $this->assertEquals("test2", $output->Search[0]->username);
+        Session::forget('start');
 
     }
 
