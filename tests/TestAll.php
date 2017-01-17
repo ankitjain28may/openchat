@@ -174,33 +174,47 @@ extends
 
     }
 
+
+
     /**
     * @depends testAuthRegister2
     *  Testing for Reply Class
     */
     public function testReply($userId)
     {
+        $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
+        $outputEmail = $this->obLogin->authLogin(
+            [
+                "login" => 'test',
+                "passLogin" => 'testing'
+            ]
+        );
+        $outputEmail = (array) json_decode($outputEmail);
+        $this->assertEquals($expectedOutput, $outputEmail);
+        $currentId = Session::get('start');
+        Session::forget('start');
+
         $msg =(object) [
             "name" => $userId,
             "reply" => [
                 0 => "Hello World"
-            ]
+            ],
+            "userId" => $currentId
         ];
 
-
-        $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
-        $outputEmail = $this->obLogin->authLogin(
-            [
-                "login" => 'test@testing.com',
-                "passLogin" => 'testing'
-            ]
-        );
-        $outputEmail = (array)json_decode($outputEmail);
-        $this->assertEquals($expectedOutput, $outputEmail);
-        $currentId = Session::get('start');
         $obReply = new Reply();
-        $msg->userId = $currentId;
+        $output = $obReply->replyTo($msg);
+        $this->assertEquals("Messages is sent", $output);
 
+        $msg =(object) [
+            "name" => $currentId,
+            "reply" => [
+                0 => "Hello World"
+            ],
+            "userId" => $userId
+        ];
+
+        $obReply = new Reply();
         $output = $obReply->replyTo($msg);
         $this->assertEquals("Messages is sent", $output);
 
@@ -224,8 +238,9 @@ extends
             "userId" => $currentId
         ]);
         $this->assertEquals("Messages is sent", $output);
-        Session::forget('start');
     }
+
+
 
     /**
     * @depends testReply
