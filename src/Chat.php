@@ -34,14 +34,16 @@ class Chat implements MessageComponentInterface {
         return $conn;
     }
 
-    public function onMessage(ConnectionInterface $from, $msg) {
-        $sessionId = $from->WebSocket->request->getCookies()['PHPSESSID'];
-        if($msg == 'OpenChat initiated..!')
+    public function onMessage(ConnectionInterface $from, $msg)
+    {
+        $msg = (object) json_decode($msg);
+        if($msg->type == 'OpenChat initiated..!')
         {
             $initial = (object) array();
             $initial->initial = json_decode($this->onSidebar($from->userId));
 
-            if($initial->initial != null) {
+            if($initial->initial != null)
+            {
                 $initial->conversation = json_decode(
                     $this->onConversation(
                         json_encode([
@@ -54,37 +56,33 @@ class Chat implements MessageComponentInterface {
             }
             $from->send(json_encode($initial));
         }
-        elseif ($msg == 'Load Sidebar')
+        elseif ($msg->type == 'Load Sidebar')
         {
             $sidebar = (object) array();
             $sidebar->sidebar = json_decode($this->onSidebar($from->userId));
             $from->send(json_encode($sidebar));
         }
-        elseif (@json_decode($msg)->newConversation == 'Initiated')
+        elseif ($msg->type == 'Initiated')
         {
-            $msg = json_decode($msg);
             $msg->userId = $from->userId;
             $result = (object) array();
             $result->conversation = json_decode($this->onConversation(json_encode($msg), False));
             $from->send(json_encode($result));
         }
-        elseif (@json_decode($msg)->search == 'search')
+        elseif ($msg->type == 'Search')
         {
-            $msg = json_decode($msg);
             $msg->userId = $from->userId;
             $searchResult = $this->onSearch($msg);
             $from->send($searchResult);
         }
-        elseif (@json_decode($msg)->Compose == 'Compose')
+        elseif ($msg->type == 'Compose')
         {
-            $msg = json_decode($msg);
             $msg->userId = $from->userId;
             $composeResult = $this->onCompose($msg);
             $from->send($composeResult);
         }
         else
         {
-            $msg = (object) json_decode($msg);
             $msg->userId = $from->userId;
             $getReturn = $this->onReply($msg);
             echo $getReturn;

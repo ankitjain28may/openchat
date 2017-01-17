@@ -2,10 +2,19 @@
 // Websocket Connection Open
 var conn = new WebSocket("ws://localhost:8080");
 
+// For send Message to Web Socket Server
+function sendTo(data)
+{
+  conn.send(JSON.stringify(data));
+}
 
 // For First time
-function init() {
-  conn.send("OpenChat initiated..!");
+function init()
+{
+  var msg = {
+    "type": "OpenChat initiated..!"
+  };
+  sendTo(msg);
 }
 
 conn.onopen = function() {
@@ -14,8 +23,12 @@ conn.onopen = function() {
 };
 
 // SideBar Load Request
-function sidebarRequest() {
-  conn.send("Load Sidebar");
+function sidebarRequest()
+{
+  var msg = {
+    "type": "Load Sidebar"
+  };
+  sendTo(msg);
 }
 
 // Create Sidebar
@@ -109,9 +122,9 @@ function newConversation(element, load)
   var msg = {
     "username": element.id,
     "load": load,
-    "newConversation": "Initiated"
+    "type": "Initiated"
   };
-  conn.send(JSON.stringify(msg));
+  sendTo(msg);
 }
 
 // Set Details
@@ -216,11 +229,12 @@ function reply() {
   var id = $("#text_reply").attr("name");
   $("#text_reply").val("");
   // console.log(message);
-  var q = {
+  var msg = {
     "name": id,
-    "reply": message
+    "reply": message,
+    "type": "reply"
   };
-  conn.send(JSON.stringify(q));
+  sendTo(msg);
 }
 
 function notFound(eleId)
@@ -238,9 +252,9 @@ function composeChoose() {
     var msg =
     {
       "value": text,
-      "Compose": "Compose"
+      "type": "Compose"
     };
-    conn.send(JSON.stringify(msg));
+    sendTo(msg);
   }
   else
   {
@@ -269,10 +283,10 @@ function searchChoose() {
   if (text !== "") {
     var msg = {
       "value": text,
-      "search": "search"
+      "type": "Search"
     };
 
-    conn.send(JSON.stringify(msg));
+    sendTo(msg);
   }
   else
   {
