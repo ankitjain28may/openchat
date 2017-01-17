@@ -29,13 +29,21 @@ class Reply
         if(!empty($msg))  //checks for the value send
         {
             $userId = $msg->userId;
-            $identifier = $msg->name;
-            $receiverID = $identifier;  //stores id of the person whom message is to be sent
+            $receiverID = $msg->name; //stores id of the person whom message is to be sent
+            $identifier = "";
 
-            if($identifier > $userId)    // geneate specific unique code to store messages
-                $identifier = $userId . ":" . $identifier;
+            if($receiverID > $userId)     // geneate specific unique code to store messages
+            {
+                $user1 = $userId;
+                $user2 = $receiverID;
+                $identifier = $userId . ":" . $receiverID;
+            }
             else
-                $identifier = $identifier . ":" . $userId;
+            {
+                $user1 = $receiverID;
+                $user2 = $userId;
+                $identifier = $receiverID . ":" . $userId;
+            }
 
             $reply = addslashes(trim($msg->reply[0])); // stores the message sent by the user.
 
@@ -54,7 +62,7 @@ class Reply
                     //check whether he is sending message for thr first time or he has sent messages before
                     $query = "SELECT * from total_message where identifier = '$identifier'";
                     $result = $this->connect->query($query);
-                    if($result->num_rows>0)               // if he has sent messages before
+                    if($result->num_rows > 0)               // if he has sent messages before
                     {
                         // Update Total_Message Table
                         $query = "UPDATE total_message SET total_messages = total_messages+1, time = '$time', unread = 1, id = '$time_id' WHERE identifier = '$identifier'";
@@ -63,18 +71,6 @@ class Reply
                     }
                     else    // if he sends message for the first time
                     {
-                        $length = strlen($userId);
-                        if(substr($identifier, 0, $length) == $userId) // generate specific unique code
-                        {
-                            $user2 = substr($identifier, $length+1);
-                            $user1 = $userId;
-                        }
-                        else
-                        {
-                            $user2 = $userId;
-                            $length = strlen($identifier) - $length-1;
-                            $user1 = substr($identifier, 0, $length);
-                        }
                         // insert Details in Total_Message Table
                         $query = "INSERT into total_message values('$identifier', 1, '$user1', '$user2', 1, '$time', '$time_id')";
                         return $this->updateMessages($query, $identifier, $reply, $userId, $time);
