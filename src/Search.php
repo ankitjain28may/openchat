@@ -3,7 +3,6 @@
 namespace ChatApp;
 require_once (dirname(__DIR__) . '/vendor/autoload.php');
 use ChatApp\Time;
-use ChatApp\Session;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
@@ -18,27 +17,24 @@ class Search
     protected $array;
     protected $obTime;
 
-    public function __construct($sessionId)
+    public function __construct()
     {
-        session_id($sessionId);
-        @session_start();
         $this->connect = mysqli_connect(
             getenv('DB_HOST'),
             getenv('DB_USER'),
             getenv('DB_PASSWORD'),
             getenv('DB_NAME')
         );
-        session_write_close();
         $this->obTime = new Time();
         $this->array = array();
     }
 
     public function searchItem($suggestion)
     {
+        $userId = $suggestion->userId;
         $suggestion = $suggestion->value;
         $flag = 0;
-        $userId = Session::get('start');
-        if($userId != null && !empty($suggestion))
+        if(!empty($userId) && !empty($suggestion))
         {
             $suggestion = trim($suggestion);
             if($suggestion != "")
@@ -71,18 +67,10 @@ class Search
                     $this->array = array_merge([], ["Search" => $this->array]);
                     return json_encode($this->array);
                 }
-                else
-                    return json_encode(["Search" => "Not Found"]);
-            }
-            else
-            {
                 return json_encode(["Search" => "Not Found"]);
             }
-        }
-        else
-        {
             return json_encode(["Search" => "Not Found"]);
         }
-
+        return json_encode(["Search" => "Not Found"]);
     }
 }

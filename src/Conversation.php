@@ -2,7 +2,6 @@
 
 namespace ChatApp;
 require_once (dirname(__DIR__) . '/vendor/autoload.php');
-use ChatApp\Session;
 use ChatApp\Time;
 use ChatApp\User;
 use Dotenv\Dotenv;
@@ -20,17 +19,14 @@ class Conversation
     protected $obTime;
     protected $obUser;
 
-    public function __construct($sessionId)
+    public function __construct()
     {
-        session_id($sessionId);
-        @session_start();
         $this->connect = mysqli_connect(
             getenv('DB_HOST'),
             getenv('DB_USER'),
             getenv('DB_PASSWORD'),
             getenv('DB_NAME')
         );
-        session_write_close();
         $this->obTime = new Time();
         $this->obUser = new User();
         $this->array = array();
@@ -38,13 +34,12 @@ class Conversation
 
     public function conversationLoad($msg, $para)
     {
+        $msg = json_decode($msg);
 
-        $flag = 1;
-        if(Session::get('start') != null && isset($msg))
+        if(!empty($msg))
         {
+            $userId = $msg->userId;
             $add_load = 0;
-            $userId = Session::get('start');
-            $msg = json_decode($msg);
             $username = $msg->username;
             $load = $msg->load;
 
@@ -95,21 +90,10 @@ class Conversation
                         return json_encode([['name' => $fetch['name'], 'username' => $fetch['username'], 'id' => $fetch['login_id'], 'login_status' => $fetch['login_status'], 'type' => 0]]);
                     }
                 }
-                else
-                {
-                    echo "Query Failed";
-                }
+                return "Query Failed";
             }
-            else
-            {
-                echo "Query Failed";
-            }
+            return "Query Failed";
         }
-        else
-        {
-            header('Location:../login.php');
-        }
-
-        $this->connect->close();
+        return "Empty";
     }
 }

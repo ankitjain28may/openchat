@@ -3,7 +3,6 @@
 namespace ChatApp;
 require_once (dirname(__DIR__) . '/vendor/autoload.php');
 use ChatApp\User;
-use ChatApp\Session;
 use ChatApp\Conversation;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
@@ -19,18 +18,15 @@ class Receiver
     protected $conversation;
     protected $messages;
 
-    public function __construct($sessionId)
+    public function __construct()
     {
-        session_id($sessionId);
-        @session_start();
-        session_write_close();
         $this->obUser = new User();
-        $this->conversation = new Conversation($sessionId);
+        $this->conversation = new Conversation();
     }
 
     public function receiverLoad($msg, $para)
     {
-        $id2 = Session::get('start');
+        $id2 = json_decode($msg)->userId;
         $this->messages = $this->obUser->userDetails($id2, $para);
         $username = $this->messages['username'];
         $name = $this->messages['name'];

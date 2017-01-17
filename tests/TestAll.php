@@ -148,26 +148,26 @@ extends
         $outputEmail = (array)json_decode($outputEmail);
         $this->assertEquals($expectedOutput, $outputEmail);
 
-        $sessionId = session_id();
-        $search = new Search($sessionId);
+        $userId = Session::get('start');
+        $search = new Search();
 
         // Matched not found
-        $output = $search->searchItem((object)["value" => "ank"]);
+        $output = $search->searchItem((object)["value" => "ank", "userId" => $userId]);
         $output = (array)json_decode($output);
         $this->assertEquals(["Search" => "Not Found"], $output);
 
         // For suggestion matched but not in total messages
-        $output = $search->searchItem((object)["value" => "T"]);
+        $output = $search->searchItem((object)["value" => "T", "userId" => $userId]);
         $output = (array)json_decode($output);
         $this->assertEquals(["Search" => "Not Found"], $output);
 
         // Not Found
-        $output = $search->searchItem((object)["value" => ""]);
+        $output = $search->searchItem((object)["value" => "", "userId" => $userId]);
         $output = (array)json_decode($output);
         $this->assertEquals(["Search" => "Not Found"], $output);
 
         // Query Failed
-        $output = $search->searchItem((object)["value" => "'"]);
+        $output = $search->searchItem((object)["value" => "'", "userId" => $userId]);
         $output = (array)json_decode($output);
         $this->assertEquals(["Search" => "Not Found"], $output);
         Session::forget('start');
@@ -236,19 +236,19 @@ extends
         $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
         $outputEmail = $this->obLogin->authLogin(
             [
-                "login" => 'test2',
+                "login" => 'test',
                 "passLogin" => 'testing'
             ]
         );
         $outputEmail = (array)json_decode($outputEmail);
         $this->assertEquals($expectedOutput, $outputEmail);
 
-        $sessionId = session_id();
-        $search = new Search($sessionId);
+        $userId = Session::get('start');
+        $search = new Search();
 
 
         // For suggestion matched but not in total messages
-        $output = $search->searchItem((object)["value" => "T"]);
+        $output = $search->searchItem((object)["value" => "T", "userId" => $userId]);
         $output = json_decode($output);
         $this->assertEquals("test2", $output->Search[0]->username);
         Session::forget('start');

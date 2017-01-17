@@ -46,8 +46,9 @@ class Chat implements MessageComponentInterface {
                     $this->onConversation(
                         json_encode([
                             "username" => $initial->initial[0]->login_id,
-                            "load" => 10
-                        ]), True, $sessionId
+                            "load" => 10,
+                            "userId" => $from->userId
+                        ]), True
                     )
                 );
             }
@@ -61,13 +62,17 @@ class Chat implements MessageComponentInterface {
         }
         elseif (@json_decode($msg)->newConversation == 'Initiated')
         {
+            $msg = json_decode($msg);
+            $msg->userId = $from->userId;
             $result = (object) array();
-            $result->conversation = json_decode($this->onConversation($msg, False, $sessionId));
+            $result->conversation = json_decode($this->onConversation(json_encode($msg), False));
             $from->send(json_encode($result));
         }
         elseif (@json_decode($msg)->search == 'search')
         {
-            $searchResult = $this->onSearch($msg, $sessionId);
+            $msg = json_decode($msg);
+            $msg->userId = $from->userId;
+            $searchResult = $this->onSearch($msg);
             $from->send($searchResult);
         }
         elseif (@json_decode($msg)->Compose == 'Compose')
@@ -96,8 +101,9 @@ class Chat implements MessageComponentInterface {
                         $this->onReceiver(
                             json_encode([
                                 "username" => $client->userId,
-                                "load" => 10
-                            ]), True, $sessionId
+                                "load" => 10,
+                                "userId" => $from->userId
+                            ]), True
                         )
                     );
 
@@ -111,8 +117,9 @@ class Chat implements MessageComponentInterface {
                         $this->onConversation(
                             json_encode([
                                 "username" => $msg->name,
-                                "load" => 10
-                            ]), True, $sessionId
+                                "load" => 10,
+                                "userId" => $from->userId
+                            ]), True
                         )
                     );
 
@@ -129,22 +136,22 @@ class Chat implements MessageComponentInterface {
         return $obSidebar->loadSideBar($data);
     }
 
-    public function onConversation($data, $para, $sessionId)
+    public function onConversation($data, $para)
     {
-        $obConversation = new Conversation($sessionId);
+        $obConversation = new Conversation();
         return $obConversation->conversationLoad($data, $para);
     }
 
-    public function onReceiver($data, $para, $sessionId)
+    public function onReceiver($data, $para)
     {
-        $obReceiver = new Receiver($sessionId);
+        $obReceiver = new Receiver();
         return $obReceiver->receiverLoad($data, $para);
     }
 
-    public function onSearch($data, $sessionId)
+    public function onSearch($data)
     {
-        $obSearch = new Search($sessionId);
-        return $obSearch->searchItem(json_decode($data));
+        $obSearch = new Search();
+        return $obSearch->searchItem($data);
     }
 
     public function onCompose($data)
@@ -156,7 +163,6 @@ class Chat implements MessageComponentInterface {
     public function onReply($data)
     {
         $obReply = new Reply();
-        var_dump($data);
         return $obReply->replyTo($data);
     }
 
