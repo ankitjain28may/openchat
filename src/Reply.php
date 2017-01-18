@@ -45,7 +45,7 @@ class Reply
                 $identifier = $receiverID . ":" . $userId;
             }
 
-            $reply = addslashes(trim($msg->reply[0])); // stores the message sent by the user.
+            $reply = addslashes(trim($msg->reply)); // stores the message sent by the user.
 
             $time = date("D d M Y H:i:s", time() + 16200);  // current time
             $time_id = date("YmdHis", time() + 16200); //to sort the array on the basis of time

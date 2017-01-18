@@ -115,12 +115,11 @@ class Chat implements MessageComponentInterface {
                         $this->onConversation(
                             json_encode([
                                 "username" => $msg->name,
-                                "load" => 10,
+                                "load" => 20,
                                 "userId" => $from->userId
                             ]), True
                         )
                     );
-
                     $client->send(json_encode($sentResult));
                 }
             }

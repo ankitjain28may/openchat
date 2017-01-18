@@ -196,9 +196,7 @@ extends
 
         $msg =(object) [
             "name" => $userId,
-            "reply" => [
-                0 => "Hello World"
-            ],
+            "reply" => "Hello World",
             "userId" => $currentId
         ];
 
@@ -208,9 +206,7 @@ extends
 
         $msg =(object) [
             "name" => $currentId,
-            "reply" => [
-                0 => "Hello World"
-            ],
+            "reply" => "Hello World",
             "userId" => $userId
         ];
 
@@ -223,18 +219,14 @@ extends
 
         $output = $obReply->replyTo((object) [
             "name" => -1,
-            "reply" => [
-                0 => "Hello World"
-            ],
+            "reply" => "Hello World",
             "userId" => $currentId
         ]);
         $this->assertEquals("Invalid Authentication", $output);
 
         $output = $obReply->replyTo((object) [
             "name" => $userId,
-            "reply" => [
-                0 => "Hello"
-            ],
+            "reply" => "Hello",
             "userId" => $currentId
         ]);
         $this->assertEquals("Messages is sent", $output);

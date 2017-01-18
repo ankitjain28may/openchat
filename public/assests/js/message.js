@@ -1,4 +1,4 @@
-
+var heightFrom; //  global variable
 // Websocket Connection Open
 var conn = new WebSocket("ws://localhost:8080");
 
@@ -230,16 +230,18 @@ function updateConversation(data)
 // For reply to other messages
 function reply() {
 
-  var message = [$("#text_reply").val()];
+  var message = $("#text_reply").val();
   var id = $("#text_reply").attr("name");
   $("#text_reply").val("");
-  // console.log(message);
-  var msg = {
-    "name": id,
-    "reply": message,
-    "type": "reply"
-  };
-  sendTo(msg);
+  if(message !== "")
+  {
+    var msg = {
+      "name": id,
+      "reply": message,
+      "type": "reply"
+    };
+    sendTo(msg);
+  }
 }
 
 function notFound(eleId)
