@@ -327,7 +327,8 @@ body {
   border: 1px solid #f7f7f7;
   height: calc(100% - 120px);
 }
-.message-previous {
+.message-previous
+{
   margin : 0;
   padding: 0;
   height: auto;
@@ -479,7 +480,21 @@ body {
   box-shadow: none;
 }
 
+.loader
+{
+  padding: 15px;
+  margin: 10px auto;
+  text-align: center !important;
+  border: 2px solid #f3f3f3; /* Light grey */
+  border-top: 2px solid #009688; /* Blue */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
 
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
 
 @media screen and (max-width: 767px) {
   .app {
@@ -565,6 +580,7 @@ body {
   }
   .message {
     height: calc(100% - 180px);
+    background: url("../img/w.jpg") no-repeat fixed center;
   }
   .heading-name-meta {
     font-size: 120%;

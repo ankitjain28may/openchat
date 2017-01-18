@@ -452,7 +452,12 @@ $(document).ready(function(){
     if(typeof(res) !== "undefined" && scrollTop < 100)
     {
       $(".previous a").click();
+      if(scrollTop < 3)
+      {
+        $(".message-previous div").html("").removeClass("col-sm-12 previous").addClass("loader").css({"width" : "20px", "height" : "20px"});
+      }
     }
+
   });
 });
 
