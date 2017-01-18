@@ -48,7 +48,7 @@ class Chat implements MessageComponentInterface {
                     $this->onConversation(
                         json_encode([
                             "username" => $initial->initial[0]->login_id,
-                            "load" => 10,
+                            "load" => 20,
                             "userId" => $from->userId
                         ]), True
                     )
@@ -99,7 +99,7 @@ class Chat implements MessageComponentInterface {
                         $this->onReceiver(
                             json_encode([
                                 "username" => $client->userId,
-                                "load" => 10,
+                                "load" => 20,
                                 "userId" => $from->userId
                             ]), True
                         )

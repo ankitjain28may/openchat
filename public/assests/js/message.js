@@ -173,7 +173,8 @@ function updateConversation(data)
   var ele = document.getElementById("conversation");
   ele.innerHTML = "";
 
-  if (data[0].type === 1) {
+  if (data[0].type === 1)
+  {
     // For showing previous message
     if (data[0].load > 10)
     {
@@ -188,8 +189,8 @@ function updateConversation(data)
       divE1.append(divE2);
       $("#conversation").append(divE1);
     }
-
-    for (var i = data.length - 1; i >= 1; i--) {
+    var noOfMessages = data.length - 1;
+    for (var i = noOfMessages; i >= 1; i--) {
       // create element
       var divElement1 = $("<div></div>").addClass("row message-body");
       var divElement2 = $("<div></div>").addClass("col-sm-12");
@@ -214,12 +215,16 @@ function updateConversation(data)
       $("#conversation").append(divElement1);
     }
 
-    setConversationDetails(data[0]);
-
-    ele.scrollTop = ele.scrollHeight;
-  } else {
-    setConversationDetails(data[0]);
+    if(noOfMessages < 21)
+    {
+      ele.scrollTop = ele.scrollHeight;
+    }
+    else
+    {
+      ele.scrollTop = $("#conversation")[0].scrollHeight - heightFrom;
+    }
   }
+  setConversationDetails(data[0]);
 }
 
 // For reply to other messages
@@ -311,6 +316,7 @@ function previous(element)
 {
   var user = element.id;
   var lo = element.name;
+  heightFrom = $("#conversation")[0].scrollHeight;
   newConversation(element, lo);
 }
 
@@ -363,26 +369,26 @@ conn.onmessage = function(e)
     }
   }
 
-  if (msg.initial !== undefined) {
+  if (typeof(msg.initial) !== "undefined") {
     SideBar(msg.initial);
   }
 
-  if (msg.conversation !== undefined) {
+  if (typeof(msg.conversation) !== "undefined") {
     updateConversation(msg.conversation);
   }
 
-  if (msg.reply !== undefined) {
+  if (typeof(msg.reply) !== "undefined") {
     var textAreaId = $("#text_reply").attr("name");
     if (msg.reply[0].id === textAreaId) {
       updateConversation(msg.reply);
     }
   }
 
-  if (msg.Search !== undefined) {
+  if (typeof(msg.Search) !== "undefined") {
     searchResult(msg.Search);
   }
 
-  if (msg.Compose !== undefined) {
+  if (typeof(msg.Compose) !== "undefined") {
     composeResult(msg.Compose);
   }
 };
@@ -390,7 +396,7 @@ conn.onmessage = function(e)
 // Event Listeners
 $(document).ready(function(){
   $("body").on("click", ".sideBar-body", function() {
-    newConversation(this,10);
+    newConversation(this,20);
     hideComposeScreen();
   });
 
@@ -440,6 +446,14 @@ $(document).ready(function(){
     hideComposeScreen();
   });
 
+  $("#conversation").scroll(function() {
+    var res = $(".message-previous").html();
+    var scrollTop = $("#conversation").scrollTop();
+    if(typeof(res) !== "undefined" && scrollTop < 100)
+    {
+      $(".previous a").click();
+    }
+  });
 });
 
 console.log("Hello, Contact me at ankitjain28may77@gmail.com");
