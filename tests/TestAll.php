@@ -8,6 +8,7 @@ use ChatApp\Search;
 use ChatApp\Compose;
 use ChatApp\Reply;
 use ChatApp\Session;
+use ChatApp\SideBar;
 
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
@@ -262,9 +263,38 @@ extends
 
     }
 
+    /**
+    *  Testing for Search Class
+    */
+    public function testSidebar()
+    {
+        $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
+        $outputEmail = $this->obLogin->authLogin(
+            [
+                "login" => 'test',
+                "passLogin" => 'testing'
+            ]
+        );
+        $outputEmail = (array)json_decode($outputEmail);
+        $this->assertEquals($expectedOutput, $outputEmail);
+
+        $userId = Session::get('start');
+        $sidebar = new SideBar();
+
+
+        // For suggestion matched but not in total messages
+        $output = $sidebar->loadSideBar($userId);
+        $output = json_decode($output)[0];
+        $this->assertEquals("test2", $output->username);
+        $this->assertEquals("Test2", $output->name);
+        $this->assertEquals("2", $output->login_id);
+        Session::forget('start');
+
+    }
+
 
     /**
-    *   @depends testSearchWithTotalMessages
+    *   @depends testSidebar
     *  Empty the DB
     */
     public function test_EmptyDB()
