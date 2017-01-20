@@ -285,9 +285,23 @@ extends
         // For suggestion matched but not in total messages
         $output = $sidebar->loadSideBar($userId);
         $output = json_decode($output)[0];
+
         $this->assertEquals("test2", $output->username);
         $this->assertEquals("Test2", $output->name);
         $this->assertEquals("2", $output->login_id);
+
+        $output = $sidebar->loadSideBar('');
+        $this->assertEquals("Invalid Authentication", $output);
+
+        $output = $sidebar->loadSideBar("100");
+        $this->assertEquals("null", $output);
+        $sidebar = new SideBar();
+        $output = $sidebar->loadSideBar(2);
+        $output = json_decode($output)[0];
+
+        $this->assertEquals("test", $output->username);
+        $this->assertEquals("Test", $output->name);
+        $this->assertEquals("1", $output->login_id);
         Session::forget('start');
 
     }

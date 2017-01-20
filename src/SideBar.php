@@ -32,26 +32,24 @@ class SideBar
 
     public function loadSideBar($userId)
     {
-        if(isset($userId))
+        if(!empty($userId))
         {
             $query = "SELECT * FROM total_message WHERE user1='$userId' or user2='$userId'  ORDER BY id DESC";
             if($result = $this->connect->query($query))
             {
                 if ($result->num_rows > 0)
                 {
-                    $length = strlen($userId);
                     while($row = $result->fetch_assoc())
                     {
                         $identifier = $row['identifier'];
-                        $substring = substr($identifier, 0, $length);
-                        if($substring != $userId)
+                        $substring = explode(":", $identifier);
+                        if($substring[0] != $userId)
                         {
-                            $this->data($substring, $row);
+                            $this->data($substring[0], $row);
                         }
                         else
                         {
-                            $substring = substr($identifier, $length+1);
-                            $this->Data($substring, $row);
+                            $this->data($substring[1], $row);
                         }
                     }
                     return json_encode($this->array);
