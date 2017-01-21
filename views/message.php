@@ -40,11 +40,16 @@ if(Session::get('start') != null && empty($_GET['user']))
                 <img src="../public/assests/img/ankit.png">
               </div>
             </div>
-            <div class="col-sm-1 col-xs-1  heading-dot  pull-right">
-              <i class="fa fa-ellipsis-v fa-2x  pull-right" aria-hidden="true"></i>
+            <div class="col-sm-1 col-xs-2  heading-dot  pull-right dropdown">
+              <i class="fa fa-ellipsis-v fa-2x dropdown-toggle" aria-hidden="true" data-toggle="dropdown"></i>
+              <ul class="dropdown-menu">
+                <li><a href="#">HTML</a></li>
+                <li><a href="#">CSS</a></li>
+                <li><a href="#">JavaScript</a></li>
+              </ul>
             </div>
             <div class="col-sm-2 col-xs-2 heading-compose  pull-right">
-              <i class="fa fa-comments fa-2x  pull-right" aria-hidden="true"></i>
+              <i class="fa fa-comments fa-2x" aria-hidden="true"></i>
             </div>
           </div>
           <!-- Heading End -->

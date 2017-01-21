@@ -52,28 +52,27 @@ body {
   height: 100%;
 }
 .side-one {
+  position: relative;
+  top: 0;
   padding: 0;
   margin: 0;
   height: 100%;
   width: 100%;
   z-index: 1;
-  position: relative;
   display: block;
-  top: 0;
 }
 
 .side-two {
+  position: absolute;
+  top: 0;
+  left: -100%;
   padding: 0;
   margin: 0;
   height: 100%;
   width: 100%;
   z-index: 2;
-  position: relative;
-  top: -100%;
-  left: -100%;
   -webkit-transition: left 0.3s ease;
   transition: left 0.3s ease;
-
 }
 
 
@@ -83,7 +82,7 @@ body {
   height: 60px;
   width: 100%;
   background-color: #eee;
-  z-index: 1000;
+  z-index: 10;
 }
 
 .heading-avatar {
@@ -140,6 +139,7 @@ body {
   padding: 5px;
   color: #93918f;
   cursor: pointer;
+  margin: 0;
 }
 
 .searchBox {
@@ -240,8 +240,6 @@ body {
   padding: 0;
   margin: 0;
   height: 100%;
-  position: relative;
-  left: -100%;
 }
 .newMessage-heading {
   padding: 10px 16px 10px 15px;
@@ -249,7 +247,7 @@ body {
   height: 100px;
   width: 100%;
   background-color: #00bfa5;
-  z-index: 1001;
+  z-index: 11;
 }
 
 .newMessage-main {
@@ -258,7 +256,7 @@ body {
   height: 60px;
   margin-top: 30px;
   width: 100%;
-  z-index: 1001;
+  z-index: 11;
   color: #fff;
 }
 
@@ -420,7 +418,7 @@ body {
   padding: 10px 5px 10px 5px;
   margin: 0;
   vertical-align: middle;
-  z-index: 1000;
+  z-index: 12;
 }
 
 .reply-icons {
@@ -446,7 +444,7 @@ body {
   background-color: #333;
   padding: 5px;
   margin: 0;
-  z-index: 1000;
+  z-index: 13;
   vertical-align: middle;
   display: none;
 }
@@ -618,7 +616,7 @@ body {
     background-color: #333;
     padding: 5px;
     margin: 0;
-    z-index: 1000;
+    z-index: 13;
     vertical-align: middle;
     display: none;
   }

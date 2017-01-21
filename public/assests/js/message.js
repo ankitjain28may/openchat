@@ -152,7 +152,7 @@ function setConversationDetails(details)
   headingEleName.append(headingOnline);
 
   var headingDot = $("<div></div>").addClass("col-sm-1 col-xs-1  heading-dot pull-right");
-  var headingDotIcon = $("<i></i>").addClass("fa fa-ellipsis-v fa-2x  pull-right").attr({"aria-hidden" : "true"});
+  var headingDotIcon = $("<i></i>").addClass("fa fa-ellipsis-v fa-2x").attr({"aria-hidden" : "true"});
   headingDot.append(headingDotIcon);
 
 
@@ -448,6 +448,7 @@ $(document).ready(function(){
 
   $(".newMessage-back").click(function() {
     hideComposeScreen();
+    $("#composeText").val("");
   });
 
   $("#conversation").scroll(function() {
