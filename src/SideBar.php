@@ -69,6 +69,7 @@ class SideBar
             if($result->num_rows > 0)
             {
                 $fetch = $result->fetch_assoc();
+                $fetch['login_id'] = bin2hex(convert_uuencode($fetch['login_id']));
                 $row['time'] = $this->obTime->timeConversion($row['time']);
                 $fetch = array_merge($fetch, ['time' => $row['time']]);
                 $this->array = array_merge($this->array, [$fetch]);

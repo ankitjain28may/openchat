@@ -35,15 +35,18 @@ class Conversation
     public function conversationLoad($msg, $para)
     {
         $msg = json_decode($msg);
-
         if(!empty($msg))
         {
             $userId = $msg->userId;
             $add_load = 0;
-            $username = $msg->username;
+            $details = $msg->details;
             $load = $msg->load;
 
-            $fetch = $this->obUser->userDetails($username, $para);
+            if($para == True)
+            {
+                $details = convert_uudecode(hex2bin($details));
+            }
+            $fetch = $this->obUser->userDetails($details, $para);
 
             if($fetch != NULL)
             {
@@ -82,7 +85,7 @@ class Conversation
                             $this->array = array_merge($this->array, [$row]);
                         }
 
-                        $this->array = array_merge([['name' => $fetch['name'], 'username' => $fetch['username'], 'id' => $fetch['login_id'], 'load' => $add_load, 'login_status' => $fetch['login_status'], 'type' => 1]], $this->array);
+                        $this->array = array_merge([['name' => $fetch['name'], 'username' => $fetch['username'], 'id' => bin2hex(convert_uuencode($fetch['login_id'])), 'load' => $add_load, 'login_status' => $fetch['login_status'], 'type' => 1]], $this->array);
                         return json_encode($this->array);
                     }
                     else

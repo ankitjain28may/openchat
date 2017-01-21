@@ -28,12 +28,16 @@ class User
         );
     }
 
-    public function userDetails($userId, $para)
+    public function userDetails($details, $para)
     {
         if($para == True)
-            $this->query = "SELECT * from login where login_id = '$userId'";
+        {
+            $this->query = "SELECT * from login where login_id = '$details'";
+        }
         else
-            $this->query = "SELECT * from login where username = '$userId'";
+        {
+            $this->query = "SELECT * from login where username = '$details'";
+        }
         $this->result = $this->connect->query($this->query);
         if($this->result->num_rows > 0)                   // if true
         {

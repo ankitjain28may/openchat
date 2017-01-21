@@ -47,7 +47,7 @@ class Chat implements MessageComponentInterface {
                 $initial->conversation = json_decode(
                     $this->onConversation(
                         json_encode([
-                            "username" => $initial->initial[0]->login_id,
+                            "details" => $initial->initial[0]->login_id,
                             "load" => 20,
                             "userId" => $from->userId
                         ]), True
@@ -84,6 +84,8 @@ class Chat implements MessageComponentInterface {
         else
         {
             $msg->userId = $from->userId;
+            $msg->name = convert_uudecode(hex2bin($msg->name));
+
             $getReturn = $this->onReply($msg);
             echo $getReturn;
 
@@ -98,7 +100,7 @@ class Chat implements MessageComponentInterface {
                     $receiveResult->reply = json_decode(
                         $this->onReceiver(
                             json_encode([
-                                "username" => $client->userId,
+                                "details" => $client->userId,
                                 "load" => 20,
                                 "userId" => $from->userId
                             ]), True
@@ -114,7 +116,7 @@ class Chat implements MessageComponentInterface {
                     $sentResult->conversation = json_decode(
                         $this->onConversation(
                             json_encode([
-                                "username" => $msg->name,
+                                "details" => bin2hex(convert_uuencode($msg->name)),
                                 "load" => 20,
                                 "userId" => $from->userId
                             ]), True

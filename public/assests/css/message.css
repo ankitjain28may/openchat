@@ -647,12 +647,12 @@ body {
 
 ::-webkit-scrollbar-track
 {
-  border-radius: 20px;
+  /*border-radius: 20px;*/
   background-color: rgba(0, 0, 0, 0);
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 20px;
+  /*border-radius: 20px;*/
   background-color: #009688;
 }
 

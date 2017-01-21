@@ -96,7 +96,7 @@ extends
         $expectedOutput = [
             "Compose" => [
                 "0" => (object)[
-                    "login_id" => "2",
+                    "login_id" => bin2hex(convert_uuencode(2)),
                     "name" => "Test2",
                     "email" => "test2@testing.com",
                     "username" => "test2",
@@ -288,7 +288,7 @@ extends
 
         $this->assertEquals("test2", $output->username);
         $this->assertEquals("Test2", $output->name);
-        $this->assertEquals("2", $output->login_id);
+        $this->assertEquals(bin2hex(convert_uuencode(2)), $output->login_id);
 
         $sidebar = new SideBar();
         $output = $sidebar->loadSideBar('');
@@ -306,7 +306,7 @@ extends
 
         $this->assertEquals("test", $output->username);
         $this->assertEquals("Test", $output->name);
-        $this->assertEquals("1", $output->login_id);
+        $this->assertEquals(bin2hex(convert_uuencode(1)), $output->login_id);
         Session::forget('start');
     }
 

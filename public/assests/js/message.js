@@ -120,7 +120,7 @@ function newConversation(element, load)
   }
 
   var msg = {
-    "username": element.id,
+    "details": element.id,
     "load": load,
     "type": "Initiated"
   };
@@ -400,6 +400,8 @@ $(document).ready(function(){
   $("body").on("click", ".sideBar-body", function() {
     newConversation(this,20);
     hideComposeScreen();
+    $("#searchText").val("");
+    $("#composeText").val("");
   });
 
   $("body").on("click", ".reply-send",

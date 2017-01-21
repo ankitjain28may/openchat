@@ -26,15 +26,21 @@ class Receiver
 
     public function receiverLoad($msg, $para)
     {
-        $id2 = json_decode($msg)->userId;
+        $msg = json_decode($msg);
+        $id2 = $msg->userId;
         $this->messages = $this->obUser->userDetails($id2, $para);
         $username = $this->messages['username'];
         $name = $this->messages['name'];
+        $id1 = $msg->details;
+        $msg->details = bin2hex(convert_uuencode($msg->details));
+        $msg = json_encode($msg);
         $this->messages = json_decode($this->conversation->conversationLoad($msg, $para));
-        $id1 = json_decode($msg)->username;
+        // $id1 = json_decode($msg)->details;
         for ($i=1 ; $i < count($this->messages); $i++) {
             $this->messages[$i]->start = $id1;
         }
+        $id2 = bin2hex(convert_uuencode($id2));
+
         $this->messages[0]->username = $username;
         $this->messages[0]->name = $name;
         $this->messages[0]->id = $id2;

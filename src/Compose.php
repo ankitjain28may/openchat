@@ -42,6 +42,7 @@ class Compose
                 {
                     while($row = $result->fetch_assoc())
                     {
+                        $row["login_id"] = bin2hex(convert_uuencode($row["login_id"]));
                         $this->array = array_merge($this->array, [$row]);
                     }
                     $this->array = array_merge([], ["Compose" => $this->array]);
