@@ -265,7 +265,7 @@ function composeChoose() {
   }
   else
   {
-    $("#compose").html("");
+    $("#compose").html("<div class=\"notFound\">Start New Chat</div>");
   }
 }
 

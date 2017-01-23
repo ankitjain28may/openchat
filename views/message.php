@@ -99,7 +99,9 @@ if(Session::get('start') != null && empty($_GET['user']))
 
           <!-- sideBar -->
           <div class="row compose-sideBar" id="compose">
-
+            <div class="notFound">
+              Start New Chat
+            </div>
           </div>
         </div>
         <!-- Sidebar End -->

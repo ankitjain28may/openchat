@@ -90,7 +90,7 @@ class Conversation
                     }
                     else
                     {
-                        return json_encode([['name' => $fetch['name'], 'username' => $fetch['username'], 'id' => $fetch['login_id'], 'login_status' => $fetch['login_status'], 'type' => 0]]);
+                        return json_encode([['name' => $fetch['name'], 'username' => $fetch['username'], 'id' => bin2hex(convert_uuencode($fetch['login_id'])), 'login_status' => $fetch['login_status'], 'type' => 0]]);
                     }
                 }
                 return "Query Failed";
