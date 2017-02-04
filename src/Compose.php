@@ -1,7 +1,7 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/vendor/autoload.php');
+require_once (dirname(__DIR__).'/vendor/autoload.php');
 use ChatApp\Session;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
@@ -33,15 +33,11 @@ class Compose
         $userId = $msg->userId;
         $suggestion = $msg->value;
         $suggestion = trim($suggestion);
-        if(!empty($userId) && !empty($suggestion))
-        {
+        if (!empty($userId) && !empty($suggestion)) {
             $query = "SELECT * FROM login where login_id != '$userId' and name like '$suggestion%' ORDER BY name DESC";
-            if($result = $this->connect->query($query))
-            {
-                if($result->num_rows > 0)
-                {
-                    while($row = $result->fetch_assoc())
-                    {
+            if ($result = $this->connect->query($query)) {
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
                         $row["login_id"] = bin2hex(convert_uuencode($row["login_id"]));
                         $this->array = array_merge($this->array, [$row]);
                     }

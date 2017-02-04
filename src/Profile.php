@@ -1,7 +1,7 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/vendor/autoload.php');
+require_once (dirname(__DIR__).'/vendor/autoload.php');
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
@@ -23,13 +23,11 @@ class Profile
         );
         $query = "SELECT * from profile where login_id = '$userId'";
         $result = $connect->query($query);
-        if($result->num_rows > 0)                   // if true
-        {
+        if ($result->num_rows > 0) {
+            // if true
             $details = $result->fetch_assoc();
             return $details;
-        }
-        else
-        {
+        } else {
             return NULL;
         }
     }

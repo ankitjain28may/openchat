@@ -76,8 +76,8 @@ class ExistsTest
     }
 
     /**
-    * @dataProvider ClassNameProvider
-    */
+     * @dataProvider ClassNameProvider
+     */
     public function testClassExists($className)
     {
         $this->assertTrue(class_exists($className));

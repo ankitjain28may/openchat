@@ -71,8 +71,7 @@ function createSidebarElement(data, eleId)
     div1.append(div2);
     $("#"+eleId).append(div1);
 
-    if(eleId === "message" && $("#text_reply").attr("name") == data[i].login_id)
-    {
+    if (eleId === "message" && $("#text_reply").attr("name") == data[i].login_id) {
       $("#"+data[i].username).addClass("active");
     }
   }
@@ -111,11 +110,9 @@ function width() {
 }
 
 // Creating new Conversation or Loading Conversation
-function newConversation(element, load)
-{
+function newConversation(element, load) {
 
-  if(width())
-  {
+  if (width()) {
     toConversation();
   }
 
@@ -128,8 +125,7 @@ function newConversation(element, load)
 }
 
 // Set Details
-function setConversationDetails(details)
-{
+function setConversationDetails(details) {
   $("#conversationHeading").html("");
 
   var headingEle = $("<div></div>").addClass("col-sm-2 col-md-1 col-xs-3 heading-avatar");
@@ -167,8 +163,7 @@ function setConversationDetails(details)
 
 
 // Update Current Conversation
-function updateConversation(data)
-{
+function updateConversation(data) {
 
   var ele = document.getElementById("conversation");
   ele.innerHTML = "";
@@ -200,13 +195,11 @@ function updateConversation(data)
 
       if (data[i]["sent_by"] !== data[i].start)
       {
-       divElement2.addClass("message-main-receiver");
-       divElement3.addClass("receiver");
-      }
-      else
-      {
+        divElement2.addClass("message-main-receiver");
+        divElement3.addClass("receiver");
+      } else {
         divElement2.addClass("message-main-sender");
-       divElement3.addClass("sender");
+        divElement3.addClass("sender");
       }
       divElement3.append(messageText);
       divElement3.append(spanElement);
@@ -215,12 +208,9 @@ function updateConversation(data)
       $("#conversation").append(divElement1);
     }
 
-    if(noOfMessages < 21)
-    {
+    if (noOfMessages < 21) {
       ele.scrollTop = ele.scrollHeight;
-    }
-    else
-    {
+    } else {
       ele.scrollTop = $("#conversation")[0].scrollHeight - heightFrom;
     }
   }
@@ -233,8 +223,7 @@ function reply() {
   var message = $("#text_reply").val();
   var id = $("#text_reply").attr("name");
   $("#text_reply").val("");
-  if(message !== "")
-  {
+  if (message !== "") {
     var msg = {
       "name": id,
       "reply": message,
@@ -244,9 +233,8 @@ function reply() {
   }
 }
 
-function notFound(eleId)
-{
-  eleId = "#"+eleId;
+function notFound(eleId) {
+  eleId = "#" + eleId;
   $(eleId).text("");
   var divElement = $("<div></div>").addClass("notFound").text("Not Found");
   $(eleId).append(divElement);
@@ -254,33 +242,26 @@ function notFound(eleId)
 
 function composeChoose() {
   var text = document.getElementById("composeText").value;
-  if (text !== "")
-  {
+  if (text !== "") {
     var msg =
     {
       "value": text,
       "type": "Compose"
     };
     sendTo(msg);
-  }
-  else
-  {
+  } else {
     $("#compose").html("<div class=\"notFound\">Start New Chat</div>");
   }
 }
 
 //compose messages
-function composeResult(arr)
-{
+function composeResult(arr) {
   var ele = document.getElementById("compose");
   ele.innerHTML = "";
 
-  if (arr !== "Not Found")
-  {
+  if (arr !== "Not Found") {
     createSidebarElement(arr, "compose");
-  }
-  else
-  {
+  } else {
     notFound("compose");
   }
 }
@@ -294,9 +275,7 @@ function searchChoose() {
     };
 
     sendTo(msg);
-  }
-  else
-  {
+  } else {
     sidebarRequest();
   }
 
@@ -305,17 +284,14 @@ function searchChoose() {
 function searchResult(arr) {
   if (arr !== "Not Found") {
     createSidebarElement(arr, "message");
-  }
-  else
-  {
+  } else {
     notFound("message");
   }
 
 }
 
 // Load previous messages
-function previous(element)
-{
+function previous(element) {
   var user = element.id;
   var lo = element.name;
   heightFrom = $("#conversation")[0].scrollHeight;
@@ -361,11 +337,9 @@ conn.onmessage = function(e)
 {
   var msg = JSON.parse(e.data);
   // console.log(msg);
-  if (!width())
-  {
+  if (!width()) {
     SideBar(msg.sidebar);
-  } else
-  {
+  } else {
     if (!$(".side").hasClass("hide")) {
       SideBar(msg.sidebar);
     }
@@ -454,11 +428,9 @@ $(document).ready(function(){
   $("#conversation").scroll(function() {
     var res = $(".message-previous").html();
     var scrollTop = $("#conversation").scrollTop();
-    if(typeof(res) !== "undefined" && scrollTop < 100)
-    {
+    if (typeof(res) !== "undefined" && scrollTop < 100) {
       $(".previous a").click();
-      if(scrollTop < 3)
-      {
+      if (scrollTop < 3) {
         $(".message-previous div").html("").removeClass("col-sm-12 previous").addClass("loader").css({"width" : "20px", "height" : "20px"});
       }
     }

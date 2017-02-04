@@ -1,7 +1,7 @@
 <?php
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/vendor/autoload.php');
+require_once (dirname(__DIR__).'/vendor/autoload.php');
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
@@ -22,8 +22,9 @@ class Online
             getenv('DB_NAME')
         );
         $query = "Update login set login_status = 1 where login_id = '$userId'";
-        if(!$connect->query($query));
+        if (!$connect->query($query)) {
             echo $connect->error;
+        }
         $connect->close();
     }
 
@@ -36,8 +37,9 @@ class Online
             getenv('DB_NAME')
         );
         $query = "Update login set login_status = 0 where login_id = '$userId'";
-        if(!$connect->query($query));
+        if (!$connect->query($query)) {
             echo $connect->error;
+        }
         $connect->close();
     }
 }

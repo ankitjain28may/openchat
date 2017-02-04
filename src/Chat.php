@@ -2,7 +2,7 @@
 namespace ChatApp;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
-use ChatApp\Models\Message;
+// use ChatApp\Models\Message;
 use ChatApp\Reply;
 use ChatApp\Conversation;
 use ChatApp\Receiver;
@@ -25,8 +25,7 @@ class Chat implements MessageComponentInterface {
         Online::setOnlineStatus($conn->userId);
     }
 
-    public function setID($conn)
-    {
+    public function setID($conn) {
         session_id($conn->WebSocket->request->getCookies()['PHPSESSID']);
         @session_start();
         $conn->userId = $_SESSION['start'];
@@ -34,16 +33,13 @@ class Chat implements MessageComponentInterface {
         return $conn;
     }
 
-    public function onMessage(ConnectionInterface $from, $msg)
-    {
+    public function onMessage(ConnectionInterface $from, $msg) {
         $msg = (object) json_decode($msg);
-        if($msg->type == 'OpenChat initiated..!')
-        {
+        if ($msg->type == 'OpenChat initiated..!') {
             $initial = (object) array();
             $initial->initial = json_decode($this->onSidebar($from->userId));
 
-            if($initial->initial != null)
-            {
+            if ($initial->initial != null) {
                 $initial->conversation = json_decode(
                     $this->onConversation(
                         json_encode([
@@ -55,34 +51,24 @@ class Chat implements MessageComponentInterface {
                 );
             }
             $from->send(json_encode($initial));
-        }
-        elseif ($msg->type == 'Load Sidebar')
-        {
+        } else if ($msg->type == 'Load Sidebar') {
             $sidebar = (object) array();
             $sidebar->sidebar = json_decode($this->onSidebar($from->userId));
             $from->send(json_encode($sidebar));
-        }
-        elseif ($msg->type == 'Initiated')
-        {
+        } else if ($msg->type == 'Initiated') {
             $msg->userId = $from->userId;
             $result = (object) array();
             $result->conversation = json_decode($this->onConversation(json_encode($msg), False));
             $from->send(json_encode($result));
-        }
-        elseif ($msg->type == 'Search')
-        {
+        } else if ($msg->type == 'Search') {
             $msg->userId = $from->userId;
             $searchResult = $this->onSearch($msg);
             $from->send($searchResult);
-        }
-        elseif ($msg->type == 'Compose')
-        {
+        } else if ($msg->type == 'Compose') {
             $msg->userId = $from->userId;
             $composeResult = $this->onCompose($msg);
             $from->send($composeResult);
-        }
-        else
-        {
+        } else {
             $msg->userId = $from->userId;
             $msg->name = convert_uudecode(hex2bin($msg->name));
 
@@ -93,8 +79,7 @@ class Chat implements MessageComponentInterface {
             $sentResult = (object) array();
             foreach ($this->clients as $client)
             {
-                if ($client->userId == $msg->name)
-                {
+                if ($client->userId == $msg->name) {
                     $receiveResult->sidebar = json_decode($this->onSidebar($client->userId));
 
                     $receiveResult->reply = json_decode(
@@ -108,9 +93,7 @@ class Chat implements MessageComponentInterface {
                     );
 
                     $client->send(json_encode($receiveResult));
-                }
-                elseif($client == $from)
-                {
+                } else if($client == $from) {
                     $sentResult->sidebar = json_decode($this->onSidebar($client->userId));
 
                     $sentResult->conversation = json_decode(
@@ -129,32 +112,27 @@ class Chat implements MessageComponentInterface {
         }
     }
 
-    public function onSidebar($data)
-    {
-        $obSidebar = new Sidebar();
+    public function onSidebar($data) {
+        $obSidebar = new SideBar();
         return $obSidebar->loadSideBar($data);
     }
 
-    public function onConversation($data, $para)
-    {
+    public function onConversation($data, $para) {
         $obConversation = new Conversation();
         return $obConversation->conversationLoad($data, $para);
     }
 
-    public function onReceiver($data, $para)
-    {
+    public function onReceiver($data, $para) {
         $obReceiver = new Receiver();
         return $obReceiver->receiverLoad($data, $para);
     }
 
-    public function onSearch($data)
-    {
+    public function onSearch($data) {
         $obSearch = new Search();
         return $obSearch->searchItem($data);
     }
 
-    public function onCompose($data)
-    {
+    public function onCompose($data) {
         $obCompose = new Compose();
         return $obCompose->selectUser($data);
     }

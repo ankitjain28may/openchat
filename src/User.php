@@ -2,7 +2,7 @@
 
 
 namespace ChatApp;
-require_once (dirname(__DIR__) . '/vendor/autoload.php');
+require_once (dirname(__DIR__).'/vendor/autoload.php');
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
@@ -30,22 +30,16 @@ class User
 
     public function userDetails($details, $para)
     {
-        if($para == True)
-        {
+        if ($para == True) {
             $this->query = "SELECT * from login where login_id = '$details'";
-        }
-        else
-        {
+        } else {
             $this->query = "SELECT * from login where username = '$details'";
         }
         $this->result = $this->connect->query($this->query);
-        if($this->result->num_rows > 0)                   // if true
-        {
+        if ($this->result->num_rows > 0) {
             $this->details = $this->result->fetch_assoc();
             return $this->details;
-        }
-        else
-        {
+        } else {
             return NULL;
         }
     }
