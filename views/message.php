@@ -42,10 +42,10 @@ if(Session::get('start') != null && empty($_GET['user']))
             </div>
             <div class="col-sm-1 col-xs-2  heading-dot  pull-right dropdown">
               <i class="fa fa-ellipsis-v fa-2x dropdown-toggle" aria-hidden="true" data-toggle="dropdown"></i>
-              <ul class="dropdown-menu">
-                <li><a href="#">HTML</a></li>
-                <li><a href="#">CSS</a></li>
-                <li><a href="#">JavaScript</a></li>
+              <ul class="dropdown-menu heading-dropdown">
+                <li><a href="#"> New Group </a></li>
+                <li><a href="#"> Profile </a></li>
+                <li><a href="logout.php"> Logout </a></li>
               </ul>
             </div>
             <div class="col-sm-2 col-xs-2 heading-compose  pull-right">

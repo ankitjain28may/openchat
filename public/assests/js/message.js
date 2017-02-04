@@ -464,6 +464,7 @@ $(document).ready(function(){
     }
 
   });
+  // console.log("ef");
 });
 
 console.log("Hello, Contact me at ankitjain28may77@gmail.com");

@@ -4,7 +4,7 @@ div,
 span {
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  /*overflow: hidden;*/
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -83,6 +83,11 @@ body {
   width: 100%;
   background-color: #eee;
   z-index: 10;
+  overflow: visible !important;
+}
+
+.heading-dropdown li a {
+  padding: 10%;
 }
 
 .heading-avatar {
@@ -352,7 +357,7 @@ body {
 }
 
 .message-main-receiver {
-  /*padding: 10px 20px;*/
+  padding: 3px 20px;
   max-width: 70%;
 }
 
