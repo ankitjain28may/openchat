@@ -76,7 +76,7 @@ class Conversation
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             $row['time'] = $this->obTime->timeConversion($row['time']);
-                            $row = array_merge($row,['start' => $userId]);
+                            $row = array_merge($row, ['start' => $userId]);
                             $this->array = array_merge($this->array, [$row]);
                         }
 

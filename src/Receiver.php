@@ -36,7 +36,7 @@ class Receiver
         $msg = json_encode($msg);
         $this->messages = json_decode($this->conversation->conversationLoad($msg, $para));
         // $id1 = json_decode($msg)->details;
-        for ($i=1 ; $i < count($this->messages); $i++) {
+        for ($i = 1 ; $i < count($this->messages); $i++) {
             $this->messages[$i]->start = $id1;
         }
         $id2 = bin2hex(convert_uuencode($id2));

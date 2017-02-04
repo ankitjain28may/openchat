@@ -64,9 +64,9 @@ class Register
         $query = "INSERT INTO register VALUES(null, '$email', '$username', '$password')";
         if (!$this->connect->query($query)) {
             return json_encode(
-            	[
-            	"Error" => "You are not registered, ".$this->connect->error
-            	]
+                [
+                "Error" => "You are not registered, ".$this->connect->error
+                ]
             );
         }
         $query = "SELECT id FROM register WHERE email = '$email'";
@@ -76,24 +76,36 @@ class Register
             $query = "INSERT INTO login VALUES('$userId', '$name', '$email', '$username', '$mob', 0)";
 
             if (!$this->connect->query($query)) {
-                return json_encode(["Error" => "You are not registered, ".$this->connect->error ]);
+                return json_encode(
+                    [
+                    "Error" => "You are not registered, ".$this->connect->error
+                    ]
+                );
             }
 
             $query = "INSERT INTO profile VALUES('$userId', 'Joined OpenChat', 'Joined OpenChat', '')";
             if (!$this->connect->query($query)) {
-                return json_encode(["Error" => "You are not registered, ".$this->connect->error ]);
+                return json_encode(
+                    [
+                    "Error" => "You are not registered, ".$this->connect->error
+                    ]
+                );
             }
 
             Session::put('start', $userId);
             return json_encode(
-            	[
+                [
                 "location" => getenv('APP_URL')."/views/account.php"
-            	]
+                ]
             );
         }
     }
 
 
+    /**
+     * @param string $value
+     * @param string $key
+     */
     public function onError($key, $value)
     {
         $this->flag = 1;

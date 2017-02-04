@@ -5,7 +5,7 @@
 [![Join the chat at https://gitter.im/ankitjain28may/openchat](https://badges.gitter.im/ankitjain28may/openchat.svg)](https://gitter.im/ankitjain28may/openchat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ankitjain28may/openchat/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ankitjain28may/openchat/?branch=master)
 [![Build Status](https://travis-ci.org/ankitjain28may/openchat.svg?branch=master)](https://travis-ci.org/ankitjain28may/openchat)
-[![Coverage Status](https://coveralls.io/repos/github/ankitjain28may/openchat/badge.svg?branch=master)](https://coveralls.io/github/ankitjain28may/openchat?branch=master)
+
 [![Code Climate](https://codeclimate.com/github/ankitjain28may/openchat/badges/gpa.svg)](https://codeclimate.com/github/ankitjain28may/openchat)
 [![Issue Count](https://codeclimate.com/github/ankitjain28may/openchat/badges/issue_count.svg)](https://codeclimate.com/github/ankitjain28may/openchat)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/23e0d72e208d4edfb08702b702bd9139)](https://www.codacy.com/app/ankitjain28may77/openchat?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ankitjain28may/openchat&amp;utm_campaign=Badge_Grade)

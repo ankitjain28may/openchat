@@ -58,12 +58,12 @@ class Login
                         $this->onError("passLogin", " *Invalid password");
                         return json_encode($this->error);
                     }
-                    return json_encode(["Error" => "You are not registered, ".$this->connect->error ]);
+                    return json_encode(["Error" => "You are not registered, ".$this->connect->error]);
                 }
                 $this->onError("login", " *Invalid username or email");
                 return json_encode($this->error);
             }
-            return json_encode(["Error" => "You are not registered, ".$this->connect->error ]);
+            return json_encode(["Error" => "You are not registered, ".$this->connect->error]);
         } else {
             return json_encode($this->error);
         }

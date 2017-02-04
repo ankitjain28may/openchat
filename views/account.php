@@ -66,19 +66,19 @@ if ($userId != null && $user == "account.php") {
                             <h1 id="name">Name: <?php echo $row['name']; ?></h1><br>
                             <?php foreach ($row as $key => $value) {
                                 if ($key =='username' && $value != null) {
-                                    echo '<p>Username: '.$row["username"] .'</p><br>';
+                                    echo '<p>Username: '.$row["username"].'</p><br>';
                                 }
                                 if ($key == 'email' && $value != null) {
-                                    echo '<p>Email Id: '.$row["email"] .'</p><br>';
+                                    echo '<p>Email Id: '.$row["email"].'</p><br>';
                                 }
                                 if ($key == 'status' && $value != null) {
-                                    echo '<p>Status: '.$row["status"] .'</p><br>';
+                                    echo '<p>Status: '.$row["status"].'</p><br>';
                                 }
                                 if ($key == 'education' && $value != null) {
-                                    echo '<p>Education: '.$row["education"] .'</p><br>';
+                                    echo '<p>Education: '.$row["education"].'</p><br>';
                                 }
                                 if ($key == 'gender' && $value != null) {
-                                    echo '<p>Gender:     '.$row["gender"] .'</p><br>';
+                                    echo '<p>Gender:     '.$row["gender"].'</p><br>';
                                 }
                             }
                             ?>

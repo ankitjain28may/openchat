@@ -30,22 +30,22 @@ class Reply
             //checks for the value send
             $userId = $msg->userId;
             $receiverID = $msg->name; //stores id of the person whom message is to be sent
-            $identifier = "";
+            $identifier;
 
             if ($receiverID > $userId) {
                 // geneate specific unique code to store messages
                 $user1 = $userId;
                 $user2 = $receiverID;
-                $identifier = $userId . ":" . $receiverID;
+                $identifier = $userId.":".$receiverID;
             } else {
                 $user1 = $receiverID;
                 $user2 = $userId;
-                $identifier = $receiverID . ":" . $userId;
+                $identifier = $receiverID.":".$userId;
             }
 
             $reply = addslashes(trim($msg->reply)); // stores the message sent by the user.
 
-            $time = date("D d M Y H:i:s", time() + 16200);  // current time
+            $time = date("D d M Y H:i:s", time() + 16200); // current time
             $time_id = date("YmdHis", time() + 16200); //to sort the array on the basis of time
 
             //the sender id must not be equal to current session id
@@ -69,19 +69,27 @@ class Reply
                         return $this->updateMessages($query, $identifier, $reply, $userId, $time);
                     }
                 }
-                return "Invalid Authentication";  // if he is unauthorized echo message is failed
+                return "Invalid Authentication"; // if he is unauthorized echo message is failed
             }
         }
         return "Failed";
     }
 
+    /**
+     * @param string $identifier
+     * @param string $reply
+     * @param string $time
+     * @param string $userId
+     * @param string $query
+     */
     public function updateMessages($query, $identifier, $reply, $userId, $time)
     {
         if ($result = $this->connect->query($query)) {
             //insert message in db
             $query = "INSERT into messages values('$identifier', '$reply', '$userId', '$time', null)";
             if ($this->connect->query($query)) {
-                return "Messages is sent";    // if query is executed return true
+                // if query is executed return true
+                return "Messages is sent";
             }
             return "Message is failed";
         }
