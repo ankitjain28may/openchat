@@ -14,7 +14,7 @@ before_install:
 
 script:
   - mkdir -p build/logs
-  - phpcs src
+  - php vendor/bin/phpcs -h src
   - phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
