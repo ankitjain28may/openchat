@@ -7,13 +7,14 @@ php:
 
 before_install:
   - cp .env.travis .env
-  - composer require phpunit/phpunit:4.8.* satooshi/php-coveralls:dev-master
+  - composer require phpunit/phpunit:4.8.* satooshi/php-coveralls:dev-master squizlabs/php_codesniffer=*
   - composer install --dev --ignore-platform-reqs
   - mysql -e 'CREATE DATABASE openchat;'
   - mysql -u root  openchat < ./sql/openchat.sql
 
 script:
   - mkdir -p build/logs
+  - phpcs src
   - phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
