@@ -9,7 +9,6 @@ use ChatApp\Compose;
 use ChatApp\Reply;
 use ChatApp\Session;
 use ChatApp\SideBar;
-
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();

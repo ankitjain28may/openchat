@@ -1,3 +1,10 @@
+$(document).ready(function(){
+  var pre = $("<div class='loader'></div>").css({"width" : "60px", "height" : "60px", "z-index" : 10001, "margin" : "auto"});
+
+  $('body').load('../public/assests/partials/app.html', function() {
+  $('body').append(pre);
+
+
 var heightFrom; //  global variable
 // Websocket Connection Open
 var conn = new WebSocket("ws://localhost:8080");
@@ -370,7 +377,6 @@ conn.onmessage = function(e)
 };
 
 // Event Listeners
-$(document).ready(function(){
   $("body").on("click", ".sideBar-body", function() {
     newConversation(this,20);
     hideComposeScreen();
@@ -436,7 +442,10 @@ $(document).ready(function(){
     }
 
   });
-  // console.log("ef");
-});
 
+  });
+
+});
 console.log("Hello, Contact me at ankitjain28may77@gmail.com");
+
+

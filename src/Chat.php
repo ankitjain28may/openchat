@@ -1,5 +1,17 @@
 <?php
+/**
+ * Chat Class Doc Comment
+ *
+ * PHP version 5
+ *
+ * @category PHP
+ * @package  OpenChat
+ * @author   Ankit Jain <ankitjain28may77@gmail.com>
+ * @license  The MIT License (MIT)
+ * @link     https://github.com/ankitjain28may/openchat
+ */
 namespace ChatApp;
+
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 // use ChatApp\Models\Message;
@@ -11,14 +23,48 @@ use ChatApp\Search;
 use ChatApp\Compose;
 use ChatApp\Online;
 
-class Chat implements MessageComponentInterface {
+/**
+ * This Class handles the all the main functionalities for this ChatApp.
+ *
+ * @category PHP
+ * @package  OpenChat
+ * @author   Ankit Jain <ankitjain28may77@gmail.com>
+ * @license  The MIT License (MIT)
+ * @link     https://github.com/ankitjain28may/openchat
+ */
+
+class Chat implements MessageComponentInterface
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Chat Class
+    |--------------------------------------------------------------------------
+    |
+    | This Class handles the all the main functionalities for this ChatApp.
+    |
+    */
+
     protected $clients;
 
-    public function __construct() {
+    /**
+     * Create a new class instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
         $this->clients = new \SplObjectStorage;
     }
 
-    public function onOpen(ConnectionInterface $conn) {
+    /**
+     * Open the Socket Connection and get client connection
+     *
+     * @param ConnectionInterface $conn To store client details
+     *
+     * @return void
+     */
+    public function onOpen(ConnectionInterface $conn)
+    {
         $conn = $this->setID($conn);
         $this->clients->attach($conn);
         echo "New connection! ({$conn->resourceId})\n";
@@ -26,9 +72,14 @@ class Chat implements MessageComponentInterface {
     }
 
     /**
-     * @param ConnectionInterface $conn
+     * Set Session Id in Connection object
+     *
+     * @param ConnectionInterface $conn To store client details
+     *
+     * @return $conn
      */
-    public function setID($conn) {
+    public function setID($conn)
+    {
         session_id($conn->WebSocket->request->getCookies()['PHPSESSID']);
         @session_start();
         $conn->userId = $_SESSION['start'];
@@ -36,7 +87,16 @@ class Chat implements MessageComponentInterface {
         return $conn;
     }
 
-    public function onMessage(ConnectionInterface $from, $msg) {
+    /**
+     * Send Messages to Clients
+     *
+     * @param ConnectionInterface $from To store client details
+     * @param json                $msg  To store message
+     *
+     * @return void
+     */
+    public function onMessage(ConnectionInterface $from, $msg)
+    {
         $msg = (object)json_decode($msg);
         if ($msg->type == 'OpenChat initiated..!') {
             $initial = (object)array();
@@ -45,11 +105,13 @@ class Chat implements MessageComponentInterface {
             if ($initial->initial != null) {
                 $initial->conversation = json_decode(
                     $this->onConversation(
-                        json_encode([
+                        json_encode(
+                            [
                             "details" => $initial->initial[0]->login_id,
                             "load" => 20,
                             "userId" => $from->userId
-                        ]), True
+                            ]
+                        ), true
                     )
                 );
             }
@@ -61,7 +123,9 @@ class Chat implements MessageComponentInterface {
         } else if ($msg->type == 'Initiated') {
             $msg->userId = $from->userId;
             $result = (object)array();
-            $result->conversation = json_decode($this->onConversation(json_encode($msg), False));
+            $result->conversation = json_decode(
+                $this->onConversation(json_encode($msg), false)
+            );
             $from->send(json_encode($result));
         } else if ($msg->type == 'Search') {
             $msg->userId = $from->userId;
@@ -80,32 +144,39 @@ class Chat implements MessageComponentInterface {
 
             $receiveResult = (object)array();
             $sentResult = (object)array();
-            foreach ($this->clients as $client)
-            {
+            foreach ($this->clients as $client) {
                 if ($client->userId == $msg->name) {
-                    $receiveResult->sidebar = json_decode($this->onSidebar($client->userId));
+                    $receiveResult->sidebar = json_decode(
+                        $this->onSidebar($client->userId)
+                    );
 
                     $receiveResult->reply = json_decode(
                         $this->onReceiver(
-                            json_encode([
+                            json_encode(
+                                [
                                 "details" => $client->userId,
                                 "load" => 20,
                                 "userId" => $from->userId
-                            ]), True
+                                ]
+                            ), true
                         )
                     );
 
                     $client->send(json_encode($receiveResult));
                 } else if ($client == $from) {
-                    $sentResult->sidebar = json_decode($this->onSidebar($client->userId));
+                    $sentResult->sidebar = json_decode(
+                        $this->onSidebar($client->userId)
+                    );
 
                     $sentResult->conversation = json_decode(
                         $this->onConversation(
-                            json_encode([
+                            json_encode(
+                                [
                                 "details" => bin2hex(convert_uuencode($msg->name)),
                                 "load" => 20,
                                 "userId" => $from->userId
-                            ]), True
+                                ]
+                            ), true
                         )
                     );
                     $client->send(json_encode($sentResult));
@@ -115,51 +186,110 @@ class Chat implements MessageComponentInterface {
         }
     }
 
-    public function onSidebar($data) {
+    /**
+     * To Call SideBar Class
+     *
+     * @param string $data To store data
+     *
+     * @return json
+     */
+    public function onSidebar($data)
+    {
         $obSidebar = new SideBar();
         return $obSidebar->loadSideBar($data);
     }
 
     /**
-     * @param string  $data
-     * @param boolean $para
+     * To Call Conversation Class
+     *
+     * @param string  $data to store data
+     * @param boolean $para to store True/False
+     *
+     * @return json
      */
-    public function onConversation($data, $para) {
+    public function onConversation($data, $para)
+    {
         $obConversation = new Conversation();
         return $obConversation->conversationLoad($data, $para);
     }
 
     /**
-     * @param string  $data
-     * @param boolean $para
+     * To Call Receiver Class
+     *
+     * @param string  $data to store data
+     * @param boolean $para to store True/False
+     *
+     * @return json
      */
-    public function onReceiver($data, $para) {
+    public function onReceiver($data, $para)
+    {
         $obReceiver = new Receiver();
         return $obReceiver->receiverLoad($data, $para);
     }
 
-    public function onSearch($data) {
+    /**
+     * To Call Search Class
+     *
+     * @param string $data to store data
+     *
+     * @return json
+     */
+    public function onSearch($data)
+    {
         $obSearch = new Search();
         return $obSearch->searchItem($data);
     }
 
-    public function onCompose($data) {
+    /**
+     * To Call Compose Class
+     *
+     * @param string $data to store data
+     *
+     * @return json
+     */
+    public function onCompose($data)
+    {
         $obCompose = new Compose();
         return $obCompose->selectUser($data);
     }
 
+    /**
+     * To Call Reply Class
+     *
+     * @param string $data to store data
+     *
+     * @return json
+     */
     public function onReply($data)
     {
         $obReply = new Reply();
         return $obReply->replyTo($data);
     }
 
-    public function onClose(ConnectionInterface $conn) {
+    /**
+     * To Call Online Class
+     *
+     * @param ConnectionInterface $conn To store client details
+     *
+     * @return void
+     */
+    public function onClose(ConnectionInterface $conn)
+    {
         Online::removeOnlineStatus($conn->userId);
         $this->clients->detach($conn);
         echo "Connection {$conn->resourceId} has disconnected\n";
     }
-    public function onError(ConnectionInterface $conn, \Exception $e) {
+
+    /**
+     * To Show error due to any problem occured
+     *
+     * @param ConnectionInterface $conn To store client details
+     * @param Exception           $e    To store exception
+     *
+     * @return void
+     */
+    public function onError(ConnectionInterface $conn, \Exception $e)
+    {
         echo "An error has occurred: {$e->getMessage()}\n";
         $conn->close();
     }

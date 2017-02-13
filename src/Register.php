@@ -1,22 +1,54 @@
 <?php
-
+/**
+ * Register Class Doc Comment
+ *
+ * PHP version 5
+ *
+ * @category PHP
+ * @package  OpenChat
+ * @author   Ankit Jain <ankitjain28may77@gmail.com>
+ * @license  The MIT License (MIT)
+ * @link     https://github.com/ankitjain28may/openchat
+ */
 namespace ChatApp;
 
-require_once (dirname(__DIR__).'/vendor/autoload.php');
+require_once dirname(__DIR__).'/vendor/autoload.php';
 use ChatApp\Validate;
 use ChatApp\Session;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
 
-
+/**
+ * Register the User
+ *
+ * @category PHP
+ * @package  OpenChat
+ * @author   Ankit Jain <ankitjain28may77@gmail.com>
+ * @license  The MIT License (MIT)
+ * @link     https://github.com/ankitjain28may/openchat
+ */
 class Register
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Register Class
+    |--------------------------------------------------------------------------
+    |
+    | Save User Details in DB.
+    |
+    */
+
     protected $error;
     protected $flag;
     protected $obValidate;
     protected $connect;
 
+    /**
+     * Create a new class instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->error = array();
@@ -31,6 +63,13 @@ class Register
 
     }
 
+    /**
+     * Store Message in Db so as to send message to other members
+     *
+     * @param object $data To store user details
+     *
+     * @return json
+     */
     public function authRegister($data)
     {
         $data = $this->emptyValue($data);
@@ -61,7 +100,9 @@ class Register
 
         $password = md5($password);
 
-        $query = "INSERT INTO register VALUES(null, '$email', '$username', '$password')";
+        $query = "INSERT INTO register VALUES(
+            null, '$email', '$username', '$password'
+        )";
         if (!$this->connect->query($query)) {
             return json_encode(
                 [
@@ -73,7 +114,9 @@ class Register
         if ($result = $this->connect->query($query)) {
             $row = $result->fetch_assoc();
             $userId = $row['id'];
-            $query = "INSERT INTO login VALUES('$userId', '$name', '$email', '$username', '$mob', 0)";
+            $query = "INSERT INTO login VALUES(
+                '$userId', '$name', '$email', '$username', '$mob', 0
+            )";
 
             if (!$this->connect->query($query)) {
                 return json_encode(
@@ -83,7 +126,9 @@ class Register
                 );
             }
 
-            $query = "INSERT INTO profile VALUES('$userId', 'Joined OpenChat', 'Joined OpenChat', '')";
+            $query = "INSERT INTO profile VALUES(
+                '$userId', 'Joined OpenChat', 'Joined OpenChat', ''
+            )";
             if (!$this->connect->query($query)) {
                 return json_encode(
                     [
@@ -103,15 +148,29 @@ class Register
 
 
     /**
-     * @param string $value
-     * @param string $key
+     * For Adding Error statements
+     *
+     * @param string $key   To store Key
+     * @param string $value To store Key
+     *
+     * @return void
      */
     public function onError($key, $value)
     {
         $this->flag = 1;
-        $this->error = array_merge($this->error, [["key" => $key, "value" => $value]]);
+        $this->error = array_merge(
+            $this->error,
+            [["key" => $key, "value" => $value]]
+        );
     }
 
+    /**
+     * For Traversing data to check for error
+     *
+     * @param array $data To store Data
+     *
+     * @return array
+     */
     public function emptyValue($data)
     {
         $errorCode = array(
