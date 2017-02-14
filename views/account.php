@@ -65,7 +65,7 @@ if ($userId != null && $user == "account.php") {
                         <div class="brief">
                             <h1 id="name">Name: <?php echo $row['name']; ?></h1><br>
                             <?php foreach ($row as $key => $value) {
-                                if ($key =='username' && $value != null) {
+                                if ($key == 'username' && $value != null) {
                                     echo '<p>Username: '.$row["username"].'</p><br>';
                                 }
                                 if ($key == 'email' && $value != null) {

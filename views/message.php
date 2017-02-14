@@ -1,14 +1,12 @@
 <?php
 
-require_once (dirname(__DIR__) . '/vendor/autoload.php');
+require_once (dirname(__DIR__).'/vendor/autoload.php');
 use ChatApp\Session;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
 
-if(Session::get('start') != null && empty($_GET['user']))
-{
-
+if (Session::get('start') != null && empty($_GET['user'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,8 +33,7 @@ if(Session::get('start') != null && empty($_GET['user']))
 </html>
 
 <?php
-}
-else{
-  header('Location:'. getenv('APP_URL')."/index.php");
+} else {
+    header('Location:'.getenv('APP_URL')."/index.php");
 }
 ?>

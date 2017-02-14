@@ -1,10 +1,9 @@
 <?php
 
-require (dirname(__DIR__) . '/vendor/autoload.php');
+require (dirname(__DIR__).'/vendor/autoload.php');
 use ChatApp\Login;
 
-if(isset($_POST['q']))
-{
+if (isset($_POST['q'])) {
     $loginField = json_decode($_POST['q']);
     $login = $loginField->login;
     $password = $loginField->password;
@@ -14,8 +13,9 @@ if(isset($_POST['q']))
         'passLogin' => $password
     );
     $result = $obLogin->authLogin($data);
-    if(isset($result))
+    if (isset($result)) {
         echo $result;
-    else
+    } else {
         echo json_encode([]);
+    }
 }

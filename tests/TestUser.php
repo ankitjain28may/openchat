@@ -51,9 +51,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the register with empty username
-    */
+     * @depends test_authRegister
+     *  Testing for the register with empty username
+     */
     public function test_authregisterEmptyUsername()
     {
         $output = $this->obRegister->authregister(
@@ -77,9 +77,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the register with invalid email credentials
-    */
+     * @depends test_authRegister
+     *  Testing for the register with invalid email credentials
+     */
     public function test_authregisterInvalidEmail()
     {
         $output = $this->obRegister->authregister(
@@ -103,9 +103,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the register with repeated credentials
-    */
+     * @depends test_authRegister
+     *  Testing for the register with repeated credentials
+     */
     public function test_authregisterInvalidCredentials()
     {
         $output = $this->obRegister->authregister(
@@ -137,10 +137,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the login with correct credentials
-    */
-
+     * @depends test_authRegister
+     *  Testing for the login with correct credentials
+     */
     public function test_authLogin()
     {
         $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
@@ -163,10 +162,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the login with empty credentials
-    */
-
+     * @depends test_authRegister
+     *  Testing for the login with empty credentials
+     */
     public function test_authLoginEmptyValues()
     {
         $output = $this->obLogin->authLogin(
@@ -191,10 +189,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the login with invalid or wrong email
-    */
-
+     * @depends test_authRegister
+     *  Testing for the login with invalid or wrong email
+     */
     public function test_authLoginWrongEmail()
     {
         $output = $this->obLogin->authLogin(
@@ -215,9 +212,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the login with invalid email credentials
-    */
+     * @depends test_authRegister
+     *  Testing for the login with invalid email credentials
+     */
     public function test_authLoginInvalidUsernameEmail()
     {
         $output = $this->obLogin->authLogin(
@@ -238,9 +235,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the login with invalid password credentials
-    */
+     * @depends test_authRegister
+     *  Testing for the login with invalid password credentials
+     */
     public function test_authLoginInvalidPassword()
     {
         $output = $this->obLogin->authLogin(
@@ -260,9 +257,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the Profile::class with valid login_id
-    */
+     * @depends test_authRegister
+     *  Testing for the Profile::class with valid login_id
+     */
     public function test_getProfile()
     {
         $output = Profile::getProfile(1);
@@ -275,9 +272,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the Profile::class with invalid login_id
-    */
+     * @depends test_authRegister
+     *  Testing for the Profile::class with invalid login_id
+     */
     public function test_getProfileInvalidID()
     {
         $output = Profile::getProfile(0);
@@ -285,9 +282,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the User::class with valid login_id
-    */
+     * @depends test_authRegister
+     *  Testing for the User::class with valid login_id
+     */
     public function test_userDetails()
     {
         $expectedOutput = [
@@ -306,9 +303,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the User::class with invalid data
-    */
+     * @depends test_authRegister
+     *  Testing for the User::class with invalid data
+     */
     public function test_userDetailsInvalidID()
     {
         $output = $this->obUser->userDetails(0, True);
@@ -316,9 +313,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the Validate::class for email
-    */
+     * @depends test_authRegister
+     *  Testing for the Validate::class for email
+     */
     public function test_validateEmailInDb()
     {
         $output = $this->obValidate->validateEmailInDb('test@testing.com');
@@ -326,9 +323,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the Validate::class for username
-    */
+     * @depends test_authRegister
+     *  Testing for the Validate::class for username
+     */
     public function test_validateUsernameInDb()
     {
         $output = $this->obValidate->validateUsernameInDb('test');
@@ -336,9 +333,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the Validate::class for non-existing username
-    */
+     * @depends test_authRegister
+     *  Testing for the Validate::class for non-existing username
+     */
     public function test_validateUsernameInDbNot()
     {
         $output = $this->obValidate->validateUsernameInDb('abc');
@@ -346,9 +343,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the Validate::class for non-existing email
-    */
+     * @depends test_authRegister
+     *  Testing for the Validate::class for non-existing email
+     */
     public function test_validateEmailInDbNot()
     {
         $output = $this->obValidate->validateEmailInDb('ankitjain28may77@gmail.com');
@@ -356,9 +353,9 @@ class TestUser
     }
 
     /**
-    * @depends test_authRegister
-    *  Testing for the Online::class
-    */
+     * @depends test_authRegister
+     *  Testing for the Online::class
+     */
     public function test_Online()
     {
         Online::setOnlineStatus(1);
@@ -373,9 +370,9 @@ class TestUser
 
 
     /**
-    *   @depends test_Online
-    *  Empty the DB
-    */
+     *   @depends test_Online
+     *  Empty the DB
+     */
     public function test_EmptyDB()
     {
         $connect = mysqli_connect(

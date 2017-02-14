@@ -49,9 +49,9 @@ extends
     }
 
     /**
-    * @depends testAuthRegister
-    *  Register User2
-    */
+     * @depends testAuthRegister
+     *  Register User2
+     */
     public function testAuthRegister2()
     {
         $output = $this->obRegister->authRegister(
@@ -76,9 +76,9 @@ extends
     }
 
     /**
-    * @depends testAuthRegister2
-    *  Testing for the register with empty username
-    */
+     * @depends testAuthRegister2
+     *  Testing for the register with empty username
+     */
     public function testCompose()
     {
         $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
@@ -133,9 +133,9 @@ extends
     }
 
     /**
-    * @depends testAuthRegister2
-    *  Testing for Search Class
-    */
+     * @depends testAuthRegister2
+     *  Testing for Search Class
+     */
     public function testSearch($userId)
     {
         $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
@@ -177,9 +177,9 @@ extends
 
 
     /**
-    * @depends testAuthRegister2
-    *  Testing for Reply Class
-    */
+     * @depends testAuthRegister2
+     *  Testing for Reply Class
+     */
     public function testReply($userId)
     {
         $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
@@ -189,12 +189,12 @@ extends
                 "passLogin" => 'testing'
             ]
         );
-        $outputEmail = (array) json_decode($outputEmail);
+        $outputEmail = (array)json_decode($outputEmail);
         $this->assertEquals($expectedOutput, $outputEmail);
         $currentId = Session::get('start');
         Session::forget('start');
 
-        $msg =(object) [
+        $msg =(object)[
             "name" => $userId,
             "reply" => "Hello World",
             "userId" => $currentId
@@ -204,7 +204,7 @@ extends
         $output = $obReply->replyTo($msg);
         $this->assertEquals("Messages is sent", $output);
 
-        $msg =(object) [
+        $msg =(object)[
             "name" => $currentId,
             "reply" => "Hello World",
             "userId" => $userId
@@ -217,14 +217,14 @@ extends
         $output = $obReply->replyTo([]);
         $this->assertEquals("Failed", $output);
 
-        $output = $obReply->replyTo((object) [
+        $output = $obReply->replyTo((object)[
             "name" => -1,
             "reply" => "Hello World",
             "userId" => $currentId
         ]);
         $this->assertEquals("Invalid Authentication", $output);
 
-        $output = $obReply->replyTo((object) [
+        $output = $obReply->replyTo((object)[
             "name" => $userId,
             "reply" => "Hello",
             "userId" => $currentId
@@ -235,9 +235,9 @@ extends
 
 
     /**
-    * @depends testReply
-    *  Testing for Search Class
-    */
+     * @depends testReply
+     *  Testing for Search Class
+     */
     public function testSearchWithTotalMessages()
     {
         $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
@@ -263,8 +263,8 @@ extends
     }
 
     /**
-    *  Testing for Search Class
-    */
+     *  Testing for Search Class
+     */
     public function testSidebar()
     {
         $expectedOutput = ['location' => 'http://127.0.0.1/openchat/views/account.php'];
@@ -311,9 +311,9 @@ extends
 
 
     /**
-    *   @depends testSidebar
-    *  Empty the DB
-    */
+     *   @depends testSidebar
+     *  Empty the DB
+     */
     public function test_EmptyDB()
     {
         $connect = mysqli_connect(

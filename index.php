@@ -1,14 +1,13 @@
 <?php
 
-require_once (__DIR__ . '/vendor/autoload.php');
+require_once (__DIR__.'/vendor/autoload.php');
 use ChatApp\Session;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(__DIR__);
 $dotenv->load();
 
 // die("Hello");
-if(Session::get('start') != null)
-{
+if (Session::get('start') != null) {
     header("Location:".getenv('APP_URL')."/views/account.php");
 }
 ?>
