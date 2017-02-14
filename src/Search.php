@@ -64,7 +64,7 @@ class Search
      *
      * @param object $suggestion To store user id and suggestion value
      *
-     * @return json
+     * @return string
      */
     public function searchItem($suggestion)
     {

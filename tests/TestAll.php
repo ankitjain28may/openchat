@@ -194,7 +194,7 @@ extends
         $currentId = Session::get('start');
         Session::forget('start');
 
-        $msg =(object)[
+        $msg = (object)[
             "name" => $userId,
             "reply" => "Hello World",
             "userId" => $currentId
@@ -204,7 +204,7 @@ extends
         $output = $obReply->replyTo($msg);
         $this->assertEquals("Messages is sent", $output);
 
-        $msg =(object)[
+        $msg = (object)[
             "name" => $currentId,
             "reply" => "Hello World",
             "userId" => $userId

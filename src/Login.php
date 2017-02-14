@@ -64,7 +64,7 @@ class Login
      *
      * @param array $data To store User Credentials
      *
-     * @return json
+     * @return string
      */
     public function authLogin($data)
     {

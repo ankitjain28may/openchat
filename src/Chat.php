@@ -91,7 +91,7 @@ class Chat implements MessageComponentInterface
      * Send Messages to Clients
      *
      * @param ConnectionInterface $from To store client details
-     * @param json                $msg  To store message
+     * @param string              $msg  To store message
      *
      * @return void
      */
@@ -191,7 +191,7 @@ class Chat implements MessageComponentInterface
      *
      * @param string $data To store data
      *
-     * @return json
+     * @return string
      */
     public function onSidebar($data)
     {
@@ -205,7 +205,7 @@ class Chat implements MessageComponentInterface
      * @param string  $data to store data
      * @param boolean $para to store True/False
      *
-     * @return json
+     * @return string
      */
     public function onConversation($data, $para)
     {
@@ -219,7 +219,7 @@ class Chat implements MessageComponentInterface
      * @param string  $data to store data
      * @param boolean $para to store True/False
      *
-     * @return json
+     * @return string
      */
     public function onReceiver($data, $para)
     {
@@ -232,7 +232,7 @@ class Chat implements MessageComponentInterface
      *
      * @param string $data to store data
      *
-     * @return json
+     * @return string
      */
     public function onSearch($data)
     {
@@ -245,7 +245,7 @@ class Chat implements MessageComponentInterface
      *
      * @param string $data to store data
      *
-     * @return json
+     * @return string
      */
     public function onCompose($data)
     {
@@ -258,7 +258,7 @@ class Chat implements MessageComponentInterface
      *
      * @param string $data to store data
      *
-     * @return json
+     * @return string
      */
     public function onReply($data)
     {
@@ -284,7 +284,7 @@ class Chat implements MessageComponentInterface
      * To Show error due to any problem occured
      *
      * @param ConnectionInterface $conn To store client details
-     * @param Exception           $e    To store exception
+     * @param \Exception          $e    To store exception
      *
      * @return void
      */

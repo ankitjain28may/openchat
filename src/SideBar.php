@@ -64,7 +64,7 @@ class SideBar
      *
      * @param int $userId To store session id of the user
      *
-     * @return json or string
+     * @return string
      */
     public function loadSideBar($userId)
     {

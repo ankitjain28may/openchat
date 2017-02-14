@@ -65,10 +65,10 @@ class Conversation
     /**
      * Fetch data from DB and show to user.
      *
-     * @param json    $msg  To store message
-     * @param boollen $para To store True/False
+     * @param string  $msg  To store message
+     * @param boolean $para To store True/False
      *
-     * @return json
+     * @return string
      */
     public function conversationLoad($msg, $para)
     {

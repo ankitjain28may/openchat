@@ -68,7 +68,7 @@ class Register
      *
      * @param object $data To store user details
      *
-     * @return json
+     * @return string
      */
     public function authRegister($data)
     {

@@ -57,10 +57,10 @@ class Receiver
     /**
      * Swaping value of conversation class to modify them for receiver
      *
-     * @param json    $msg  To store message
-     * @param boollen $para To store True/False
+     * @param string  $msg  To store message
+     * @param boolean $para To store True/False
      *
-     * @return json
+     * @return string
      */
     public function receiverLoad($msg, $para)
     {
