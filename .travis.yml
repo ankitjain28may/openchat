@@ -14,8 +14,8 @@ before_install:
 
 script:
   - mkdir -p build/logs
-  - php vendor/bin/phpcbf src
-  - php vendor/bin/phpcs src
+  - php vendor/bin/phpcbf --standard=ruleset.xml src
+  - php vendor/bin/phpcs --standard=ruleset.xml src
   - phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
