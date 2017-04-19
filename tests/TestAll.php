@@ -202,7 +202,7 @@ extends
 
         $obReply = new Reply();
         $output = $obReply->replyTo($msg);
-        $this->assertEquals("Messages is sent", $output);
+        $this->assertEquals("Messages is sent\n", $output);
 
         $msg = (object)[
             "name" => $currentId,
@@ -212,7 +212,7 @@ extends
 
         $obReply = new Reply();
         $output = $obReply->replyTo($msg);
-        $this->assertEquals("Messages is sent", $output);
+        $this->assertEquals("Messages is sent\n", $output);
 
         $output = $obReply->replyTo([]);
         $this->assertEquals("Failed", $output);
@@ -229,7 +229,7 @@ extends
             "reply" => "Hello",
             "userId" => $currentId
         ]);
-        $this->assertEquals("Messages is sent", $output);
+        $this->assertEquals("Messages is sent\n", $output);
     }
 
 
