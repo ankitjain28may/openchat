@@ -52,6 +52,8 @@ class Reply
             getenv('DB_PASSWORD'),
             getenv('DB_NAME')
         );
+
+        date_default_timezone_set('Asia/Kolkata');
     }
 
     /**
@@ -84,9 +86,10 @@ class Reply
             // stores the message sent by the user.
             $reply = addslashes(trim($msg->reply));
             // current time
-            $time = date("D d M Y H:i:s", time() + 16200);
+            $time = date("D d M Y H:i:s");
+            // echo $time;
             // to sort the array on the basis of time
-            $time_id = date("YmdHis", time() + 16200);
+            $time_id = date("YmdHis");
 
             // the sender id must not be equal to current session id
             if ($reply != "" && $receiverID != $userId) {
@@ -150,9 +153,9 @@ class Reply
             )";
             if ($this->connect->query($query)) {
                 // if query is executed return true
-                return "Messages is sent";
+                return "Messages is sent\n";
             }
-            return "Message is failed";
+            return "Message is failed\n";
         }
     }
 

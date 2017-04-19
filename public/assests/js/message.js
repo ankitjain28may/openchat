@@ -2,7 +2,7 @@ $(document).ready(function(){
   var pre = $("<div class='loader'></div>").css({"width" : "60px", "height" : "60px", "z-index" : 10001, "margin" : "auto"});
 
   $('body').load('../public/assests/partials/app.html', function() {
-  $('body').append(pre);
+  // $('body').append(pre);
 
 
 var heightFrom; //  global variable
