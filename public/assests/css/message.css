@@ -478,6 +478,12 @@ body {
 /*Reply*/
 
 .reply {
+
+  display: inline-flex;
+  display: -webkit-inline-flex;
+
+  direction: row;
+
   height: 60px;
   width: 100%;
   background-color: #f5f1ee;
@@ -488,11 +494,19 @@ body {
 }
 
 .reply-icons {
+  display: inline-flex;
+  display: -webkit-inline-flex;
   text-align: center;
-  padding: 5px;
-  display: block;
+  padding: 0px;
+  /*display: block;*/
   cursor: pointer;
-  vertical-align: middle;
+
+  -webkit-justify-content: center;
+  justify-content: center;
+
+  -webkit-align-items: center;
+  align-items: center;
+
 }
 
 .reply-icons i {
@@ -505,6 +519,11 @@ body {
 }
 
 .lowerBar {
+  display: -webkit-inline-flex;
+
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+
   height: 40px;
   width: 100%;
   background-color: #333;
@@ -516,14 +535,17 @@ body {
 }
 
 .lowerBar-icons {
-  padding: 5px;
-  display: block;
-  cursor: pointer;
-  vertical-align: middle;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+
+  -webkit-align-items: center;
+  align-items: center;
 }
 
 .lowerBar-icons i {
-  text-align: center;
   color: #fff;
   font-size: 1.5em !important;
 }
@@ -655,45 +677,10 @@ body {
   .reply {
     height: 70px;
   }
-  .reply-icons
-  {
-    padding: 5px 0;
-  }
-  .reply-icons i {
-    padding: 5px 2px;
-    font-size: 1.8em !important;
-  }
-  .reply-main {
-    padding: 2px 8px;
-  }
+
   .reply-main textarea {
     padding: 8px;
     font-size: 18px;
-  }
-
-  .lowerBar {
-    height: 40px;
-    width: 100%;
-    background-color: #333;
-    padding: 5px;
-    margin: 0;
-    z-index: 13;
-    vertical-align: middle;
-    display: none;
-  }
-
-  .lowerBar-icons {
-    padding: 5px;
-    display: block;
-    cursor: pointer;
-    vertical-align: middle;
-
-  }
-
-  .lowerBar-icons i {
-    text-align: center;
-    color: #fff;
-    font-size: 1.5em !important;
   }
 }
 

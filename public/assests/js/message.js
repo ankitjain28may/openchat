@@ -96,7 +96,7 @@ function SideBar(msg) {
 function toConversation() {
   $(".side").addClass("hide");
   $(".message").addClass("show");
-  $(".lowerBar").addClass("show");
+  $(".lowerBar").css({"display":"inline-flex"});
   $(".reply-emojis").addClass("hide");
   $(".reply-recording").addClass("hide");
 }
@@ -104,7 +104,7 @@ function toConversation() {
 function toSidebar() {
   $(".side").removeClass("hide");
   $(".message").removeClass("show");
-  $(".lowerBar").removeClass("show");
+  $(".lowerBar").css({"display":"none"});
   $(".reply-emojis").removeClass("hide");
   $(".reply-recording").removeClass("hide");
 }
