@@ -135,13 +135,13 @@ function newConversation(element, load) {
 function setConversationDetails(details) {
   $("#conversationHeading").html("");
 
-  var headingEle = $("<div></div>").addClass("col-sm-2 col-md-1 col-xs-3 heading-avatar");
-  var headingAva = $("<div></div>").addClass("heading-avatar-icon");
+  var headingEle = $("<div></div>").addClass("col-sm-9 col-xs-9 heading-left");
+  var headingAva = $("<div></div>").addClass("heading-avatar");
   var headingImg = $("<img>").attr({"src" : "../public/assests/img/ankit.png"});
   headingAva.append(headingImg);
   headingEle.append(headingAva);
 
-  var headingEleName = $("<div></div>").addClass("col-sm-8 col-xs-7 heading-name");
+  var headingEleName = $("<div></div>").addClass("heading-name");
   var headingNameMeta = $("<a></a>").addClass("heading-name-meta").text(details.name);
   headingNameMeta.attr({
     "href": location.href.substring(0, location.href.lastIndexOf("/") + 1) + "account.php/" + details.username
@@ -153,15 +153,18 @@ function setConversationDetails(details) {
   }
   headingEleName.append(headingNameMeta);
   headingEleName.append(headingOnline);
+  headingEle.append(headingEleName);
 
-  var headingDot = $("<div></div>").addClass("col-sm-1 col-xs-1  heading-dot pull-right");
+  var headingRight = $("<div></div>").addClass("col-sm-3 col-xs-3 heading-right");
+
+  var headingDot = $("<div></div>").addClass("heading-dot");
   var headingDotIcon = $("<i></i>").addClass("fa fa-ellipsis-v fa-2x").attr({"aria-hidden" : "true"});
   headingDot.append(headingDotIcon);
+  headingRight.append(headingDot);
 
 
   $("#conversationHeading").append(headingEle);
-  $("#conversationHeading").append(headingEleName);
-  $("#conversationHeading").append(headingDot);
+  $("#conversationHeading").append(headingRight);
 
   $("#text_reply").attr({
     "name": details.id
