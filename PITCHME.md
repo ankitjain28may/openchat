@@ -13,6 +13,8 @@
 
 > OpenChat is an Open Source messaging platform where people can send messages to anyone registered to this platform.
 
+---
+
 ## How to Setup
 
 Setting up OpenChat on your local machine is really easy.
@@ -26,6 +28,7 @@ Follow this guide to setup your development machine.
 4. npm
 5. git
 
+---
 
 ### Installation :
 
@@ -45,6 +48,7 @@ Follow this guide to setup your development machine.
 
 3. Rename file `.env.example` to `.env` and change credentials.
 
+---
 
 4. Create an empty sql database and run import database.
 
@@ -66,6 +70,8 @@ Follow this guide to setup your development machine.
 	```
 
 That's it, now start development at [http://localhost:8888](http://localhost:8888) in your browser
+
+---
 
 ## Contribution guidelines
 
