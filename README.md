@@ -9,6 +9,7 @@
 [![Code Climate](https://codeclimate.com/github/ankitjain28may/openchat/badges/gpa.svg)](https://codeclimate.com/github/ankitjain28may/openchat)
 [![Issue Count](https://codeclimate.com/github/ankitjain28may/openchat/badges/issue_count.svg)](https://codeclimate.com/github/ankitjain28may/openchat)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/23e0d72e208d4edfb08702b702bd9139)](https://www.codacy.com/app/ankitjain28may77/openchat?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ankitjain28may/openchat&amp;utm_campaign=Badge_Grade)
+[![GitPitch](https://gitpitch.com/assets/badge.svg)](https://gitpitch.com/ankitjain28may/openchat/master?grs=github&t=moon)
 
 
 > OpenChat is an Open Source messaging platform where people can send messages to anyone registered to this platform.
