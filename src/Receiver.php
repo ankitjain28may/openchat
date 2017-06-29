@@ -15,6 +15,7 @@ namespace ChatApp;
 require_once dirname(__DIR__).'/vendor/autoload.php';
 use ChatApp\User;
 use ChatApp\Conversation;
+use mysqli;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();

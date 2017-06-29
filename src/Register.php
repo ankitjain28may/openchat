@@ -16,6 +16,7 @@ require_once dirname(__DIR__).'/vendor/autoload.php';
 use ChatApp\Validate;
 use ChatApp\Session;
 use Dotenv\Dotenv;
+use mysqli;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
 
@@ -53,7 +54,7 @@ class Register
     {
         $this->error = array();
         $this->flag = 0;
-        $this->connect = mysqli_connect(
+        $this->connect = new mysqli(
             getenv('DB_HOST'),
             getenv('DB_USER'),
             getenv('DB_PASSWORD'),

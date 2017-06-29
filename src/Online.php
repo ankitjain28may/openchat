@@ -12,6 +12,7 @@
  */
 namespace ChatApp;
 require_once dirname(__DIR__).'/vendor/autoload.php';
+use mysqli;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
@@ -47,7 +48,7 @@ class Online
      */
     public static function setOnlineStatus($userId)
     {
-        $connect = mysqli_connect(
+        $connect = new mysqli(
             getenv('DB_HOST'),
             getenv('DB_USER'),
             getenv('DB_PASSWORD'),
@@ -69,7 +70,7 @@ class Online
      */
     public static function removeOnlineStatus($userId)
     {
-        $connect = mysqli_connect(
+        $connect = new mysqli(
             getenv('DB_HOST'),
             getenv('DB_USER'),
             getenv('DB_PASSWORD'),

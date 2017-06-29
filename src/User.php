@@ -12,6 +12,7 @@
  */
 namespace ChatApp;
 require_once dirname(__DIR__).'/vendor/autoload.php';
+use mysqli;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
@@ -49,7 +50,7 @@ class User
      */
     public function __construct()
     {
-        $this->connect = mysqli_connect(
+        $this->connect = new mysqli(
             getenv('DB_HOST'),
             getenv('DB_USER'),
             getenv('DB_PASSWORD'),

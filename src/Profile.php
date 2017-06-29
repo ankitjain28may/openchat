@@ -13,6 +13,7 @@
 namespace ChatApp;
 
 require_once dirname(__DIR__).'/vendor/autoload.php';
+use mysqli;
 use Dotenv\Dotenv;
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
@@ -47,7 +48,7 @@ class Profile
      */
     public static function getProfile($userId)
     {
-        $connect = mysqli_connect(
+        $connect = new mysqli(
             getenv('DB_HOST'),
             getenv('DB_USER'),
             getenv('DB_PASSWORD'),
