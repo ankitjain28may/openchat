@@ -26,6 +26,7 @@ Follow this guide to setup your development machine.
 3. Composer
 4. npm
 5. git
+6. Supervisor
 
 
 ### Installation :
@@ -54,19 +55,26 @@ Follow this guide to setup your development machine.
 	mysql -u[user] -p[password] [database name] < path\openchat\sql\openchat.sql
 	```
 
-5. To start the websocket server type
+5. open .env file and set `APP_URL` to your `external_ip` address at port 8888
 
-	```php
-	php cmd.php
-	```
-
-6. Open a new terminal window and type
+6. Open a `message.js` file stored at `public\assests\js` and set external_ip
 
 	```js
-	gulp
+	var conn = new WebSocket("ws://external_ip:8080");
 	```
 
-That's it, now start development at [http://localhost:8888](http://localhost:8888) in your browser
+7. Open `Supervisor\devserver.conf` and set `external_ip` address at port 8888
+
+8. Add the conf files of the Supervisor folder to Supervisor by running following commands in terminal
+
+	```shell
+	sudo supervisorctl reread
+	sudo supervisorctl update
+	sudo supervisorctl start devserver
+	sudo supervisorctl start server
+	```
+
+That's it, now start development at [http://external_ip:8888](http://external_ip:8888) in your browser
 
 ## Contribution guidelines
 
