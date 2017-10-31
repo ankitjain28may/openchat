@@ -33,7 +33,7 @@ CREATE TABLE `login` (
   `username` varchar(255) NOT NULL,
   `mobile` varchar(255) NOT NULL,
   `login_status` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=UTF-8;
 
 
 --
