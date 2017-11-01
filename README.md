@@ -78,5 +78,5 @@ That's it, now start development at [http://external_ip:8888](http://external_ip
 
 ## Contribution guidelines
 
-If you are interested in contributing to OpenChat, Open Issues and send PR.
+If you are interested in contributing to OpenChat, Open Issues, send PR and Don't forget to star the repo.
 > Feel free to code and contribute
