@@ -62,10 +62,17 @@ Follow this guide to setup your development machine.
 	```js
 	var conn = new WebSocket("ws://external_ip:8080");
 	```
+	
+7. Create a log file inside the root folder.
 
-7. Open `Supervisor\devserver.conf` and set `external_ip` address at port 8888
+	```shell
+	touch openchat_supervisor.log
+	```
 
-8. Add the conf files of the Supervisor folder to Supervisor by running following commands in terminal
+8. Open `Supervisor\devserver.conf` and set `external_ip` address at port 8888
+
+
+9. Add the conf files of the Supervisor folder to Supervisor by running following commands in terminal
 
 	```shell
 	sudo supervisorctl reread
@@ -73,6 +80,7 @@ Follow this guide to setup your development machine.
 	sudo supervisorctl start devserver
 	sudo supervisorctl start server
 	```
+
 
 That's it, now start development at [http://external_ip:8888](http://external_ip:8888) in your browser
 
