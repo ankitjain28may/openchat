@@ -1,0 +1,14 @@
+{
+    "name": "OpenChat-Open Source messaging platform",
+   "short_name": "OpenChat",
+    "description": "OpenChat is an Open Source messaging platform where people can send messages to anyone registered to this platform.",
+    "start_url": "/index",
+   "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "display": "standalone",
+   "icons": [{
+      "src": "public/assests/img/icon.png",
+      "sizes": "256x256",
+   "type": "image/png"
+    }]
+  }  
