@@ -20,7 +20,9 @@ if (Session::get('start') != null) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="public/assests/js/jquery-3.0.0.min.js"></script>
     <link rel="stylesheet" href="public/assests/css/bootstrap.min.css">
-
+     <link rel="manifest" href="manifest.json" />
+    <script src="https://cdn.rawgit.com/GoogleChrome/pwacompat/v1.0.3/pwacompat.min.js"></script>
+    <meta name="theme-color" content="black" />
     <!-- Latest compiled JavaScript -->
     <script src="public/assests/js/bootstrap.min.js"></script>
     <style type="text/css">
