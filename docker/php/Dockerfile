@@ -17,10 +17,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) iconv \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install bcmath bz2 calendar intl mbstring mysqli opcache pdo_mysql pdo_pgsql pgsql soap
+    && docker-php-ext-install bcmath bz2 calendar intl mbstring mysqli opcache pdo_mysql pdo_pgsql pgsql soap zip unzip php7.3-zip
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends git zip
+    apt-get install -y git
 
 # Cleanup
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
