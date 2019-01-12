@@ -1,6 +1,5 @@
 FROM php:7.3-fpm
-
-LABEL maintainer="ankitjain28may77@gmail.com"
+LABEL maintainer="ankitjain28may77@gmail."
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
