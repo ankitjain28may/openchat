@@ -4,6 +4,16 @@ RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libpng-dev \
+        libbz2-dev \
+        default-libmysqlclient-dev \
+        libmemcached-dev \
+        libsasl2-dev \
+        libicu-dev \
+        libjpeg-dev \
+        libldap2-dev \
+        libmemcachedutil2 \
+        libpq-dev \
+        libxml2-dev \
     && docker-php-ext-install -j$(nproc) iconv \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
