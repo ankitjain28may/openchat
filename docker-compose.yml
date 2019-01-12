@@ -21,35 +21,31 @@ services:
     image: "openchat-php"
     container_name: openchat-php
     volumes:
-      # - .:/var/www/html
-      - drupal-sync:/var/html:nocopy
+      - .:/var/openchat
+      - /app/vendor
     links:
       - "mariadb:mysql"
     networks:
-      - drupal
+      - openchat
     restart: always
   nginx:
-    build: ./docker/nginx
-    image: drupal-nginx
-    container_name: nginx
+    build:
+      context: ./
+      dockerfile: ./docker/nginx/Dockerfile
+    image: openchat-nginx
+    container_name: opechat-nginx
     ports:
-      - "${APP_PORT}:80"
+      - "8082:80"
       - "8028:22"
-    environment:
-      APP_PORT: '${APP_PORT}'
     volumes:
-      - ./configurations/nginx:/etc/nginx/conf.d
-      # - .:/var/www/html
-      - drupal-sync:/var/html:nocopy
+      - ./docker/nginx/conf/default.conf:/etc/nginx/conf.d
+      - .:/var/openchat
     links:
       - "mariadb:mysql"
-      - "php:php"
+      - "php-composer:php"
     networks:
-      - drupal
+      - openchat
     restart: always
 
-volumes:
-  drupal-sync:
-    external: true
 networks:
-  drupal:
+  openchat:
