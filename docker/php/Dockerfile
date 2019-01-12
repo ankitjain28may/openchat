@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) iconv \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install bcmath bz2 calendar intl mbstring mysqli opcache pdo_mysql pdo_pgsql pgsql soap \
+    && docker-php-ext-install bcmath bz2 calendar intl mbstring mysqli opcache pdo_mysql pdo_pgsql pgsql soap
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git zip
