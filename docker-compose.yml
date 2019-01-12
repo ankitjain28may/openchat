@@ -38,7 +38,7 @@ services:
       - "8082:80"
       - "8028:22"
     volumes:
-      - ./docker/nginx/conf/default.conf:/etc/nginx/conf.d
+      - ./docker/nginx/conf:/etc/nginx/conf.d
       - .:/var/openchat
     links:
       - "mariadb:mysql"
