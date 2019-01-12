@@ -1,0 +1,55 @@
+version: '2'
+services:
+  mariadb:
+    build:
+      context: ./
+      dockerfile: ./docker/mariadb/Dockerfile
+    image: openchat-mariadb
+    container_name: openchat-mariadb
+    volumes:
+      - ./sql/openchat.sql:/docker-entrypoint-initdb.d/dump.sql
+    environment:
+      MYSQL_DATABASE: '${DB_NAME}'
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+    networks:
+      - openchat
+    restart: always
+  php-composer:
+    build:
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
+    image: "openchat-php"
+    container_name: openchat-php
+    volumes:
+      # - .:/var/www/html
+      - drupal-sync:/var/html:nocopy
+    links:
+      - "mariadb:mysql"
+    networks:
+      - drupal
+    restart: always
+  nginx:
+    build: ./docker/nginx
+    image: drupal-nginx
+    container_name: nginx
+    ports:
+      - "${APP_PORT}:80"
+      - "8028:22"
+    environment:
+      APP_PORT: '${APP_PORT}'
+    volumes:
+      - ./configurations/nginx:/etc/nginx/conf.d
+      # - .:/var/www/html
+      - drupal-sync:/var/html:nocopy
+    links:
+      - "mariadb:mysql"
+      - "php:php"
+    networks:
+      - drupal
+    restart: always
+
+volumes:
+  drupal-sync:
+    external: true
+networks:
+  drupal:
