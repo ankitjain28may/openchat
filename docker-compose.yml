@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   mariadb:
     build:
@@ -25,6 +25,8 @@ services:
       - /app/vendor
     links:
       - "mariadb:mysql"
+    depends_on:
+      - mariadb
     networks:
       - openchat
     restart: always
@@ -33,7 +35,7 @@ services:
       context: ./
       dockerfile: ./docker/nginx/Dockerfile
     image: openchat-nginx
-    container_name: opechat-nginx
+    container_name: openchat-nginx
     ports:
       - "8082:80"
       - "8028:22"
@@ -43,6 +45,9 @@ services:
     links:
       - "mariadb:mysql"
       - "php-composer:php"
+    depends_on:
+      - mariadb
+      - php-composer
     networks:
       - openchat
     restart: always
