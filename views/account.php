@@ -17,10 +17,11 @@ if ($userId != null && $user == "account.php") {
     $row = $obUser->userDetails($userId, True);
 
     if ($row != NULL) {
-        $location = getenv('APP_URL')."/views/account.php/".$row['username'];
+        $location = getenv('APP_URL')."/views/account.php?u=".$row['username'];
         header("Location:".$location);
     }
 } elseif ($user != "account.php") {
+    $user = $_GET['u'];
     $obUser = new User();
     $row = $obUser->userDetails($user, False);
     if ($row != NULL) {
