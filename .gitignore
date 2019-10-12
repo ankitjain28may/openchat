@@ -6,3 +6,5 @@
 /old
 a.php
 openchat_supervisor.log
+.DS_Store
+.idea
