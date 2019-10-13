@@ -11,8 +11,6 @@ up:
 	@docker-compose up -d
 	# Generate app .env file
 	@docker-compose exec app php -r "file_exists('.env') || copy('.env.example', '.env');"
-	# Run the websocket server, `-d` means it will run the command in the background
-	@docker-compose exec -d app php cmd.php
 
 #
 # Stops all services and containers
@@ -20,6 +18,13 @@ up:
 #
 down:
 	@docker-compose down --remove-orphans
+
+#
+# Show logs from app container in real time
+# Usage: `make logs`
+#
+logs:
+	@docker-compose logs -f app
 
 #
 # Ssh in into the app container

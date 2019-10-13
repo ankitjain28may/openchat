@@ -2,6 +2,7 @@ version: '3.7'
 
 networks:
   openchat:
+    driver: bridge
 
 volumes:
   # Mount your current directory as a shared volume, but mount a persistent docker volume in place of local node_modules and vendor directories.
@@ -12,33 +13,14 @@ volumes:
 
 services:
   # ========================
-  # Web Server
-  # ========================
-  nginx:
-    image: nginx:stable-alpine
-    container_name: oc-nginx
-    ports:
-      - 8888:80
-    volumes:
-      - .:/var/www/html
-      - ./docker/config/nginx/:/etc/nginx/conf.d/:ro
-      - vendor:/var/www/html/vendor
-      - node_modules:/var/www/html/node_modules
-    depends_on:
-      - app
-    networks:
-      - openchat
-
-  # ========================
   # Database
   # ========================
   db:
     image: mysql:5.7
     container_name: oc-db
     restart: unless-stopped
-    tty: true
     ports:
-      - 33061:3306
+      - 33060:3306
     environment:
       # `secret` as password is used only in local development.
       MYSQL_ROOT_PASSWORD: secret
@@ -48,7 +30,7 @@ services:
       MYSQL_DATABASE: ${DB_NAME} # Requires that `DB_NAME` has been defined.
     volumes:
       - db_data:/var/lib/mysql
-      - ./sql/:/docker-entrypoint-initdb.d/
+      - ${PWD}/sql/:/docker-entrypoint-initdb.d/
     networks:
       - openchat
 
@@ -60,16 +42,16 @@ services:
     container_name: oc-app
     build:
       context: .
-      dockerfile: Dockerfile
-    working_dir: /var/www/html
     volumes:
-      - .:/var/www/html
-      - ./docker/config/php/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
+      - ${PWD}:/var/www/html
+      - ${PWD}/docker/config/php/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
       - vendor:/var/www/html/vendor
       - node_modules:/var/www/html/node_modules
-    ports:
-      - 9000:9000 # 9000 on the host map to 9000 on the container, make sure is not in use
     depends_on:
       - db
+    working_dir: /var/www/html
+    ports:
+      - 8080:8080
+      - 8888:8888
     networks:
       - openchat

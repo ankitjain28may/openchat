@@ -7,7 +7,7 @@ $(document).ready(function(){
 
 var heightFrom; //  global variable
 // Websocket Connection Open
-var conn = new WebSocket("ws://192.168.43.138:8080");
+var conn = new WebSocket("ws://127.0.0.1:8080");
 
 // For send Message to Web Socket Server
 function sendTo(data)
