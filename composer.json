@@ -1,11 +1,11 @@
 {
-    "require": {
-        "cboden/ratchet": "^0.3.5",
-        "vlucas/phpdotenv": "~2.2"
-    },
-    "autoload": {
-        "psr-4": {
-            "ChatApp\\": "src/"
-        }
+  "require": {
+    "cboden/ratchet": "^0.3.5",
+    "vlucas/phpdotenv": "~2.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "ChatApp\\": "src/"
     }
+  }
 }

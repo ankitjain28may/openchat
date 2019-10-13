@@ -359,7 +359,7 @@ conn.onmessage = function(e)
     SideBar(msg.initial);
   }
 
-  if (typeof(msg.conversation) !== "undefined") {
+  if (msg.conversation) { // Evaluates to false if msg.conversation is null or undefined
     updateConversation(msg.conversation);
   }
 

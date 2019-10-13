@@ -8,7 +8,10 @@ use Ratchet\WebSocket\WsServer;
 use ChatApp\Chat;
 
 $port = 8080;
-$server = IoServer::factory(new Chat(), $port);
+
+$wsServer = new WsServer(new Chat());
+$httpServer = new HttpServer($wsServer);
+$server = IoServer::factory($httpServer, $port);
 
 try {
     $server->run();
