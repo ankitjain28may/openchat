@@ -23,7 +23,7 @@ services:
       - 33060:3306
     environment:
       # `secret` as password is used only in local development.
-      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       # The application db user can't be named `root`.
       MYSQL_USER: ${DB_USER} # Requires that `DB_USER` has been defined.
       MYSQL_PASSWORD: ${DB_PASSWORD} # Requires that `DB_PASSWORD` has been defined.
